@@ -1,16 +1,33 @@
+import { Route, Routes } from "react-router";
 import LoginForm from "./components/Auth/LoginForm";
 import RegisterForm from "./components/Auth/RegisterForm";
 
+import Nav from "./components/Nav/Nav";
+import Home from "./components/Home/Home";
+import Landing from "./components/Landing/Landing";
+
 function App() {
+  const user = false;
+
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center">
-        <h1 className="text-4xl font-bold text-blue-500">
-          Hello, Tailwind CSS with Vite!
-        </h1>
-        <LoginForm />
-        <RegisterForm />
-      </div>
+      {" "}
+      <Nav />
+      {user ? (
+        <>
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </>
+      ) : (
+        <>
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<LoginForm />}></Route>
+            <Route path="/register" element={<RegisterForm />}></Route>
+          </Routes>
+        </>
+      )}
     </>
   );
 }

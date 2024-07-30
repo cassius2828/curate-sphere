@@ -4,3 +4,7 @@
 @tailwind utilities;
 
 /* Styles for specific features below */
+
+section {
+    margin-top: 15rem;
+}
