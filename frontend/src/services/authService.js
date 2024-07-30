@@ -19,10 +19,10 @@ const register = async (formData) => {
     //   if (!res.ok) {
     //     throw new Error(json.error || 'Something went wrong');
     //   }
-    //   localStorage.setItem('token', json.token);
+    // //   localStorage.setItem('token', json.token);
     //   return json;
         const res = await fetch(`${BACKEND_URL}/auth/register`)
-        
+
     } catch (err) {
       throw new Error(err);
     }
@@ -48,6 +48,8 @@ const register = async (formData) => {
           throw new Error('Failed to decode token')
         }
       }
+    // const res = await fetch(`${BACKEND_URL}/auth/register`)
+
     } catch (err) {
       console.log(err);
       throw err;

@@ -3,7 +3,7 @@ import { login } from '../../services/authService';
 
 
 const LoginForm = () => {
-    let formData = ''
+    let formData = {username: 'test', password: 'test'}
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
