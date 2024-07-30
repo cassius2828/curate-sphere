@@ -4,7 +4,7 @@ dotenv.config()
 const cors = require("cors");
 const { Sequelize } = require("sequelize");
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT ? process.env.PORT : '3000';
 // checks if we are running in dev or production
 const host =
   process.env.NODE_ENV === "production" ? process.env.HOST : "localhost";
