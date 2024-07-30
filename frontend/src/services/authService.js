@@ -10,17 +10,19 @@ const getUser = () => {
 
 const register = async (formData) => {
     try {
-      const res = await fetch(`${BACKEND_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
-      const json = await res.json();
-      if (!res.ok) {
-        throw new Error(json.error || 'Something went wrong');
-      }
-      localStorage.setItem('token', json.token);
-      return json;
+    //   const res = await fetch(`${BACKEND_URL}/auth/register`, {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     body: JSON.stringify(formData),
+    //   });
+    //   const json = await res.json();
+    //   if (!res.ok) {
+    //     throw new Error(json.error || 'Something went wrong');
+    //   }
+    //   localStorage.setItem('token', json.token);
+    //   return json;
+        const res = await fetch(`${BACKEND_URL}/auth/register`)
+        
     } catch (err) {
       throw new Error(err);
     }
