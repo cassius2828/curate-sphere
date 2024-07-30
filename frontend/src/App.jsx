@@ -5,9 +5,10 @@ import RegisterForm from "./components/Auth/RegisterForm";
 import Nav from "./components/Nav/Nav";
 import Home from "./components/Home/Home";
 import Landing from "./components/Landing/Landing";
+import ArtSearch from "./components/ArtWorks/ArtSearch";
 
 function App() {
-  const user = false;
+  const user = true;
 
   return (
     <>
@@ -17,6 +18,7 @@ function App() {
         <>
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/artworks/search" element={<ArtSearch />} />
           </Routes>
         </>
       ) : (

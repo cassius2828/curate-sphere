@@ -8,7 +8,7 @@ const Nav = () => {
       <Link to={`/`}>
         <h1 className="text-4xl">title</h1>
       </Link>
-      <ul className="flex justify-around">
+      <ul className="flex justify-around capitalize">
         {user ? (
           <>
             <Link to={`/login`}>

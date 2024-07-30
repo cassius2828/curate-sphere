@@ -6,7 +6,7 @@ export const NavListItem = ({ dropDownItems, listItemText, onClick }) => {
     return (
       <div className="relative">
         <li
-          className=" "
+          className=" p-3 text-2xl"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -21,7 +21,7 @@ export const NavListItem = ({ dropDownItems, listItemText, onClick }) => {
                 <Link key={item.text + idx} to={item.path}>
                   <li
                     onClick={onClick ? () => onClick() : null}
-                    className="dropdown-li hover:bg-neutral-700 text-gray-100 relative z-10 text-lg"
+                    className="dropdown-li hover:bg-neutral-700 text-gray-100 relative z-10 p-3 text-xl"
                   >
                     {item.text}
                   </li>
