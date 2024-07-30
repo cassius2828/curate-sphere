@@ -1,5 +1,5 @@
 import LoginForm from "./components/Auth/LoginForm";
-// import RegisterForm from "./components/Auth/RegisterForm"
+import RegisterForm from "./components/Auth/RegisterForm";
 
 function App() {
   return (
@@ -9,6 +9,7 @@ function App() {
           Hello, Tailwind CSS with Vite!
         </h1>
         <LoginForm />
+        <RegisterForm />
       </div>
     </>
   );

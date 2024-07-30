@@ -52,11 +52,13 @@ app.use(express.json());
 // Routers
 ///////////////////////////
 const testJwtRouter = require("./routes/test-jwt");
+const authRouter = require('./routes/auth')
 
 ///////////////////////////
 // Routes
 ///////////////////////////
 app.use("/test-jwt", testJwtRouter);
+app.use('/auth', authRouter)
 
 app.listen(port || 3000, () => {
   console.log(`Server running on port ${port}`);
