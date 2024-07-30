@@ -1,3 +1,6 @@
+import LoginForm from "./components/Auth/LoginForm";
+// import RegisterForm from "./components/Auth/RegisterForm"
+
 function App() {
   return (
     <>
@@ -5,6 +8,7 @@ function App() {
         <h1 className="text-4xl font-bold text-blue-500">
           Hello, Tailwind CSS with Vite!
         </h1>
+        <LoginForm />
       </div>
     </>
   );
