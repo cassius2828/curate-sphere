@@ -27,12 +27,15 @@ app.use(express.json());
 ///////////////////////////
 const testJwtRouter = require("./routes/test-jwt");
 const authRouter = require('./routes/auth')
+const exhRouter = require("./routes/exhibition");
 
 ///////////////////////////
 // Routes
 ///////////////////////////
 app.use("/test-jwt", testJwtRouter);
 app.use('/auth', authRouter)
+app.use('/exhibitions', exhRouter)
+
 
 app.listen(port || 3000, () => {
   console.log(`Server running on port ${port}`);
