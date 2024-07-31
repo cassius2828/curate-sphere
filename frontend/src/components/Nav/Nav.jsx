@@ -4,11 +4,11 @@ import { NavListItem } from "./NavListItem";
 const Nav = () => {
   const user = false;
   return (
-    <nav className="fixed top-0 left-0 w-full p-3 flex justify-between bg-gray-900 text-gray-100">
+    <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between bg-gray-900 text-gray-100">
       <Link to={`/`}>
-        <h1 className="text-4xl">title</h1>
+        <h1 className="text-5xl ml-12">Curate Sphere</h1>
       </Link>
-      <ul className="flex justify-around capitalize">
+      <ul className="flex justify-end gap-12 capitalize w-1/2">
         {user ? (
           <>
             <Link to={`/login`}>
