@@ -13,6 +13,8 @@ const sequelize = new Sequelize(DB_NAME, DB_USERNAME, DB_PASSWORD, {
 });
 
 // run this to test the DB connection | will not close by default
+const {DataTypes} = require('sequelize')
+
 const connectToDB = async () => {
   try {
     await sequelize.authenticate();
@@ -35,11 +37,11 @@ const closeDBConnection = async () => {
 const modelDefiners = [
     require('../models/user'),
     require('../models/exhibition'),
-    require('../models/art-piece')
+    require('../models/artpiece')
 ]
 
 for (const modelDefiner of modelDefiners) {
-    modelDefiner(sequelize);
+    modelDefiner(sequelize, DataTypes);
 }
 
 applyExtraSetup(sequelize);
