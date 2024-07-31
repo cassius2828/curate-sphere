@@ -2,17 +2,10 @@
 const { Model, DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-    class ArtPiece extends Model {
-        // define relationships here
-    }
-    ArtPiece.init({
-        objectId: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
-    }, {
-        sequelize,
-        modelName: 'ArtPiece',
-    });
-    return ArtPiece;
-}
+  sequelize.define("ArtPiece", {
+    objectId: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+  });
+};

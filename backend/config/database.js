@@ -1,5 +1,5 @@
 const {Sequelize} = require('sequelize');
-
+const applyExtraSetup = require('../models/applyExtraStep')
 const DB_NAME = process.env.DB_NAME;
 const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
@@ -41,5 +41,8 @@ const modelDefiners = [
 for (const modelDefiner of modelDefiners) {
     modelDefiner(sequelize);
 }
+
+applyExtraSetup(sequelize);
+
 
 module.exports = {sequelize, connectToDB, closeDBConnection}
