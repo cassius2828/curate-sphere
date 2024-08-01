@@ -44,8 +44,26 @@ const registerUser = async (req, res) => {
 
 // login route
 const loginUser = async (req, res) => {
+  const { password, username } = req.body;
+
   try {
+    // get selected user by username
+    const user = await User.findOne({ where: { username } });
+    console.log(user, "<-- user");
+    if (!user) {
+      return res.status(404).json({ error: "User does not exist" });
+    }
+    // compare password with hashed pasword
+    const isPasswordValid = bcrypt.compareSync(password, user.password);
+    if (!isPasswordValid) {
+      return res
+        .status(400)
+        .json({ error: "Invalid credentials. Please try again" });
+    }
+
+    // generate token
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
+    // respond
     res.status(200).json({ token });
   } catch (err) {
     console.error(err);
