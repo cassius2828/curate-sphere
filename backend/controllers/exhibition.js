@@ -1,5 +1,8 @@
-const {sequelize} = require('../config/database')
-const {models} = sequelize
+const sequelize = require('../config/database')
+const {
+    models: { Exhibition },
+  } = sequelize;
+console.log(sequelize)
 
 // get all exhibtions
 const getAllExhibitions = async (req, res) => {

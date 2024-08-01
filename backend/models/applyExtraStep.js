@@ -1,31 +1,13 @@
-//////////////////////////////////////////////////////
-// This is where we will combine all of our models together
-//////////////////////////////////////////////////////
-const { DataTypes } = require("sequelize");
 function applyExtraSetup(sequelize) {
-  const { Exhibition, ArtPiece, User } = sequelize.models;
-  const ExbArtworks = sequelize.define("ExbArtworks", {
-    ExbId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: Exhibition,
-        key: "id",
-      },
-    },
-    ArtPieceId: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: ArtPiece,
-        key: "id",
-      },
-    },
-  });
+  console.log(sequelize, ' <-- sequelize instance')
+  const { Exhibition, Artwork, User } = sequelize.models;
 
-  ArtPiece.belongsToMany(Exhibition, { through: ExbArtworks });
-  Exhibition.belongsToMany(ArtPiece, { through: ExbArtworks });
-  User.hasMany(Exhibition, {foreignKey: 'userId'});
-  Exhibition.belongsTo(User, {foreignKey: 'userId'});
+  Exhibition.belongsTo(User, { foreignKey: "userId" });
+  Exhibition.belongsToMany(Artwork, { through: "ExhibitionArtworks" });
+  Artwork.belongsToMany(Exhibition, { through: "ExhibitionArtworks" });
+  User.hasMany(Exhibition, { foreignKey: "userId" });
 }
-module.exports = applyExtraSetup;
+
+module.exports =  applyExtraSetup ;
 
 

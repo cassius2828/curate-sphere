@@ -1,6 +1,9 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const sequelize = require("../config/database");
+const {
+  models: { User },
+} = sequelize;
 
 
 // register route
