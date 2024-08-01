@@ -1,9 +1,9 @@
 const dotenv = require("dotenv");
 dotenv.config();
 const express = require("express");
-const sequelize = require('./config/database')
+const sequelize = require("./config/database");
 const cors = require("cors");
-const { Sequelize } = require("sequelize");
+
 
 const app = express();
 const port = process.env.PORT ? process.env.PORT : "8080";
@@ -20,7 +20,7 @@ const connectToDB = async () => {
     console.error("Unable to connect to the db", err);
   }
 };
-connectToDB()
+connectToDB();
 ///////////////////////////
 // Middleware
 ///////////////////////////
@@ -34,6 +34,7 @@ app.use(express.json());
 const testJwtRouter = require("./routes/test-jwt");
 const authRouter = require("./routes/auth");
 const exhRouter = require("./routes/exhibition");
+const artworkRouter = require("./routes/artwork");
 
 ///////////////////////////
 // Routes
@@ -41,6 +42,7 @@ const exhRouter = require("./routes/exhibition");
 app.use("/test-jwt", testJwtRouter);
 app.use("/auth", authRouter);
 app.use("/exhibitions", exhRouter);
+app.use("/artworks", artworkRouter);
 
 app.listen(port || 8080, () => {
   console.log(`Server running on port ${port}`);

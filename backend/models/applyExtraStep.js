@@ -1,5 +1,5 @@
 function applyExtraSetup(sequelize) {
-  console.log(sequelize, ' <-- sequelize instance')
+
   const { Exhibition, Artwork, User } = sequelize.models;
 
   Exhibition.belongsTo(User, { foreignKey: "userId" });
