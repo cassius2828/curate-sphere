@@ -14,16 +14,17 @@ function verify(req, res) {
 
 function sign(req, res) {
   // simulating a created user from the db
-  const user = {
-    id: 1,
-    username: "test",
-  };
+const user = {
+  username: '',
+  password:'',
+  profileImg:''
+}
   // after we create a user in the database or find a user in the database
   // (login/signup) we create our JWT TOKEN
 
   const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
-  res.json({ token });
+  res.status(200).json({ token });
 }
 
 const refresh = () => {
