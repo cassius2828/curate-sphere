@@ -1,28 +1,36 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+// models/Exhibition.js
 module.exports = (sequelize, DataTypes) => {
-  class Exhibition extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
-    static associate(models) {
-      // define association here
-      Exhibition.belongsToMany(models.ArtPiece, { through: 'ExbArtworks', foreignKey: 'ExbId' })
-    }
-  }
-  Exhibition.init({
-    title: DataTypes.STRING,
-    description: DataTypes.STRING,
-    location: DataTypes.STRING,
-    startDate: DataTypes.DATE,
-    endDate: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Exhibition',
+  const Exhibition = sequelize.define("Exhibition", {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    location: {
+      type: DataTypes.STRING,
+    },
+    description: {
+      type: DataTypes.TEXT,
+    },
+    startDate: {
+      type: DataTypes.DATE,
+    },
+    endDate: {
+      type: DataTypes.DATE,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
   });
+
   return Exhibition;
 };
