@@ -1,5 +1,5 @@
-const {Exhibition} = require('../models/exhibition')
-
+const {sequelize} = require('../config/database')
+const {models} = sequelize
 
 // get all exhibtions
 const getAllExhibitions = async (req, res) => {
@@ -14,7 +14,7 @@ const getAllExhibitions = async (req, res) => {
 // create exhibition
 const createExhibition = async (req, res) => {
     try {
-        const newExhibition = await Exhibition.create(req.body);
+        const newExhibition = await models.Exhibition.create(req.body);
         res.status(201).json(newExhibition)
     } catch (error) {
         res.status(500).json({message: error.message})

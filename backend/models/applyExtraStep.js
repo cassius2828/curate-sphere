@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////
 const { DataTypes } = require("sequelize");
 function applyExtraSetup(sequelize) {
-  const { Exhibition, ArtPiece } = sequelize.models;
+  const { Exhibition, ArtPiece, User } = sequelize.models;
   const ExbArtworks = sequelize.define("ExbArtworks", {
     ExbId: {
       type: DataTypes.INTEGER,
@@ -23,6 +23,8 @@ function applyExtraSetup(sequelize) {
 
   ArtPiece.belongsToMany(Exhibition, { through: ExbArtworks });
   Exhibition.belongsToMany(ArtPiece, { through: ExbArtworks });
+  User.hasMany(Exhibition, {foreignKey: 'userId'});
+  Exhibition.belongsTo(User, {foreignKey: 'userId'});
 }
 module.exports = applyExtraSetup;
 
