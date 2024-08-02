@@ -23,7 +23,11 @@ const ExbForm = () => {
           <label className="text-3xl w-48" htmlFor="endDate">End Date: </label>
           <input className='border-black border w-2/3' type="date" id="endDate" name="endDate" />
         </div>
+        <div className="flex justify-center">
         <button className="text-2xl border-black border px-6 py-2 mt-10">Create Exhibition</button>
+
+
+        </div>
 
       </form>
     </section>
