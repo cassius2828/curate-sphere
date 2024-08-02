@@ -10,9 +10,11 @@ import ExbDashboard from './components/Exhibitions/ExbDashboard'
 import ExbForm from './components/Exhibitions/ExbForm'
 import ExbDetail from "./components/Exhibitions/ExbDetail";
 import ArtDetail from "./components/ArtWorks/ArtDetail"
+import useGlobalContext from "./context/useGlobalContext"
 
 function App() {
-  const user = true;
+  // const user = true;
+  const {user} = useGlobalContext()
 
   return (
     <>
