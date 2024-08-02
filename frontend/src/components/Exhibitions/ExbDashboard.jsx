@@ -31,7 +31,9 @@ export const ExbCard = ({ title, date, location }) => {
         <span className="text-3xl">{title}</span>
         <span className="text-2xl">Date: {date}</span>
         <span className="text-2xl">Location: {location}</span>
+        <Link to={'/exhibition/detail'} >
         <button className="text-[12px] border-black border w-3/4 mx-auto">View full details</button>
+        </Link>
       </div>
     </li>
   )

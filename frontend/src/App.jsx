@@ -6,8 +6,10 @@ import Nav from "./components/Nav/Nav";
 import Home from "./components/Home/Home";
 import Landing from "./components/Landing/Landing";
 import ArtSearch from "./components/ArtWorks/ArtSearch";
-import ExhDashboard from './components/Exhibitions/ExbDashboard'
-import ExhForm from './components/Exhibitions/ExbForm'
+import ExbDashboard from './components/Exhibitions/ExbDashboard'
+import ExbForm from './components/Exhibitions/ExbForm'
+import ExbDetail from "./components/Exhibitions/ExbDetail";
+import ArtDetail from "./components/ArtWorks/ArtDetail"
 
 function App() {
   const user = true;
@@ -21,8 +23,10 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/artworks/search" element={<ArtSearch />} />
-            <Route path="/exhibitions/dashboard" element={<ExhDashboard />}/>
-            <Route path="/exhibitions/create" element={<ExhForm />}/>
+            <Route path="/exhibitions/dashboard" element={<ExbDashboard />}/>
+            <Route path="/exhibitions/create" element={<ExbForm />}/>
+            <Route path="/exhibition/detail" element={<ExbDetail />}/>
+            <Route path='/artwork/detail' element={<ArtDetail />}/>
           </Routes>
         </>
       ) : (
