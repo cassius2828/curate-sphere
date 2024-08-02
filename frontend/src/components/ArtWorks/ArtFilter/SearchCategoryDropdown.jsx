@@ -3,12 +3,17 @@ import { useState } from "react";
 import { SearchFilterCheckBox } from "./SearchFilterCheckbox";
 import { faChevronLeft, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-export const SearchCategoryDropdown = () => {
+
+
+
+
+
+export const SearchCategoryDropdown = ({primaryCategory}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   return (
     <li className="p-4 text-3xl bg-gray-50 flex flex-col items-start gap-3">
       <div className="flex items-center gap-4">
-        <span>category </span>
+        <span>{primaryCategory} </span>
         <FontAwesomeIcon
           onClick={() => setShowDropdown((prev) => !prev)}
           className={`${

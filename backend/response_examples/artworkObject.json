@@ -1,0 +1,222 @@
+{
+    "id": 153503,
+    "objectid": 153503,
+    "objectnumber": "3.2002.1843",
+    "accessionyear": 2011,
+    "dated": "c. 1903",
+    "datebegin": 1898,
+    "dateend": 1908,
+    "classification": "Archival Material",
+    "classificationid": 64,
+    "medium": null,
+    "technique": "Photomechanical print",
+    "techniqueid": 269,
+    "period": null,
+    "periodid": null,
+    "century": "19th-20th century",
+    "culture": "European?",
+    "style": null,
+    "signed": null,
+    "state": null,
+    "edition": null,
+    "standardreferencenumber": null,
+    "dimensions": "image: 31.5 x 42.3 cm (12 3/8 x 16 5/8 in.)",
+    "copyright": null,
+    "creditline": "Harvard Art Museums/Fogg Museum, Transfer from the Carpenter Center for the Visual Arts, Social Museum Collection",
+    "department": "Department of Photographs",
+    "division": "Modern and Contemporary Art",
+    "contact": "am_moderncontemporary@harvard.edu",
+    "description": null,
+    "provenance": null,
+    "commentary": null,
+    "labeltext": null,
+    "imagecount": 1,
+    "mediacount": 0,
+    "colorcount": 6,
+    "markscount": 0,
+    "peoplecount": 1,
+    "titlescount": 2,
+    "publicationcount": 0,
+    "exhibitioncount": 0,
+    "contextualtextcount": 0,
+    "groupcount": 1,
+    "relatedcount": 0,
+    "totalpageviews": 2,
+    "totaluniquepageviews": 2,
+    "dateoffirstpageview": "2013-11-03",
+    "dateoflastpageview": "2020-02-24",
+    "verificationlevel": 3,
+    "verificationleveldescription": "Good. Object is well described and information is vetted",
+    "imagepermissionlevel": 0,
+    "lendingpermissionlevel": 0,
+    "accesslevel": 1,
+    "accessionmethod": "Transfer",
+    "rank": 13163,
+    "url": "https://www.harvardartmuseums.org/collections/object/153503",
+    "lastupdate": "2024-08-01T04:56:28-0400",
+    "colors": [
+        {
+            "color": "#e1c8af",
+            "spectrum": "#e9715f",
+            "hue": "Orange",
+            "percent": 0.5563265306122449,
+            "css3": "#f5deb3"
+        },
+        {
+            "color": "#c8af96",
+            "spectrum": "#e66c64",
+            "hue": "Brown",
+            "percent": 0.32829931972789117,
+            "css3": "#d2b48c"
+        },
+        {
+            "color": "#323232",
+            "spectrum": "#2eb45d",
+            "hue": "Grey",
+            "percent": 0.09142857142857143,
+            "css3": "#2f4f4f"
+        },
+        {
+            "color": "#967d64",
+            "spectrum": "#b65590",
+            "hue": "Brown",
+            "percent": 0.01054421768707483,
+            "css3": "#808080"
+        },
+        {
+            "color": "#191919",
+            "spectrum": "#1eb264",
+            "hue": "Grey",
+            "percent": 0.007755102040816327,
+            "css3": "#000000"
+        },
+        {
+            "color": "#af967d",
+            "spectrum": "#c25687",
+            "hue": "Brown",
+            "percent": 0.005646258503401361,
+            "css3": "#bc8f8f"
+        }
+    ],
+    "groupings": [
+        {
+            "groupid": 2039926,
+            "name": "The Social Museum Collection"
+        }
+    ],
+    "images": [
+        {
+            "date": "2006-02-17",
+            "copyright": "President and Fellows of Harvard College",
+            "imageid": 83347,
+            "idsid": 43314960,
+            "format": "image/jpeg",
+            "description": null,
+            "technique": null,
+            "renditionnumber": "OCP14203",
+            "displayorder": 1,
+            "baseimageurl": "https://nrs.harvard.edu/urn-3:HUAM:OCP14203_dynmc",
+            "alttext": null,
+            "width": 1024,
+            "publiccaption": null,
+            "iiifbaseuri": "https://ids.lib.harvard.edu/ids/iiif/43314960",
+            "height": 673
+        }
+    ],
+    "primaryimageurl": "https://nrs.harvard.edu/urn-3:HUAM:OCP14203_dynmc",
+    "people": [
+        {
+            "role": "Artist",
+            "birthplace": null,
+            "gender": "unknown",
+            "displaydate": null,
+            "prefix": null,
+            "culture": null,
+            "displayname": "Unidentified Artist",
+            "alphasort": "Unidentified Artist",
+            "name": "Unidentified Artist",
+            "personid": 34147,
+            "deathplace": null,
+            "displayorder": 1
+        }
+    ],
+    "places": [
+        {
+            "displayname": "Europe, Italy, Veneto, Venice",
+            "confidence": null,
+            "placeid": 2028210,
+            "type": "Creation Place"
+        }
+    ],
+    "terms": {
+        "century": [
+            {
+                "name": "19th century",
+                "id": 37525806
+            },
+            {
+                "name": "20th century",
+                "id": 37525815
+            }
+        ],
+        "culture": [
+            {
+                "name": "European",
+                "id": 37527363
+            }
+        ],
+        "place": [
+            {
+                "name": "Europe",
+                "id": 2028188
+            },
+            {
+                "name": "Italy",
+                "id": 2028189
+            },
+            {
+                "name": "Veneto",
+                "id": 2028209
+            },
+            {
+                "name": "Venice",
+                "id": 2028210
+            }
+        ],
+        "topic": [
+            {
+                "name": "Housing, Improved",
+                "id": 2040330
+            }
+        ]
+    },
+    "titles": [
+        {
+            "titletype": "Title",
+            "titleid": 646978,
+            "displayorder": 1,
+            "title": "Housing, Improved: Italy. Venice. Municipal Tenements: Improved Housing: Italy: Gruppo di Case a S: Rocco"
+        },
+        {
+            "titletype": "Series/Book Title",
+            "titleid": 404600,
+            "displayorder": 2,
+            "title": "Social Museum Collection"
+        }
+    ],
+    "title": "Housing, Improved: Italy. Venice. Municipal Tenements: Improved Housing: Italy: Gruppo di Case a S: Rocco",
+    "worktypes": [
+        {
+            "worktypeid": "121",
+            "worktype": "display board"
+        }
+    ],
+    "seeAlso": [
+        {
+            "id": "https://iiif.harvardartmuseums.org/manifests/object/153503",
+            "type": "IIIF Manifest",
+            "format": "application/json",
+            "profile": "http://iiif.io/api/presentation/2/context.json"
+        }
+    ]
+}

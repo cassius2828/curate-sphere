@@ -20,7 +20,7 @@ const registerUser = async (req, res) => {
     const hashedPassword = bcrypt.hashSync(password, 10);
     //   find user by username in database
     const [user, created] = await User.findOrCreate({
-      where: { username: username },
+      where: { username },
       defaults: {
         username,
         password: hashedPassword,

@@ -1,15 +1,16 @@
-const express = require('express')
-const router = express.Router()
-const exhibitionCtrl = require('../controllers/exhibition')
-
+const express = require("express");
+const router = express.Router();
+const exhibitionCtrl = require("../controllers/exhibition");
 
 // get all exhibtions
-router.get('/', exhibitionCtrl.getAllExhibitions);
+router.get("/", exhibitionCtrl.getAllExhibitions);
 // create exhibition
-router.post('/', exhibitionCtrl.createExhibition);
+router.post("/", exhibitionCtrl.createExhibition);
+// get exhibition by id
+router.get("/:id", exhibitionCtrl.getExhibitionById);
 // update exhibition
-router.put('/:id', exhibitionCtrl.updateExhibition);
+router.put("/:id", exhibitionCtrl.updateExhibition);
 // delete exhibition
-router.delete('/:id', exhibitionCtrl.deleteExhibition);
+router.delete("/:id", exhibitionCtrl.deleteExhibition);
 
-module.exports = router
+module.exports = router;
