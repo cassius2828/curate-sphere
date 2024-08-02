@@ -30,6 +30,7 @@ const createExhibition = async (req, res) => {
 // get exhibition by id
 const getExhibitionById = async (req, res) => {
   const { id } = req.params;
+  console.log(id, ' <-- exb id')
   try {
     const exhibition = await Exhibition.findByPk(id);
     res.status(200).json(exhibition);

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { NavListItem } from "./NavListItem";
-import useGlobalContext from "../../context/useGlobalContext";
+import useGlobalContext from "../../context/global/useGlobalContext";
 
 const Nav = () => {
   // const user = false;

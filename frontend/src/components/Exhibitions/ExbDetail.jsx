@@ -1,7 +1,38 @@
+import { useEffect, useState } from "react";
 import ArtGallery from "../ArtWorks/ArtGallery"
 import { FilterActionBtns } from "../ArtWorks/ArtSearch"
-
+import useExbContext from "../../context/exb/useExbContext";
+const initialFormData = {
+  title: "",
+  location: "",
+  description: "",
+  startDate: "",
+  endDate: "",
+};
 const ExbDetail = () => {
+  const [formData, setFormData] = useState(initialFormData);
+
+  const { handleGetExbDetail, showExb } = useExbContext();
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault()
+  // try {
+  //  const data = await createExb(formData)
+  // } catch (err) {
+  //   console.error(err);
+  // }
+  // }
+  useEffect(() => {
+    const getDetailData = () => {
+      const data = handleGetExbDetail("1");
+     
+      setFormData(data);
+    };
+    getDetailData();
+  }, []);
+  useEffect(() => {
+    console.log(formData, " <-- formdata");
+    console.log(showExb, " <-- showExb");
+  }, [formData]);
   return (
     <>
       <section>
