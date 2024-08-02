@@ -2,7 +2,7 @@ import {React, useState} from "react";
 import { register } from "../../services/authService";
 import Btn from "../CommonComponents/Btn";
 import { useNavigate } from "react-router";
-import useGlobalContext from "../../context/useGlobalContext";
+import useGlobalContext from "../../context/global/useGlobalContext";
 
 
 const initialFormData = {

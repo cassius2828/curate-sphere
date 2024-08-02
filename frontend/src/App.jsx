@@ -10,7 +10,7 @@ import ExbDashboard from './components/Exhibitions/ExbDashboard'
 import ExbForm from './components/Exhibitions/ExbForm'
 import ExbDetail from "./components/Exhibitions/ExbDetail";
 import ArtDetail from "./components/ArtWorks/ArtDetail"
-import useGlobalContext from "./context/useGlobalContext"
+import useGlobalContext from "./context/global/useGlobalContext"
 
 function App() {
   // const user = true;
@@ -27,7 +27,7 @@ function App() {
             <Route path="/artworks/search" element={<ArtSearch />} />
             <Route path="/exhibitions/dashboard" element={<ExbDashboard />}/>
             <Route path="/exhibitions/create" element={<ExbForm />}/>
-            <Route path="/exhibition/detail" element={<ExbDetail />}/>
+            <Route path="/exhibition/:id" element={<ExbDetail />}/>
             <Route path='/artwork/detail' element={<ArtDetail />}/>
           </Routes>
         </>
