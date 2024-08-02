@@ -1,5 +1,5 @@
 import  { createContext, useState,  } from 'react';
-import { getUser } from '../services/authService';
+import { getUser, signout } from '../services/authService';
 
 
 // Create a Context
@@ -14,6 +14,11 @@ export const GlobalProvider = ({ children }) => {
 const [user, setUser] = useState(getUser())
 // console.log(user)
 
+const handleSignout = () => {
+  signout()
+  setUser(null)
+}
+
 // useEffect(() => {
 //   as
 // })
@@ -21,7 +26,7 @@ const [user, setUser] = useState(getUser())
 // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
 
   return (
-    <GlobalContext.Provider value={{user, setUser}}>
+    <GlobalContext.Provider value={{user, setUser, handleSignout}}>
       {children}
     </GlobalContext.Provider>
   );
