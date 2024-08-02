@@ -4,7 +4,7 @@ import useGlobalContext from "../../context/useGlobalContext";
 
 const Nav = () => {
   // const user = false;
-  const {user} = useGlobalContext()
+  const {user, handleSignout} = useGlobalContext()
   console.log(user)
   return (
     <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between bg-gray-900 text-gray-100">
@@ -47,8 +47,8 @@ const Nav = () => {
             <Link to={`/profile`}>
               <li className="p-3 text-2xl ">profile</li>
             </Link>
-            <Link to={`/sign-out`}>
-              <li className="p-3 text-2xl ">sign-out</li>
+            <Link to={`/`}>
+              <li onClick={handleSignout} className="p-3 text-2xl ">sign-out</li>
             </Link>
           </>
         )}
