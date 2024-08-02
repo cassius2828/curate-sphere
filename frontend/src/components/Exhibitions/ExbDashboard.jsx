@@ -10,7 +10,17 @@ const ExbDashboard = () => {
         </Link>
       </div>
 
+    {/* {exhibitions.length == 0 ? 
+      (<p>No exhibitions yet!</p>
+      ) : (
+       */}
       <ul className="flex flex-col gap-10">
+        {/* exhibitions.map((exhibition) => 
+          (<ExbCard 
+            key={exhibition.id} 
+            title= {exhibition.title} 
+            date={`exhibition.startDate - exhibition.endDate`} 
+            location={exhibition.location} ))} */}
         <ExbCard title={`Van Gogh Retrospective`} date={`Jan 1 - Mar 1, 2025`} location={`LACMA`} />
         <ExbCard title={`Van Gogh Retrospective`} date={`Jan 1 - Mar 1, 2025`} location={`LACMA`} />
         <ExbCard title={`Van Gogh Retrospective`} date={`Jan 1 - Mar 1, 2025`} location={`LACMA`} />
