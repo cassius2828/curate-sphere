@@ -6,7 +6,7 @@ const cors = require("cors");
 
 
 const app = express();
-const port = process.env.PORT ? process.env.PORT : "8080";
+const port = process.env.PORT ? process.env.PORT : "3000";
 // checks if we are running in dev or production
 
 ///////////////////////////
@@ -44,6 +44,6 @@ app.use("/auth", authRouter);
 app.use("/exhibitions", exhRouter);
 app.use("/artworks", artworkRouter);
 
-app.listen(port || 8080, () => {
+app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

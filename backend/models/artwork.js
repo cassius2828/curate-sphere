@@ -6,7 +6,8 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    objectId: {
+    // changed to all lowercase to match harvard api naming convention
+    objectid: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

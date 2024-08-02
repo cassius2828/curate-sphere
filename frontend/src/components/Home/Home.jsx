@@ -1,6 +1,8 @@
 import {Link} from 'react-router-dom'
+import { getAllArtworks } from '../../services/artworkService';
 
 const Home = () => {
+  getAllArtworks()
   return (
     <>
       <div className="min-h-screen w-screen flex flex-col gap-y-5 justify-center items-center">

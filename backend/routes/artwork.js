@@ -6,6 +6,6 @@ const artworkCtrl = require("../controllers/artwork");
 router.get("/", artworkCtrl.getArtworks);
 
 // get single artwork
-router.post("/:objectId", artworkCtrl.getArtworkDetail);
+router.get("/:objectid", artworkCtrl.getArtworkDetail);
 
 module.exports = router;
