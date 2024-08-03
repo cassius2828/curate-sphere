@@ -17,7 +17,7 @@ export const SearchFilterCheckBox = ({ category = "inner category" }) => {
             {isChecked ? "X" : ""}
           </span>
         </div>
-        <span>{category}y</span>
+        <span className="capitalize">{category}</span>
       </li>
     );
   };

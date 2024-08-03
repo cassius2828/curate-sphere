@@ -8,7 +8,7 @@ import { faChevronLeft, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 
 
-export const SearchCategoryDropdown = ({primaryCategory}) => {
+export const SearchCategoryDropdown = ({primaryCategory, subCategories}) => {
   const [showDropdown, setShowDropdown] = useState(false);
   return (
     <li className="p-4 text-3xl bg-gray-50 flex flex-col items-start gap-3">
@@ -37,8 +37,8 @@ export const SearchCategoryDropdown = ({primaryCategory}) => {
                 icon={faSearch}
               />
               <ul className=" overflow-y-scroll h-72">
-                {Array.from({ length: 10 }).map((category, idx) => {
-                  return <SearchFilterCheckBox key={category + idx} />;
+                {subCategories.map((category, idx) => {
+                  return <SearchFilterCheckBox category={category} key={category + idx} />;
                 })}
               </ul>{" "}
             </div>
