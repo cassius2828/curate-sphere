@@ -2,6 +2,7 @@ import { useState } from "react";
 
 export const SearchFilterCheckBox = ({ category = "inner category" }) => {
     const [isChecked, setIsChecked] = useState(false);
+
     return (
       <li className="flex items-center gap-4 p-3 bg-gray-200 ">
         <div

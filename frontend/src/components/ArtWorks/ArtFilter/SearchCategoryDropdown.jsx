@@ -3,13 +3,28 @@ import { useState } from "react";
 import { SearchFilterCheckBox } from "./SearchFilterCheckbox";
 import { faChevronLeft, faSearch } from "@fortawesome/free-solid-svg-icons";
 
-
-
-
-
-
-export const SearchCategoryDropdown = ({primaryCategory, subCategories}) => {
+export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [displaySubCategories, setDisplaySubCategories] =
+    useState(subCategories);
+
+  // uses input value to filter results based on text search
+  const handleSearchQuery = (e) => {
+    const { value } = e.target;
+    filterSubCategoriesBySearch(value);
+  };
+
+  const filterSubCategoriesBySearch = (searchQuery) => {
+    // begins search when query is at least 3 chars long
+    if (searchQuery.length > 2)
+      setDisplaySubCategories(
+        subCategories.filter((category) =>
+          category.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    // resets results if user cleared search
+    if (searchQuery.length === 0) setDisplaySubCategories(subCategories);
+  };
   return (
     <li className="p-4 text-3xl bg-gray-50 flex flex-col items-start gap-3">
       <div className="flex items-center gap-4">
@@ -28,7 +43,10 @@ export const SearchCategoryDropdown = ({primaryCategory, subCategories}) => {
           <>
             {" "}
             <div className="relative flex flex-col justify-start">
+              {/* search input */}
               <input
+                // value={query}
+                onChange={handleSearchQuery}
                 className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full "
                 type="text"
               />
@@ -37,8 +55,13 @@ export const SearchCategoryDropdown = ({primaryCategory, subCategories}) => {
                 icon={faSearch}
               />
               <ul className=" overflow-y-scroll h-72">
-                {subCategories.map((category, idx) => {
-                  return <SearchFilterCheckBox category={category} key={category + idx} />;
+                {displaySubCategories.map((category, idx) => {
+                  return (
+                    <SearchFilterCheckBox
+                      category={category}
+                      key={category + idx}
+                    />
+                  );
                 })}
               </ul>{" "}
             </div>
