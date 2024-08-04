@@ -15,7 +15,7 @@ import useArtworkContext from "../../context/artwork/useArtworkContext";
 ///////////////////////////
 const ArtSearch = () => {
   const [loadAmountVal, setLoadAmountVal] = useState(12);
-  const [showList, setShowList] = useState(false);
+ const {displayView} = useArtworkContext()
 
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
@@ -35,7 +35,7 @@ const ArtSearch = () => {
       {/* filter and editgs */}
       <FilterActionBtns />
       {/* results */}
-      <div className="w-full">{showList ? <ArtList /> : <ArtGallery />}</div>
+      <div className="w-full">{displayView ? <ArtList /> : <ArtGallery />}</div>
       <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">load more</button>
     </section>
   );

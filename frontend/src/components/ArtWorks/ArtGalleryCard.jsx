@@ -3,7 +3,7 @@ import { useLocation, Link } from "react-router-dom";
 const ArtGalleryCard = ({ year, people, division, title, img }) => {
   const location = useLocation();
   return (
-    <div className="shadow-md rounded-md p-4 text-gray-900 w-96  bg-red-400 h-auto">
+    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto">
       <Link to="/artwork/detail">
         <img src={img} alt="sample image" />
       </Link>
