@@ -7,7 +7,7 @@ const Nav = () => {
   const {user, handleSignout} = useGlobalContext()
   console.log(user)
   return (
-    <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between bg-gray-900 text-gray-100">
+    <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between bg-[#020617] text-gray-100">
       <Link to={`/`}>
         <h1 className="text-5xl ml-12">Curate Sphere</h1>
       </Link>

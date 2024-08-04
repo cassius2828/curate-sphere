@@ -27,6 +27,7 @@ function App() {
             <Route path="/artworks/search" element={<ArtSearch />} />
             <Route path="/exhibitions/dashboard" element={<ExbDashboard />}/>
             <Route path="/exhibitions/create" element={<ExbForm />}/>
+            <Route path="/exhibitions/:id/edit" element={<ExbForm />}/>
             <Route path="/exhibition/:id" element={<ExbDetail />}/>
             <Route path='/artwork/detail' element={<ArtDetail />}/>
           </Routes>
