@@ -8,7 +8,7 @@ export const getAllArtworks = async () => {
     const response = await fetch(`${BACKEND_URL}/artworks`);
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
       return data;
     } else {
       throw new Error();
@@ -27,7 +27,7 @@ export const getArtworkDetail = async (objectid) => {
     const response = await fetch(`${BACKEND_URL}/artworks/${objectid}`);
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
       return data;
     } else {
       throw new Error();

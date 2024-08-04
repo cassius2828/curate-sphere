@@ -8,6 +8,7 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
 
 ///////////////////////////
 // ArtSearch
@@ -46,14 +47,15 @@ export default ArtSearch;
 // FilterActionBtns
 ///////////////////////////
 export const FilterActionBtns = () => {
+  const {info, records} = useArtworkContext()
   return (
     <div className="flex w-3/4 justify-between items-center relative">
       {/* filter */}
       <ArtSearchFilter />
       {/* display num of objets */}
       <p className=" absolute top-0 w-full md:w-auto md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl">
-        Showing <span className="text-red-400">num</span> of{" "}
-        <span className="text-red-400">num</span> objects
+        Showing <span className="text-red-400">{records.length}</span> of{" "}
+        <span className="text-red-400">{info?.totalrecords}</span> objects
       </p>
       {/* load amount and btns */}
       <div className="flex gap-3 items-center mt-12 md:mt-0">

@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
 
 const ArtList = () => {
+  const {records} = useArtworkContext()
   return (
     <div className="overflow-x-auto my-12 w-3/4 mx-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -19,7 +21,7 @@ const ArtList = () => {
         {/* body */}
         <tbody>
           {/* // ! sync these values with what we would get from the harvard api */}
-          {Array.from({ length: 10 }).map((artwork, idx) => (
+          {records.map((artwork, idx) => (
             <tr key={artwork + idx} className="hover:bg-gray-100">
               {/* artwork info */}
               <td className="py-2 px-4 text-2xl border-b">
