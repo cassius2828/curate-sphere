@@ -3,7 +3,7 @@ const router = express.Router();
 const artworkCtrl = require("../controllers/artwork");
 
 // get all artworks
-router.get("/", artworkCtrl.getArtworks);
+router.post("/search", artworkCtrl.getArtworks);
 
 // get single artwork
 router.get("/:objectid", artworkCtrl.getArtworkDetail);

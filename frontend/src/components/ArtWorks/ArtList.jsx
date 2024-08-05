@@ -1,6 +1,15 @@
 import { Link } from "react-router-dom";
+import userecordContext from "../../context/artwork/useArtworkContext";
+import Loader from "../CommonComponents/Loader";
+import DisplayError from "../CommonComponents/DisplayError";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
 
 const ArtList = () => {
+  const { records, isLoading, isError } = useArtworkContext();
+
+  if (isLoading) return <Loader />;
+  if (isError) return <DisplayError />;
+
   return (
     <div className="overflow-x-auto my-12 w-3/4 mx-auto">
       <table className="min-w-full bg-white border border-gray-200">
@@ -19,49 +28,16 @@ const ArtList = () => {
         {/* body */}
         <tbody>
           {/* // ! sync these values with what we would get from the harvard api */}
-          {Array.from({ length: 10 }).map((artwork, idx) => (
-            <tr key={artwork + idx} className="hover:bg-gray-100">
-              {/* artwork info */}
-              <td className="py-2 px-4 text-2xl border-b">
-                <img
-                  src="https://nrs.hvrd.art/urn-3:HUAM:62187_dynmc?width=3000&height=3000"
-                  alt={``}
-                  className="w-36 h-36 rounded-md mx-auto"
-                />
-              </td>{" "}
-              {/* year */}
-              <td className="py-2 px-4 text-2xl border-b">year</td>
-              {/* artist */}
-              <td className="py-2 px-4 text-2xl border-b text-center">
-               artist
-              </td>
-              {/* title */}
-              <td className="py-2 px-4 text-2xl border-b text-center">
-             title
-              </td>
-              {/* style */}
-              <td className="py-2 px-4 text-2xl border-b text-center">
-               style
-              </td>
-              <td className="py-2 px-4 text-2xl border-b text-center">
-                <Link to={``}>
-                  <button className="border px-3 py-1 text-xl rounded-md border-gray-800 transition-colors duration-300 hover:bg-gray-800 hover:text-white">
-                    details
-                  </button>
-                </Link>
-              </td>
-              {/* add to exb */}
-              <td className="py-2 px-4 text-2xl border-b text-center">
-                <Link to={``}>
-                  <button
-                    type="button"
-                    className="border px-3 py-1 text-xl rounded-md border-gray-800 transition-colors duration-300 hover:bg-gray-800 hover:text-white"
-                  >
-                    Add to Exb
-                  </button>
-                </Link>
-              </td>
-            </tr>
+          {records.map((record) => (
+            <ArtListRow
+              img={record.primaryimageurl}
+              division={record.division}
+              title={record.title}
+              year={record.dated}
+              details={record.description}
+              key={record.id}
+              people={record.people}
+            />
           ))}
         </tbody>
       </table>
@@ -69,3 +45,47 @@ const ArtList = () => {
   );
 };
 export default ArtList;
+
+export const ArtListRow = ({ year, people, division, title, img }) => {
+  return (
+    <tr className="hover:bg-gray-100">
+      {/* record info */}
+      <td className="py-2 px-4 text-2xl border-b">
+        <img src={img} alt={title} className="w-36 h-36 rounded-md mx-auto" />
+      </td>{" "}
+      {/* year */}
+      <td className="py-2 px-4 text-2xl border-b">{year}</td>
+      {/* artist */}
+      <td className="py-2 px-4 text-2xl border-b text-center">
+        {" "}
+        {people?.map((person) => (
+          <span key={person.personid}>
+            {person.role}: {person.name}
+          </span>
+        ))}
+      </td>
+      {/* title */}
+      <td className="py-2 px-4 text-2xl border-b text-center">{title}</td>
+      {/* style */}
+      <td className="py-2 px-4 text-2xl border-b text-center">{division}</td>
+      <td className="py-2 px-4 text-2xl border-b text-center">
+        <Link to={``}>
+          <button className="border px-3 py-1 text-xl rounded-md border-gray-800 transition-colors duration-300 hover:bg-gray-800 hover:text-white">
+            details
+          </button>
+        </Link>
+      </td>
+      {/* add to exb */}
+      <td className="py-2 px-4 text-2xl border-b text-center">
+        <Link to={``}>
+          <button
+            type="button"
+            className="border px-3 py-1 text-xl rounded-md border-gray-800 transition-colors duration-300 hover:bg-gray-800 hover:text-white"
+          >
+            Add to Exb
+          </button>
+        </Link>
+      </td>
+    </tr>
+  );
+};

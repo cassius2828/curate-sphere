@@ -8,14 +8,15 @@ import {
   faSearch,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
 
 ///////////////////////////
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
   const [loadAmountVal, setLoadAmountVal] = useState(12);
-  const [showList, setShowList] = useState(false);
-
+  const { displayView, records } = useArtworkContext();
+  if (!records) return;
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
       {/* title */}
@@ -34,26 +35,30 @@ const ArtSearch = () => {
       {/* filter and editgs */}
       <FilterActionBtns />
       {/* results */}
-      <div className="w-full">{showList ? <ArtList /> : <ArtGallery />}</div>
-      <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">load more</button>
+      <div className="w-full">
+        {displayView === "list" ? <ArtList /> : <ArtGallery />}
+      </div>
+      <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">
+        load more
+      </button>
     </section>
   );
 };
 export default ArtSearch;
 
-
 ///////////////////////////
 // FilterActionBtns
 ///////////////////////////
 export const FilterActionBtns = () => {
+  const { info, records, handleSelectFilters } = useArtworkContext();
   return (
     <div className="flex w-3/4 justify-between items-center relative">
       {/* filter */}
       <ArtSearchFilter />
       {/* display num of objets */}
       <p className=" absolute top-0 w-full md:w-auto md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl">
-        Showing <span className="text-red-400">num</span> of{" "}
-        <span className="text-red-400">num</span> objects
+        Showing <span className="text-red-400">{records.length}</span> of{" "}
+        <span className="text-red-400">{info?.totalrecords}</span> objects
       </p>
       {/* load amount and btns */}
       <div className="flex gap-3 items-center mt-12 md:mt-0">
@@ -62,13 +67,10 @@ export const FilterActionBtns = () => {
 
           <select
             className="border rounded-md w-20 p-1 text-xl"
-            onChange={() =>
-              console.log(
-                "This will be a function that communicates with the backend to determine how many artworks to load at a time"
-              )
+            onChange={(e) => handleSelectFilters({ [e.target.name]: e.target.value })
             }
-            name="load-artworks"
-            id="load-artworks"
+            name="size"
+            id="size"
           >
             <option value="12">12</option>
             <option value="24">24</option>

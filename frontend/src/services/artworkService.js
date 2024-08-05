@@ -1,14 +1,21 @@
 const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 
-///////////////////////////
-// Get | Get All Artworks
-///////////////////////////
-export const getAllArtworks = async () => {
+//////////////////////////////////////////////////////
+// ? POST | Get All Artworks With Filter
+//////////////////////////////////////////////////////
+export const getAllArtworks = async (filters) => {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(filters),
+  };
   try {
-    const response = await fetch(`${BACKEND_URL}/artworks`);
+    const response = await fetch(`${BACKEND_URL}/artworks/search`, options);
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
       return data;
     } else {
       throw new Error();
@@ -27,7 +34,7 @@ export const getArtworkDetail = async (objectid) => {
     const response = await fetch(`${BACKEND_URL}/artworks/${objectid}`);
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
       return data;
     } else {
       throw new Error();

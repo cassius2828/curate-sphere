@@ -14,7 +14,10 @@ const getArtworks = async (req, res) => {
   // API to consume
   // ! Queries are case sensitive to harvard api structure | be sure to provide correct name for form inputs
   // ! on front end
-  const queriedFilter = getQueryString(req.query);
+ 
+  const queriedFilter = getQueryString(req.body);
+console.log(queriedFilter
+)
   try {
     const response = await fetch(
       `${BASE_URL}/object?apikey=${API_KEY}${queriedFilter}`

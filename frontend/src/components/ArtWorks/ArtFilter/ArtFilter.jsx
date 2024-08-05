@@ -1,111 +1,11 @@
 import { useState } from "react";
 import { SearchCategoryDropdown } from "./SearchCategoryDropdown";
-const filterCategories = [
-  {
-    primaryCategory: 'Classifications',
-    subCategories: [
-      "(not assigned)",
-      "Accessories (non-art)",
-      "Albums",
-      "Amulets",
-      "Architectural Elements",
-      "Archival Material",
-      "Armor",
-      "Artists' Materials",
-      "Artists' Tools",
-      "Audiovisual Works",
-      "Books",
-      "Boxes",
-      "Brick Stamps",
-      "Calligraphy",
-      "Cameos",
-      "Casts",
-      "Coins",
-      "Costume",
-      "Documents",
-      "Drawings",
-      "Fragments",
-      "Frames",
-      "Furnishings",
-      "Furniture",
-      "Gems",
-      "Graphic Design",
-      "Inscriptions",
-      "Jewelry",
-      "Lighting Devices",
-      "Manuscripts",
-      "Material Specimens",
-      "Measuring Devices",
-      "Medals and Medallions",
-      "Mirrors",
-      "Models",
-      "Mosaics",
-      "Multiples",
-      "Musical Instruments",
-      "Paintings",
-      "Paintings with Calligraphy",
-      "Paintings with Text",
-      "Performance Artifacts",
-      "Photographs",
-      "Plaques",
-      "Portfolios",
-      "Prints",
-      "Recreational Artifacts",
-      "Riding Equipment",
-      "Ritual Implements",
-      "Rubbings",
-      "Sculpture",
-      "Seals",
-      "Stained Glass",
-      "Straus Materials",
-      "Tablets",
-      "Text",
-      "Textile Arts",
-      "Timepieces",
-      "Tokens",
-      "Tools and Equipment",
-      "Unidentified",
-      "Vessels",
-      "Weapons and Ammunition"
-    ]
-  },
-  {
-    primaryCategory: 'Work Type',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Medium',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Technique',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Period',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Place',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Century',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Culture',
-    subCategories: []
-  },
-  {
-    primaryCategory: 'Gallery',
-    subCategories: []
-  }
-];
+import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
 const ArtFilter = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const [displayView, setDisplayView] = useState("");
+  const { handleDisplayView, displayView } = useArtworkContext();
+  const { artworkFilterData } = useArtworkContext();
   return (
     <div className="flex gap-4">
       <button
@@ -116,7 +16,9 @@ const ArtFilter = () => {
       </button>
       <select
         value={displayView}
-        onChange={(e) => setDisplayView(e.target.value)}
+        onChange={(e) => {
+          handleDisplayView(e.target.value);
+        }}
         name="art-display-style"
         id="art-display-style"
         className={`text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4 `}
@@ -129,10 +31,11 @@ const ArtFilter = () => {
       </select>
       {showFilterDropdown && (
         <ul className="shadow-md w-full md:w-72 min-w-[25vw] absolute top-full">
-          {filterCategories.map((category, idx) => {
+          {artworkFilterData.map((category, idx) => {
             return (
               <SearchCategoryDropdown
-                primaryCategory={category}
+                primaryCategory={category.primaryCategory}
+                subCategories={category.subCategories}
                 key={category + idx}
               />
             );
