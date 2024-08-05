@@ -68,7 +68,7 @@ const filterCategories = [
     ],
   },
   {
-    primaryCategory: "Work Type",
+    primaryCategory: "Work Types",
     subCategories: [
       "Imperial photograph",
       "accessory",
@@ -527,7 +527,7 @@ const filterCategories = [
     ],
   },
   {
-    primaryCategory: "Place",
+    primaryCategory: "Provenance",
     subCategories: [
       "africa",
       "central america",

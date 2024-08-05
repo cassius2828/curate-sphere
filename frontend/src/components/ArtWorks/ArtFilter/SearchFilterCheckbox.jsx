@@ -1,7 +1,30 @@
 import { useEffect, useState } from "react";
+import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
-export const SearchFilterCheckBox = ({ category = "inner category" }) => {
+export const SearchFilterCheckBox = ({
+  category = "inner category",
+  primaryCategory,
+}) => {
   const [isChecked, setIsChecked] = useState(false);
+  const { handleSelectFilters } = useArtworkContext();
+  let primaryCategoryValue = primaryCategory.toLowerCase();
+  const formatCategory = () => {
+    // tech
+    // medium
+    // class
+    // prominence
+    // culture
+    // century
+    // divison
+    // work types
+    // period
+    const modStr = category[0].toLocaleUpperCase() + category.slice(1);
+    return modStr
+  
+  };
+
+  const formatedCategory = formatCategory(category)
+
   useEffect(() => {
     // function to filter results of artworks
   }, [isChecked]);
@@ -13,6 +36,8 @@ export const SearchFilterCheckBox = ({ category = "inner category" }) => {
             "This will call a function that updates the search query on the backend"
           );
           setIsChecked((prev) => !prev);
+          handleSelectFilters({ [primaryCategoryValue]: formatedCategory });
+          formatCategory();
         }}
         className="border-2 relative z-10 border-black p-3 cursor-pointer"
       >
