@@ -42,8 +42,13 @@ const reducer = (state, action) => {
         ...state,
         artFilter: {
           ...state.artFilter,
-          [action.payload[0][0]]: action.payload[0][1],
+          [action.payload[0]]: action.payload[1],
         },
+      };
+    case "removeFilterArtworks/artworks":
+      return {
+        ...state,
+        artFilter: action.payload,
       };
     default:
       break;
@@ -76,13 +81,23 @@ export const ArtworkProvider = ({ children }) => {
   const handleDisplayView = (view) => {
     dispatch({ type: "displayView/artworks", payload: view });
   };
-  const handleSelectFilters = async (filter) => {
-    const newEntry = Object.entries(filter);
-    dispatch({ type: "filterArtworks/artworks", payload: newEntry });
-    console.log();
+  const handleSelectFilters = async (key, value) => {
+    const arr = [key, value];
+    dispatch({ type: "filterArtworks/artworks", payload: arr });
 
-    console.log(filter);
-    console.log(artFilter);
+    console.log(arr, " <-- arr");
+    console.log(artFilter, " <-- art filter");
+  };
+
+  const handleRemoveFilter = (key, value) => {
+  
+    // const { [action.payload]: _, ...newArtFilter } = state.artFilter;
+
+    if (artFilter[key] === value) {
+      const { [key]: _, ...removedFilterObj } = artFilter;
+      console.log("this key value pair exists");
+      dispatch({ type: "removeFilterArtworks/artworks", payload: removedFilterObj });
+    }
   };
   useEffect(() => {
     handleGetAllArtworks();
@@ -98,6 +113,7 @@ export const ArtworkProvider = ({ children }) => {
         handleGetAllArtworks,
         handleDisplayView,
         handleSelectFilters,
+        handleRemoveFilter,
         records,
         info,
         showArtwork,

@@ -58,7 +58,7 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
                 {displaySubCategories.map((category, idx) => {
                   return (
                     <SearchFilterCheckBox
-                    primaryCategory={primaryCategory}
+                    primaryCategoryKey={primaryCategory}
                       category={category}
                       key={category + idx}
                     />
