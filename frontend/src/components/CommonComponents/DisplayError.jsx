@@ -1,6 +1,6 @@
 const DisplayError = () => {
   return (
-    <div>
+    <div className="mt-96">
       <h1 className="text-8xl">Error</h1>
     </div>
   );

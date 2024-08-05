@@ -13,7 +13,7 @@ const ArtGallery = () => {
   };
 
   if (isLoading) return <Loader />;
-  if (isError) return <DisplayError />;
+  // if (isError) return <DisplayError />;
   return (
     <div className="w-3/4 mx-auto mt-8">
       <Masonry

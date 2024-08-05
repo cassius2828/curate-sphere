@@ -2,13 +2,10 @@ import { useState } from "react";
 import { SearchCategoryDropdown } from "./SearchCategoryDropdown";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
-
-
-
 const ArtFilter = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-const {handleDisplayView, displayView} = useArtworkContext()
-  const {artworkFilterData} = useArtworkContext()
+  const { handleDisplayView, displayView } = useArtworkContext();
+  const { artworkFilterData } = useArtworkContext();
   return (
     <div className="flex gap-4">
       <button
@@ -20,9 +17,8 @@ const {handleDisplayView, displayView} = useArtworkContext()
       <select
         value={displayView}
         onChange={(e) => {
-         handleDisplayView(e.target.value) ;
-         console.log(displayView)
-        } }
+          handleDisplayView(e.target.value);
+        }}
         name="art-display-style"
         id="art-display-style"
         className={`text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4 `}

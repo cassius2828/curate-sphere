@@ -15,8 +15,8 @@ import useArtworkContext from "../../context/artwork/useArtworkContext";
 ///////////////////////////
 const ArtSearch = () => {
   const [loadAmountVal, setLoadAmountVal] = useState(12);
- const {displayView} = useArtworkContext()
-
+  const { displayView, records } = useArtworkContext();
+  if (!records) return;
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
       {/* title */}
@@ -35,19 +35,22 @@ const ArtSearch = () => {
       {/* filter and editgs */}
       <FilterActionBtns />
       {/* results */}
-      <div className="w-full">{displayView ? <ArtList /> : <ArtGallery />}</div>
-      <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">load more</button>
+      <div className="w-full">
+        {displayView === "list" ? <ArtList /> : <ArtGallery />}
+      </div>
+      <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">
+        load more
+      </button>
     </section>
   );
 };
 export default ArtSearch;
 
-
 ///////////////////////////
 // FilterActionBtns
 ///////////////////////////
 export const FilterActionBtns = () => {
-  const {info, records} = useArtworkContext()
+  const { info, records, handleSelectFilters } = useArtworkContext();
   return (
     <div className="flex w-3/4 justify-between items-center relative">
       {/* filter */}
@@ -64,13 +67,10 @@ export const FilterActionBtns = () => {
 
           <select
             className="border rounded-md w-20 p-1 text-xl"
-            onChange={() =>
-              console.log(
-                "This will be a function that communicates with the backend to determine how many artworks to load at a time"
-              )
+            onChange={(e) => handleSelectFilters({ [e.target.name]: e.target.value })
             }
-            name="load-artworks"
-            id="load-artworks"
+            name="size"
+            id="size"
           >
             <option value="12">12</option>
             <option value="24">24</option>

@@ -16,6 +16,9 @@ const initialArtworksState = {
   displayView: "",
   isLoading: false,
   isError: false,
+  artFilter: {
+    size: "12",
+  },
 };
 
 const reducer = (state, action) => {
@@ -34,6 +37,14 @@ const reducer = (state, action) => {
       return { ...state, isLoading: true };
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
+    case "filterArtworks/artworks":
+      return {
+        ...state,
+        artFilter: {
+          ...state.artFilter,
+          [action.payload[0][0]]: action.payload[0][1],
+        },
+      };
     default:
       break;
   }
@@ -42,15 +53,15 @@ const reducer = (state, action) => {
 // Create a Provider component
 export const ArtworkProvider = ({ children }) => {
   const [
-    { records, info, showArtwork, isLoading, isError, displayView },
+    { records, info, showArtwork, isLoading, isError, displayView, artFilter },
     dispatch,
   ] = useReducer(reducer, initialArtworksState);
 
-  const handleGetAllArtworks = async (query) => {
+  const handleGetAllArtworks = async () => {
     // starts loading
     dispatch({ type: "startLoading/artworks" });
     try {
-      const data = await getAllArtworks(query);
+      const data = await getAllArtworks(artFilter);
       //   gets all info related to artworks (info and data)
       dispatch({ type: "getArtworks/artworks", payload: data });
     } catch (err) {
@@ -65,10 +76,17 @@ export const ArtworkProvider = ({ children }) => {
   const handleDisplayView = (view) => {
     dispatch({ type: "displayView/artworks", payload: view });
   };
+  const handleSelectFilters = async (filter) => {
+    const newEntry = Object.entries(filter);
+    dispatch({ type: "filterArtworks/artworks", payload: newEntry });
+    console.log();
 
+    console.log(filter);
+    console.log(artFilter);
+  };
   useEffect(() => {
     handleGetAllArtworks();
-  }, []);
+  }, [artFilter]);
 
   useEffect(() => {
     // console.log(records);
@@ -79,6 +97,7 @@ export const ArtworkProvider = ({ children }) => {
         artworkFilterData,
         handleGetAllArtworks,
         handleDisplayView,
+        handleSelectFilters,
         records,
         info,
         showArtwork,

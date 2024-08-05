@@ -5,7 +5,7 @@ const ArtGalleryCard = ({ year, people, division, title, img }) => {
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto">
       <Link to="/artwork/detail">
-        <img src={img} alt="sample image" />
+        <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" />
       </Link>
       <div className="mt-6 text-2xl flex flex-col gap-4">
         <span>{year}</span>

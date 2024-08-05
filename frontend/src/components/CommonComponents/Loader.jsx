@@ -1,7 +1,7 @@
 const Loader = () => {
   return (
-    <div>
-      <h1 className="text-8xl">Loading...</h1>
+    <div className="h-screen w-screen flex justify-center items-center">
+      <span className="loader relative -top-52"></span>
     </div>
   );
 };
