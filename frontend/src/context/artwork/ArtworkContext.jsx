@@ -98,7 +98,7 @@ export const ArtworkProvider = ({ children }) => {
     // const { [action.payload]: _, ...newArtFilter } = state.artFilter;
     if (key === "worktype") {
         value = value.toLowerCase();
-  
+  console.log('test')
       }
     if (artFilter[key] === value) {
       const { [key]: _, ...removedFilterObj } = artFilter;
