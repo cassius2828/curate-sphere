@@ -8,9 +8,9 @@ const Home = () => {
 
       <LampContainer>
         <div className="relative z-50 min-h-screen w-screen flex flex-col gap-y-5 justify-center items-center">
-          <h1 className="text-8xl text-white">Welcome, user</h1>
+          <h1 className="text-8xl text-white font-marcellus">Welcome, user</h1>
           <Link to="/exhibitions/dashboard">
-            <button className="relative text-4xl border-2 text-white p-5 m-6">My Exhibitions</button>
+            <button className="relative text-3xl border-2 text-white p-6 m-6 font-marcellus">My Exhibitions</button>
           </Link>
         </div>
       </LampContainer>

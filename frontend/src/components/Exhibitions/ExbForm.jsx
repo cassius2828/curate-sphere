@@ -16,6 +16,7 @@ const ExbForm = () => {
   const { handleGetExbDetail, showExb } = useExbContext();
   const navigate = useNavigate()
   const { id } = useParams();
+  
   const handleSubmit = async (e) => {
     e.preventDefault()
   try {
