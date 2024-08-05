@@ -86,7 +86,7 @@ const LoginForm = () => {
             Remember me
           </label>
         </div>
-        <Btn handleAction={handleSubmit} text={`login`} />
+        <Btn handleAction={handleSubmit} text={`Login`} />
       </form>
     </section>
   );

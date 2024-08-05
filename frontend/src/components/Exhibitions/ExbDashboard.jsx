@@ -16,10 +16,9 @@ const ExbDashboard = () => {
     showExb,
   } = useExbContext();
 
-
  
   return (
-    <section className="flex flex-col ml-10 mb-10">
+    <section className="flex flex-col ml-32 mb-24">
       <button
         onClick={() => {
           handleEditExb("1", formData);
@@ -29,9 +28,9 @@ const ExbDashboard = () => {
         test
       </button>
       <div className="flex gap-28 mb-20 items-center">
-        <h1 className="text-6xl ">My Exhibitions</h1>
+        <h1 className="text-6xl font-marcellus">My Exhibitions</h1>
         <Link to="/exhibitions/create">
-          <button className="text-2xl border-black border px-6 py-1">
+          <button className="text-2xl border-black border px-6 py-1 font-cardo">
             Add New Exhibition
           </button>
         </Link>
@@ -41,7 +40,7 @@ const ExbDashboard = () => {
       (<p>No exhibitions yet!</p>
       ) : (
        */}
-      <ul className="flex flex-col gap-10">
+      <ul className="flex flex-col gap-10 font-cardo">
         {/* exhibitions.map((exhibition) => 
           (<ExbCard 
             key={exhibition.id} 

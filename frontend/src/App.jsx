@@ -11,6 +11,7 @@ import ExbForm from './components/Exhibitions/ExbForm'
 import ExbDetail from "./components/Exhibitions/ExbDetail";
 import ArtDetail from "./components/ArtWorks/ArtDetail"
 import useGlobalContext from "./context/global/useGlobalContext"
+import ExbExplore from "./components/Exhibitions/ExbExplore";
 
 function App() {
   // const user = true;
@@ -27,8 +28,10 @@ function App() {
             <Route path="/artworks/search" element={<ArtSearch />} />
             <Route path="/exhibitions/dashboard" element={<ExbDashboard />}/>
             <Route path="/exhibitions/create" element={<ExbForm />}/>
+            <Route path="/exhibitions/:id/edit" element={<ExbForm />}/>
             <Route path="/exhibition/:id" element={<ExbDetail />}/>
             <Route path='/artwork/detail' element={<ArtDetail />}/>
+            <Route path='/exhibitions/explore' element={<ExbExplore />}/>
           </Routes>
         </>
       ) : (
