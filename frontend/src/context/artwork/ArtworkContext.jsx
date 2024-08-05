@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from "react";
-import artworkFilterData from "../../data/artworkFilterData";
+import artworkFilterData from "../../../data/artworkFilterData";
 import { getAllArtworks } from "../../services/artworkService";
 // Create a Context
 const ArtworkContext = createContext();
@@ -82,6 +82,8 @@ export const ArtworkProvider = ({ children }) => {
     dispatch({ type: "displayView/artworks", payload: view });
   };
   const handleSelectFilters = async (key, value) => {
+    key = key.split("").join("");
+    // console.log(key, " <-- key");
     const arr = [key, value];
     dispatch({ type: "filterArtworks/artworks", payload: arr });
 
@@ -90,18 +92,21 @@ export const ArtworkProvider = ({ children }) => {
   };
 
   const handleRemoveFilter = (key, value) => {
-  
     // const { [action.payload]: _, ...newArtFilter } = state.artFilter;
 
     if (artFilter[key] === value) {
       const { [key]: _, ...removedFilterObj } = artFilter;
       console.log("this key value pair exists");
-      dispatch({ type: "removeFilterArtworks/artworks", payload: removedFilterObj });
+      dispatch({
+        type: "removeFilterArtworks/artworks",
+        payload: removedFilterObj,
+      });
     }
   };
   useEffect(() => {
     handleGetAllArtworks();
   }, [artFilter]);
+
 
   useEffect(() => {
     // console.log(records);

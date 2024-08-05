@@ -1,6 +1,6 @@
 const filterCategories = [
   {
-    primaryCategory: "Classifications",
+    primaryCategory: "Classification",
     subCategories: [
       "(not assigned)",
       "Accessories (non-art)",
@@ -68,7 +68,7 @@ const filterCategories = [
     ],
   },
   {
-    primaryCategory: "Work Types",
+    primaryCategory: "Work Type",
     subCategories: [
       "Imperial photograph",
       "accessory",
@@ -597,6 +597,7 @@ const filterCategories = [
   {
     primaryCategory: "Culture",
     subCategories: [
+      "American",
       "African",
       "West African",
       "Ancient Egyptian",
