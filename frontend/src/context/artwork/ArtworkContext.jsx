@@ -82,8 +82,11 @@ export const ArtworkProvider = ({ children }) => {
     dispatch({ type: "displayView/artworks", payload: view });
   };
   const handleSelectFilters = async (key, value) => {
-    key = key.split("").join("");
-    // console.log(key, " <-- key");
+    key = key.split(" ").join("");
+    if (key === "worktype") {
+      value = value.toLowerCase();
+
+    }
     const arr = [key, value];
     dispatch({ type: "filterArtworks/artworks", payload: arr });
 
@@ -93,7 +96,10 @@ export const ArtworkProvider = ({ children }) => {
 
   const handleRemoveFilter = (key, value) => {
     // const { [action.payload]: _, ...newArtFilter } = state.artFilter;
-
+    if (key === "worktype") {
+        value = value.toLowerCase();
+  
+      }
     if (artFilter[key] === value) {
       const { [key]: _, ...removedFilterObj } = artFilter;
       console.log("this key value pair exists");
@@ -106,7 +112,6 @@ export const ArtworkProvider = ({ children }) => {
   useEffect(() => {
     handleGetAllArtworks();
   }, [artFilter]);
-
 
   useEffect(() => {
     // console.log(records);
