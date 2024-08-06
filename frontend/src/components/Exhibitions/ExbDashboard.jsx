@@ -57,7 +57,7 @@ const ExbDashboard = () => {
             title= {exhibition.title} 
             date={`exhibition.startDate - exhibition.endDate`} 
             location={exhibition.location} ))} */}
-        {myExbs.map((exb) => {
+        {myExbs?.map((exb) => {
           return (
             <ExbCard
               key={exb.id}
