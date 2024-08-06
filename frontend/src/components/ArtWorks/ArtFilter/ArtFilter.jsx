@@ -5,7 +5,7 @@ import useArtworkContext from "../../../context/artwork/useArtworkContext";
 const ArtFilter = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const { handleDisplayView, displayView } = useArtworkContext();
-  const { artworkFilterData } = useArtworkContext();
+  const { primaryCategories } = useArtworkContext();
   return (
     <div className="flex gap-4">
       <button
@@ -31,12 +31,12 @@ const ArtFilter = () => {
       </select>
       {showFilterDropdown && (
         <ul className="shadow-md w-full md:w-72 min-w-[25vw] absolute top-full">
-          {artworkFilterData.map((category, idx) => {
+          {primaryCategories.map((category, idx) => {
             return (
               <SearchCategoryDropdown
-                primaryCategory={category.primaryCategory}
-                subCategories={category.subCategories}
-                key={category + idx}
+                primaryCategory={category.title}
+                subCategories={category.records}
+                key={category.title + idx}
               />
             );
           })}

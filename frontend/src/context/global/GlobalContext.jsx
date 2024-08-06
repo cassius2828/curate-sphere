@@ -19,7 +19,7 @@ const handleSignout = () => {
   signout()
   setUser(null)
 }
-
+// console.log(user)
 // useEffect(() => {
 //   as
 // })

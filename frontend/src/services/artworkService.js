@@ -44,3 +44,35 @@ export const getArtworkDetail = async (objectid) => {
     console.log(`Unable to communicate with DB to get object detail`);
   }
 };
+
+///////////////////////////
+//  Get | Get Filter Objs
+///////////////////////////
+export const getFilterObjs = async (filter, page) => {
+  // const options = {
+  //   method: "PUT",
+  //   headers: {
+  //     "Content-Type": "application/json",
+  //   },
+  //   body: JSON.stringify(page),
+  // };
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}/artworks/filter?filter=${filter}&page=${page}`
+    );
+    const data = await response.json();
+
+    if (response.ok) {
+      data.records.forEach((record) => {
+        record.isChecked = false;
+        record.clickCount = 0;
+      });
+      return data;
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get ${filter} objects`);
+  }
+};
