@@ -244,15 +244,18 @@ export const ArtworkProvider = ({ children }) => {
   // GET CENTURIES
   ///////////////////////////
   const handleGetCenturyObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("century", 1);
 
       data.push(data1.records);
+    
+     data.sort((a, b) => a.name.localeCompare(b.name));
+  data.flat()
       dispatch({
         type: "getCenturyObjs/artworks",
-        payload: data.flat(),
+        payload: data,
       });
     } catch (err) {
       console.error(err);
@@ -264,15 +267,19 @@ export const ArtworkProvider = ({ children }) => {
   // GET CLASSIFICATIONS
   ///////////////////////////
   const handleGetClassificationObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("classification", 1);
 
       data.push(data1.records);
+       data = data.flat();
+     data.sort((a, b) => a.name.localeCompare(b.name));
+  
+
       dispatch({
         type: "getClassificationObjs/artworks",
-        payload: data.flat(),
+        payload: data,
       });
     } catch (err) {
       console.error(err);
@@ -284,13 +291,17 @@ export const ArtworkProvider = ({ children }) => {
   // GET CULTURES
   ///////////////////////////
   const handleGetCultureObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("culture", 1);
       const data2 = await getFilterObjs("culture", 2);
       const data3 = await getFilterObjs("culture", 3);
       data.push(data1.records, data2.records, data3.records);
+      data = data.flat();
+
+     data.sort((a, b) => a.name.localeCompare(b.name));
+
       dispatch({ type: "getCultureObjs/artworks", payload: data.flat() });
     } catch (err) {
       console.error(err);
@@ -302,7 +313,7 @@ export const ArtworkProvider = ({ children }) => {
   // GET MEDIUMS
   ///////////////////////////
   const handleGetMediumObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("medium", 1);
@@ -311,9 +322,13 @@ export const ArtworkProvider = ({ children }) => {
       const data4 = await getFilterObjs("medium", 4);
 
       data.push(data1.records, data2.records, data3.records, data4.records);
+      data = data.flat();
+    
+     data.sort((a, b) => a.name.localeCompare(b.name));
+  
       dispatch({
         type: "getMediumObjs/artworks",
-        payload: data.flat(),
+        payload: data,
       });
     } catch (err) {
       console.error(err);
@@ -325,7 +340,7 @@ export const ArtworkProvider = ({ children }) => {
   // GET PERIODS
   ///////////////////////////
   const handleGetPeriodObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("period", 1);
@@ -334,9 +349,13 @@ export const ArtworkProvider = ({ children }) => {
       const data4 = await getFilterObjs("period", 4);
 
       data.push(data1.records, data2.records, data3.records, data4.records);
+      data = data.flat();
+
+     data.sort((a, b) => a.name.localeCompare(b.name));
+
       dispatch({
         type: "getPeriodObjs/artworks",
-        payload: data.flat(),
+        payload: data,
       });
     } catch (err) {
       console.error(err);
@@ -348,7 +367,7 @@ export const ArtworkProvider = ({ children }) => {
   // GET TECHNIQUES
   ///////////////////////////
   const handleGetTechniqueObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("technique", 1);
@@ -357,9 +376,13 @@ export const ArtworkProvider = ({ children }) => {
       const data4 = await getFilterObjs("technique", 4);
 
       data.push(data1.records, data2.records, data3.records, data4.records);
+      data = data.flat();
+
+     data.sort((a, b) => a.name.localeCompare(b.name));
+
       dispatch({
         type: "getTechniqueObjs/artworks",
-        payload: data.flat(),
+        payload: data,
       });
     } catch (err) {
       console.error(err);
@@ -371,7 +394,7 @@ export const ArtworkProvider = ({ children }) => {
   // GET WORKTYPES
   ///////////////////////////
   const handleGetWorktypeObjs = async () => {
-    const data = [];
+    let data = [];
 
     try {
       const data1 = await getFilterObjs("worktype", 1);
@@ -387,9 +410,13 @@ export const ArtworkProvider = ({ children }) => {
         data4.records,
         data5.records
       );
+      data = data.flat();
+
+      data.sort((a, b) => a.name.localeCompare(b.name));
+
       dispatch({
         type: "getWorktypeObjs/artworks",
-        payload: data.flat(),
+        payload: data,
       });
     } catch (err) {
       console.error(err);
