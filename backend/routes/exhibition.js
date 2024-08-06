@@ -6,7 +6,9 @@ const exhibitionCtrl = require("../controllers/exhibition");
 router.get("/", exhibitionCtrl.getAllExhibitions);
 // create exhibition
 router.post("/", exhibitionCtrl.createExhibition);
-// get exhibition by id
+// get user exhibitions by userId
+router.get("/dashboard/:userId", exhibitionCtrl.getUserExhibitions);
+// get exb by id
 router.get("/:id", exhibitionCtrl.getExhibitionById);
 // update exhibition
 router.put("/:id", exhibitionCtrl.updateExhibition);

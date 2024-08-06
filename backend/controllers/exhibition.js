@@ -16,7 +16,28 @@ const getAllExhibitions = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+// get user exhibtions
+const getUserExhibitions = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const exhibitions = await Exhibition.findAll({
+      where: {
+        userId,
+      },
+    });
+    console.log(exhibitions);
+    // check if we found any exhibitions
+    if (exhibitions.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "No exhibitions were found for this user" });
+    }
+    res.status(200).json(exhibitions);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 
+};
 // create exhibition
 const createExhibition = async (req, res) => {
   try {
@@ -30,7 +51,7 @@ const createExhibition = async (req, res) => {
 // get exhibition by id
 const getExhibitionById = async (req, res) => {
   const { id } = req.params;
-  console.log(id, ' <-- exb id')
+  console.log(id, " <-- exb id");
   try {
     const exhibition = await Exhibition.findByPk(id);
     res.status(200).json(exhibition);
@@ -75,4 +96,5 @@ module.exports = {
   getExhibitionById,
   updateExhibition,
   deleteExhibition,
+  getUserExhibitions,
 };

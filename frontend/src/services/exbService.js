@@ -8,7 +8,26 @@ export const getAllExhibitions = async () => {
     const response = await fetch(`${BACKEND_URL}/exhibitions`);
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get all exhibitions`);
+  }
+};
+
+///////////////////////////
+// Get | Get User Exhibitions
+///////////////////////////
+export const getUserExhibitions = async (userId) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/exhibitions/dashboard/${userId}`);
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
       return data;
     } else {
       throw new Error();
@@ -61,7 +80,7 @@ export const deleteExb = async (exbId) => {
     );
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
       return data;
     } else {
       throw new Error();
@@ -111,7 +130,7 @@ export const editExb = async (formData, exbId) => {
     );
     const data = await response.json();
     console.log(data);
-    if (data.ok) {
+    if (response.ok) {
       return data;
     } else {
       throw new Error();
