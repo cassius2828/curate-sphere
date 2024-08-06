@@ -40,6 +40,8 @@ export const ExbProvider = ({ children }) => {
     initialState
   );
   const { user } = useGlobalContext();
+
+
   ///////////////////////////
   //   GET | index
   ///////////////////////////

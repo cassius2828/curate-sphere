@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ArtGallery from "../ArtWorks/ArtGallery";
 import { FilterActionBtns } from "../ArtWorks/ArtSearch";
 import useExbContext from "../../context/exb/useExbContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useGlobalContext from "../../context/global/useGlobalContext";
 const initialFormData = {
   title: "",
@@ -14,8 +14,12 @@ const initialFormData = {
 const ExbDetail = () => {
   const [formData, setFormData] = useState(initialFormData);
   const { id } = useParams();
-  const { handleGetExbDetail, showExb } = useExbContext();
+  // console.log(id)
+  const navigate = useNavigate()
+  const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } = useExbContext();
   const { formatDate } = useGlobalContext();
+
+
   // const handleSubmit = async (e) => {
   //   e.preventDefault()
   // try {
@@ -41,6 +45,19 @@ const ExbDetail = () => {
     console.log(formData, " <-- formdata");
     console.log(showExb, " <-- showExb");
   }, [formData]);
+
+  const handleDeleteButton = async (e) => {
+    
+    try {
+      const data = await handleDeleteExb(id)
+      handleGetUserExbs();
+      navigate('/exhibitions/dashboard')
+    } catch (err) {
+      console.error(err)
+    }
+
+  }
+
   return (
     <>
       <section>
@@ -59,10 +76,7 @@ const ExbDetail = () => {
               </button>
             </Link>
             <button
-              onClick={() =>
-                alert(
-                  "This will delete the exhibition via handleDeleteExb function"
-                )
+              onClick={() => handleDeleteButton()
               }
               className="border border-black px-6 py-1 font-cardo"
             >
