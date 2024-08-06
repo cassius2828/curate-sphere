@@ -20,7 +20,7 @@ const ArtSearch = () => {
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
       {/* title */}
-      <h1 className="text-6xl">Art Works</h1>
+      <h1 className="text-6xl font-marcellus">Art Works</h1>
       {/* search input */}
       <div className="relative w-3/4">
         <input
@@ -57,14 +57,14 @@ export const FilterActionBtns = () => {
       {/* filter */}
       <ArtSearchFilter />
       {/* display num of objets */}
-      <p className=" absolute top-0 w-full md:w-auto md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl">
+      <p className=" absolute top-0 w-full md:w-auto md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-cardo">
         Showing <span className="text-red-400">{records.length}</span> of{" "}
         <span className="text-red-400">{info?.totalrecords}</span> objects
       </p>
       {/* load amount and btns */}
       <div className="flex gap-3 items-center mt-12 md:mt-0">
         <div className="flex flex-col gap-3 items-center md:mr-16">
-          <span className="text-xl">load amount</span>
+          <span className="text-xl font-cardo">load amount</span>
 
           <select
             className="border rounded-md w-20 p-1 text-xl"

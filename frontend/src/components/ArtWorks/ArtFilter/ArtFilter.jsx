@@ -7,7 +7,7 @@ const ArtFilter = () => {
   const { handleDisplayView, displayView } = useArtworkContext();
   const { primaryCategories } = useArtworkContext();
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-4 font-cardo">
       <button
         onClick={() => setShowFilterDropdown((prev) => !prev)}
         className={`text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4 `}

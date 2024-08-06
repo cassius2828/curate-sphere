@@ -74,7 +74,7 @@ import useExbContext from "../../context/exb/useExbContext";
 
 export const ExbCard = ({ title, date, location, id }) => {
   return (
-    <li className="flex w-full md:w-[40rem]">
+    <li className="flex w-full md:w-[40rem] font-cardo">
       <img
         className="w-full md:w-1/2"
         src="https://nrs.hvrd.art/urn-3:HUAM:DDC251942_dynmc?width=3000&height=3000"
