@@ -50,7 +50,8 @@ export default ArtSearch;
 // FilterActionBtns
 ///////////////////////////
 export const FilterActionBtns = () => {
-  const { info, records, handleSelectFilters } = useArtworkContext();
+  const { info, records, handleSelectFilters, handleResetFilterState } =
+    useArtworkContext();
   return (
     <div className="flex w-3/4 justify-between items-center relative">
       {/* filter */}
@@ -67,7 +68,8 @@ export const FilterActionBtns = () => {
 
           <select
             className="border rounded-md w-20 p-1 text-xl"
-            onChange={(e) => handleSelectFilters({ [e.target.name]: e.target.value })
+            onChange={(e) =>
+              handleSelectFilters({ [e.target.name]: e.target.value })
             }
             name="size"
             id="size"
@@ -80,11 +82,7 @@ export const FilterActionBtns = () => {
         </div>
         <button className="border p-3 bg-neutral-400">
           <FontAwesomeIcon
-            onClick={() =>
-              alert(
-                "This will reset all the search filters and the state for filters and load amount"
-              )
-            }
+            onClick={handleResetFilterState}
             className="text-2xl text-gray-100"
             icon={faRotateBack}
           />

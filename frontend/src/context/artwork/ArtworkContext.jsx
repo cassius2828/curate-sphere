@@ -81,6 +81,13 @@ const reducer = (state, action) => {
         ...state,
         artFilter: action.payload,
       };
+    case "resetFilterState/artworks":
+      return {
+        ...state,
+        artFilter: {
+          size: "12",
+        },
+      };
     // Filter Categories
     case "getCultureObjs/artworks":
       return {
@@ -197,7 +204,6 @@ export const ArtworkProvider = ({ children }) => {
     key = key.toLowerCase();
     if (key[0] === "w") {
       key = key.split(" ").join("");
-     
     }
     const arr = [key, id];
     dispatch({ type: "filterArtworks/artworks", payload: arr });
@@ -214,7 +220,6 @@ export const ArtworkProvider = ({ children }) => {
     key = key.toLowerCase();
     if (key[0] === "w") {
       key = key.split(" ").join("");
-     
     }
     console.log(key, "<-- remove filter key");
     console.log(id, "<-- remove filter id");
@@ -229,6 +234,9 @@ export const ArtworkProvider = ({ children }) => {
     }
   };
 
+  const handleResetFilterState = () => {
+    dispatch({ type: "resetFilterState/artworks" });
+  };
   ///////////////////////////
   // * FILTER CATEGORIES
   ///////////////////////////
@@ -434,6 +442,7 @@ export const ArtworkProvider = ({ children }) => {
         handleDisplayView,
         handleGetAllArtworks,
         handleRemoveFilter,
+        handleResetFilterState,
         handleSelectFilters,
         info,
         isError,
