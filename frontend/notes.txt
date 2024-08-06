@@ -1,0 +1,11 @@
+///////////////////////////
+TO Do
+///////////////////////////
+
+- create form 
+- route user to view where they see new exb (dashboard, already have navigate,
+ not wired to show which user exb it is and the new one)
+- 
+
+
+be able to see in exb dashboardm, see associated exb with signed in user 

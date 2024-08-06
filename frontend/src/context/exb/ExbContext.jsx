@@ -5,7 +5,9 @@ import {
   editExb,
   getAllExhibitions,
   getExbDetail,
+  getUserExhibitions,
 } from "../../services/exbService";
+import useGlobalContext from "../global/useGlobalContext";
 
 // Create a Context
 const ExbContext = createContext();
@@ -37,7 +39,7 @@ export const ExbProvider = ({ children }) => {
     reducer,
     initialState
   );
-
+  const { user } = useGlobalContext();
   ///////////////////////////
   //   GET | index
   ///////////////////////////
@@ -51,6 +53,21 @@ export const ExbProvider = ({ children }) => {
       console.log(`Unable to communicate with db to get all exbs | context`);
     }
   };
+
+  ///////////////////////////
+  //   GET | user exbs
+  ///////////////////////////
+  const handleGetUserExbs = async () => {
+    try {
+      const data = await getUserExhibitions(user.user.id);
+console.log(data, ' <-- users exbs')
+      dispatch({ type: "userExbs/exb", payload: data });
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to communicate with db to get all exbs | context`);
+    }
+  };
+
   ///////////////////////////
   //   GET | show
   ///////////////////////////
@@ -101,6 +118,10 @@ export const ExbProvider = ({ children }) => {
   };
   // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
 
+
+  useEffect(() => {
+    handleGetUserExbs()
+  },[])
   return (
     <ExbContext.Provider
       value={{

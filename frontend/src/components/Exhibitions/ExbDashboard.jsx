@@ -8,15 +8,25 @@ const initialFormData = {
 };
 const ExbDashboard = () => {
   const [formData, setFormData] = useState(initialFormData);
+  const { user } = useGlobalContext();
+
   const {
     handleGetExbDetail,
     handleGetAllExbs,
     handleDeleteExb,
     handleEditExb,
+    myExbs,
     showExb,
   } = useExbContext();
+  const formatDate = (date) => {
+    let formattedDate = new Date(date);
+    return formattedDate.toLocaleDateString("en-us", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  };
 
- 
   return (
     <section className="flex flex-col ml-32 mb-24">
       <button
@@ -25,7 +35,7 @@ const ExbDashboard = () => {
           console.log("click");
         }}
       >
-        test
+        {user.user.username}
       </button>
       <div className="flex gap-28 mb-20 items-center">
         <h1 className="text-6xl font-marcellus">My Exhibitions</h1>
@@ -47,8 +57,23 @@ const ExbDashboard = () => {
             title= {exhibition.title} 
             date={`exhibition.startDate - exhibition.endDate`} 
             location={exhibition.location} ))} */}
-        <ExbCard
-          id="1"
+        {myExbs.map((exb) => {
+          return (
+            <ExbCard
+              key={exb.id}
+              id={exb.id}
+              title={exb.title}
+              date={`${formatDate(exb.startDate)} - ${formatDate(exb.endDate)}`}
+              location={exb.location}
+            />
+          );
+        })}
+
+        {/* <ExbCard
+
+${exb.startDate.toLocaleDateString("en-us", {month:'short', day: 'numeric', year:'numeric'})}
+
+
           title={`Van Gogh Retrospective`}
           date={`Jan 1 - Mar 1, 2025`}
           location={`LACMA`}
@@ -57,12 +82,7 @@ const ExbDashboard = () => {
           title={`Van Gogh Retrospective`}
           date={`Jan 1 - Mar 1, 2025`}
           location={`LACMA`}
-        />
-        <ExbCard
-          title={`Van Gogh Retrospective`}
-          date={`Jan 1 - Mar 1, 2025`}
-          location={`LACMA`}
-        />
+        /> */}
       </ul>
     </section>
   );
@@ -71,6 +91,7 @@ export default ExbDashboard;
 
 import React, { useEffect, useState } from "react";
 import useExbContext from "../../context/exb/useExbContext";
+import useGlobalContext from "../../context/global/useGlobalContext";
 
 export const ExbCard = ({ title, date, location, id }) => {
   return (
