@@ -1,9 +1,20 @@
 import { useLocation, Link } from "react-router-dom";
+import Modal from "../CommonComponents/Modal";
+import { useState } from "react";
 
 const ArtGalleryCard = ({ year, people, division, title, img }) => {
   const location = useLocation();
+  const [isModalVisible, setModalVisible] = useState(false);
+
+  const showModal = () => {
+    setModalVisible(true);
+  };
+  const hideModal = () => {
+    setModalVisible(false);
+  };
+
   return (
-    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto">
+    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
       <Link to="/artwork/detail">
         <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" />
       </Link>
@@ -14,7 +25,7 @@ const ArtGalleryCard = ({ year, people, division, title, img }) => {
             {person.role}: {person.name}
           </span>
         ))}
-        <span className="text-gray-700 text-3xl">{title}</span>
+        <span className="text-gray-700 text-2xl">{title}</span>
         <span>{division}</span>
         <div className="flex justify-between items-center">
           <span
@@ -24,15 +35,18 @@ const ArtGalleryCard = ({ year, people, division, title, img }) => {
             details
           </span>
           {location.pathname === "/artworks/search" ? (
-            <button
-              onClick={() =>
-                alert(
-                  "This will allow a user to add an artpiece to their exhibition. It will bring up a modal or page to choose an exhibition to add it to"
-                )
-              }
-            >
+            <>
+                        <button onClick={showModal}>
               +
             </button>
+            <Modal isVisible={isModalVisible} onClose={hideModal} >
+              <p className="mt-4 px-4 py-2 bg-black text-white">Add to Exhibition</p>
+              <button onClick={hideModal} className="mt-4 px-4 py-2 bg-black text-white">
+                Close 
+              </button>
+            </Modal>
+            </>
+
           ) : (
             location.pathname === "/exhibition/detail" && (
               <button
