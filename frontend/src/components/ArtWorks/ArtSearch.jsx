@@ -69,7 +69,7 @@ export const FilterActionBtns = () => {
           <select
             className="border rounded-md w-20 p-1 text-xl"
             onChange={(e) =>
-              handleSelectFilters({ [e.target.name]: e.target.value })
+              handleSelectFilters( e.target.name, e.target.value )
             }
             name="size"
             id="size"

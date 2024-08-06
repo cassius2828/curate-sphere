@@ -46,7 +46,7 @@ export const getArtworkDetail = async (objectid) => {
 };
 
 ///////////////////////////
-// ? get | Get Culture Objs
+//  Get | Get Filter Objs
 ///////////////////////////
 export const getFilterObjs = async (filter, page) => {
   // const options = {
@@ -63,6 +63,10 @@ export const getFilterObjs = async (filter, page) => {
     const data = await response.json();
 
     if (response.ok) {
+      data.records.forEach((record) => {
+        record.isChecked = false;
+        record.clickCount = 0;
+      });
       return data;
     } else {
       throw new Error();

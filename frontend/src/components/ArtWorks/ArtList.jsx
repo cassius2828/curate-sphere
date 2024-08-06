@@ -51,7 +51,15 @@ export const ArtListRow = ({ year, people, division, title, img }) => {
     <tr className="hover:bg-gray-100">
       {/* record info */}
       <td className="py-2 px-4 text-2xl border-b">
-        <img src={img} alt={title} className="w-36 h-36 rounded-md mx-auto" />
+        <img
+          src={
+            img
+              ? img
+              : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`
+          }
+          alt={title}
+          className="w-36 h-36 rounded-md mx-auto object-cover"
+        />
       </td>{" "}
       {/* year */}
       <td className="py-2 px-4 text-2xl border-b">{year}</td>

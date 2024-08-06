@@ -19,31 +19,31 @@ const initialArtworksState = {
   artFilter: {
     size: "12",
   },
-  centuries: {
+  century: {
     title: "Century",
     records: [],
   },
-  classifications: {
+  classification: {
     title: "Classification",
     records: [],
   },
-  cultures: {
+  culture: {
     title: "Culture",
     records: [],
   },
-  mediums: {
+  medium: {
     title: "Medium",
     records: [],
   },
-  periods: {
+  period: {
     title: "Period",
     records: [],
   },
-  techniques: {
+  technique: {
     title: "Technique",
     records: [],
   },
-  worktypes: {
+  worktype: {
     title: "Work Type",
     records: [],
   },
@@ -76,6 +76,10 @@ const reducer = (state, action) => {
           [action.payload[0]]: action.payload[1],
         },
       };
+    case "toggleCheckbox/artworks":
+      return {
+        ...state,
+      };
     case "removeFilterArtworks/artworks":
       return {
         ...state,
@@ -92,56 +96,56 @@ const reducer = (state, action) => {
     case "getCultureObjs/artworks":
       return {
         ...state,
-        cultures: {
-          ...state.cultures,
+        culture: {
+          ...state.culture,
           records: action.payload,
         },
       };
     case "getClassificationObjs/artworks":
       return {
         ...state,
-        classifications: {
-          ...state.classifications,
+        classification: {
+          ...state.classification,
           records: action.payload,
         },
       };
     case "getWorktypeObjs/artworks":
       return {
         ...state,
-        worktypes: {
-          ...state.worktypes,
+        worktype: {
+          ...state.worktype,
           records: action.payload,
         },
       };
     case "getMediumObjs/artworks":
       return {
         ...state,
-        mediums: {
-          ...state.mediums,
+        medium: {
+          ...state.medium,
           records: action.payload,
         },
       };
     case "getCenturyObjs/artworks":
       return {
         ...state,
-        centuries: {
-          ...state.centuries,
+        century: {
+          ...state.century,
           records: action.payload,
         },
       };
     case "getTechniqueObjs/artworks":
       return {
         ...state,
-        techniques: {
-          ...state.techniques,
+        technique: {
+          ...state.technique,
           records: action.payload,
         },
       };
     case "getPeriodObjs/artworks":
       return {
         ...state,
-        periods: {
-          ...state.periods,
+        period: {
+          ...state.period,
           records: action.payload,
         },
       };
@@ -155,19 +159,19 @@ export const ArtworkProvider = ({ children }) => {
   const [
     {
       artFilter,
-      centuries,
-      classifications,
-      cultures,
+      century,
+      classification,
+      culture,
       displayView,
       info,
       isError,
       isLoading,
-      mediums,
-      periods,
+      medium,
+      period,
       records,
       showArtwork,
-      techniques,
-      worktypes,
+      technique,
+      worktype,
     },
     dispatch,
   ] = useReducer(reducer, initialArtworksState);
@@ -205,6 +209,7 @@ export const ArtworkProvider = ({ children }) => {
     if (key[0] === "w") {
       key = key.split(" ").join("");
     }
+
     const arr = [key, id];
     dispatch({ type: "filterArtworks/artworks", payload: arr });
 
@@ -237,6 +242,14 @@ export const ArtworkProvider = ({ children }) => {
   const handleResetFilterState = () => {
     dispatch({ type: "resetFilterState/artworks" });
   };
+
+  const toggleCheckbox = (primaryCategoryKey, subCategory) => {
+    dispatch({
+      type: "toggleCheckbox/artworks",
+      payload: { primaryCategoryKey, subCategory },
+    });
+  };
+
   ///////////////////////////
   // * FILTER CATEGORIES
   ///////////////////////////
@@ -248,11 +261,11 @@ export const ArtworkProvider = ({ children }) => {
 
     try {
       const data1 = await getFilterObjs("century", 1);
-
+      console.log(data1, " century");
       data.push(data1.records);
-    
-     data.sort((a, b) => a.name.localeCompare(b.name));
-  data.flat()
+      data = data.flat();
+      data.sort((a, b) => a.name.localeCompare(b.name));
+
       dispatch({
         type: "getCenturyObjs/artworks",
         payload: data,
@@ -273,9 +286,8 @@ export const ArtworkProvider = ({ children }) => {
       const data1 = await getFilterObjs("classification", 1);
 
       data.push(data1.records);
-       data = data.flat();
-     data.sort((a, b) => a.name.localeCompare(b.name));
-  
+      data = data.flat();
+      data.sort((a, b) => a.name.localeCompare(b.name));
 
       dispatch({
         type: "getClassificationObjs/artworks",
@@ -300,7 +312,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records, data2.records, data3.records);
       data = data.flat();
 
-     data.sort((a, b) => a.name.localeCompare(b.name));
+      data.sort((a, b) => a.name.localeCompare(b.name));
 
       dispatch({ type: "getCultureObjs/artworks", payload: data.flat() });
     } catch (err) {
@@ -323,9 +335,9 @@ export const ArtworkProvider = ({ children }) => {
 
       data.push(data1.records, data2.records, data3.records, data4.records);
       data = data.flat();
-    
-     data.sort((a, b) => a.name.localeCompare(b.name));
-  
+
+      data.sort((a, b) => a.name.localeCompare(b.name));
+
       dispatch({
         type: "getMediumObjs/artworks",
         payload: data,
@@ -351,7 +363,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records, data2.records, data3.records, data4.records);
       data = data.flat();
 
-     data.sort((a, b) => a.name.localeCompare(b.name));
+      data.sort((a, b) => a.name.localeCompare(b.name));
 
       dispatch({
         type: "getPeriodObjs/artworks",
@@ -378,7 +390,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records, data2.records, data3.records, data4.records);
       data = data.flat();
 
-     data.sort((a, b) => a.name.localeCompare(b.name));
+      data.sort((a, b) => a.name.localeCompare(b.name));
 
       dispatch({
         type: "getTechniqueObjs/artworks",
@@ -449,37 +461,39 @@ export const ArtworkProvider = ({ children }) => {
   }, []);
 
   const primaryCategories = [
-    centuries,
-    classifications,
-    cultures,
-    mediums,
-    periods,
-    techniques,
-    worktypes,
+    century,
+    classification,
+    culture,
+    medium,
+    period,
+    technique,
+    worktype,
   ];
+  console.log(primaryCategories);
 
   return (
     <ArtworkContext.Provider
       value={{
-        artworkFilterData,
-        centuries,
-        classifications,
-        cultures,
-        displayView,
         handleDisplayView,
         handleGetAllArtworks,
         handleRemoveFilter,
         handleResetFilterState,
         handleSelectFilters,
+        toggleCheckbox,
+        artworkFilterData,
+        century,
+        classification,
+        culture,
+        displayView,
         info,
         isError,
         isLoading,
-        mediums,
-        periods,
+        medium,
+        period,
         records,
         showArtwork,
-        techniques,
-        worktypes,
+        technique,
+        worktype,
         primaryCategories,
       }}
     >
