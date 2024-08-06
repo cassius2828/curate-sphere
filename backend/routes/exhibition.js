@@ -3,7 +3,7 @@ const router = express.Router();
 const exhibitionCtrl = require("../controllers/exhibition");
 
 // get all exhibtions
-router.get("/", exhibitionCtrl.getAllExhibitions);
+router.get("/explore/:userId", exhibitionCtrl.getAllExhibitions);
 // create exhibition
 router.post("/", exhibitionCtrl.createExhibition);
 // get user exhibitions by userId

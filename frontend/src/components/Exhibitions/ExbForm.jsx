@@ -15,7 +15,7 @@ const initialFormData = {
 
 const ExbForm = () => {
   const [formData, setFormData] = useState(initialFormData);
-  const { handleGetExbDetail, showExb } = useExbContext();
+  const { handleGetExbDetail, showExb,handleGetUserExbs } = useExbContext();
   const { user } = useGlobalContext();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -24,6 +24,7 @@ const ExbForm = () => {
     e.preventDefault();
     try {
       const data = await createExb(formData);
+      handleGetUserExbs();
       navigate("/exhibitions/dashboard");
     } catch (err) {
       console.error(err);
