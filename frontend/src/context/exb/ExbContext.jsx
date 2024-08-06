@@ -45,7 +45,7 @@ export const ExbProvider = ({ children }) => {
   ///////////////////////////
   const handleGetAllExbs = async () => {
     try {
-      const data = await getAllExhibitions();
+      const data = await getAllExhibitions(user.user.id);
 
       dispatch({ type: "explore/exb", payload: data });
     } catch (err) {
@@ -121,6 +121,7 @@ console.log(data, ' <-- users exbs')
 
   useEffect(() => {
     handleGetUserExbs()
+    handleGetAllExbs()
   },[])
   return (
     <ExbContext.Provider
@@ -132,7 +133,7 @@ console.log(data, ' <-- users exbs')
         myExbs,
         handleGetAllExbs,
         handleGetExbDetail,
-        handleDeleteExb,
+        handleDeleteExb,handleGetUserExbs
       }}
     >
       {children}
