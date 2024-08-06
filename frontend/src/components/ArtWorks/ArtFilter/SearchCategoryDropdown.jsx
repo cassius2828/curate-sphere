@@ -19,7 +19,7 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
     if (searchQuery.length > 2)
       setDisplaySubCategories(
         subCategories.filter((category) =>
-          category.toLowerCase().includes(searchQuery.toLowerCase())
+          category.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
     // resets results if user cleared search

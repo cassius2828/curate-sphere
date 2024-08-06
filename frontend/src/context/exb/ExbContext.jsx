@@ -65,9 +65,9 @@ export const ExbProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    console.log(showExb);
-  }, [showExb]);
+  // useEffect(() => {
+  //   console.log(showExb);
+  // }, [showExb]);
   ///////////////////////////
   //   ! DELETE
   ///////////////////////////

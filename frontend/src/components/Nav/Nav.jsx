@@ -5,7 +5,7 @@ import useGlobalContext from "../../context/global/useGlobalContext";
 const Nav = () => {
   // const user = false;
   const {user, handleSignout} = useGlobalContext()
-  console.log(user)
+  // console.log(user)
   return (
     <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between bg-[#020617] text-gray-100 font-marcellus">
       <Link to={`/`}>

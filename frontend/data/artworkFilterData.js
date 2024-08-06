@@ -529,6 +529,7 @@ const filterCategories = [
   {
     primaryCategory: "Provenance",
     subCategories: [
+      "america",
       "africa",
       "central america",
       "central asia",
