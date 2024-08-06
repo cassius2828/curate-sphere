@@ -1,12 +1,20 @@
 const sequelize = require("../config/database");
+const { Op } = require("sequelize");
 const {
   models: { Exhibition },
 } = sequelize;
 
 // get all exhibtions
 const getAllExhibitions = async (req, res) => {
+  const { userId } = req.params;
   try {
-    const exhibitions = await Exhibition.findAll();
+    const exhibitions = await Exhibition.findAll({
+      where: {
+        userId: {
+          [Op.ne]: userId
+        }
+      }
+    });
     // check if we found any exhibitions
     if (exhibitions.length === 0) {
       return res.status(400).json({ error: "No exhibitions were found" });
@@ -36,7 +44,6 @@ const getUserExhibitions = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-
 };
 // create exhibition
 const createExhibition = async (req, res) => {

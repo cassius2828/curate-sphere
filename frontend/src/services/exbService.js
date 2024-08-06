@@ -3,11 +3,11 @@ const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 ///////////////////////////
 // Get | Get All Exhibitions
 ///////////////////////////
-export const getAllExhibitions = async () => {
+export const getAllExhibitions = async (userId) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/exhibitions`);
+    const response = await fetch(`${BACKEND_URL}/exhibitions/explore/${userId}`);
     const data = await response.json();
-    console.log(data);
+    console.log(data, ' <-- non user exbs');
     if (response.ok) {
       return data;
     } else {

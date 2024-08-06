@@ -1,32 +1,33 @@
-import { ExbCard } from "./ExbDashboard";
+import useExbContext from "../../context/exb/useExbContext";
+import useGlobalContext from "../../context/global/useGlobalContext";
+import { ExbCard } from "./ExbCard";
+
 
 const ExbExplore = () => {
+  const { exploreExbs } = useExbContext();
+  const { formatDate } = useGlobalContext();
   return (
     <section className="m-24">
-      <h1 className="text-6xl mb-32 mt-52 font-marcellus text-center">Explore Exhibitions</h1>
+      <h1 className="text-6xl mb-32 mt-52 font-marcellus text-center">
+        Explore Exhibitions
+      </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-        <ExbCard
-          id="1"
-          title={`Van Gogh Retrospective`}
-          date={`Jan 1 - Mar 1, 2025`}
-          location={`LACMA`}
-        />
-        <ExbCard
-          title={`Van Gogh Retrospective`}
-          date={`Jan 1 - Mar 1, 2025`}
-          location={`LACMA`}
-        />
-        <ExbCard
-          title={`Van Gogh Retrospective`}
-          date={`Jan 1 - Mar 1, 2025`}
-          location={`LACMA`}
-        />
+        {exploreExbs.map((exb) => {
+          return (
+            <ExbCard
+              key={exb.id}
+              id={exb.id}
+              title={exb.title}
+              date={`${formatDate(exb.startDate)} - ${formatDate(exb.endDate)}`}
+              location={exb.location}
+            />
+          );
+        })}
       </div>
     </section>
   );
-}
-export default ExbExplore
-
+};
+export default ExbExplore;
 
 // ==========================================================================================//
 // ============ Update the below to be FilterExbButtons, create ExbSearchFilter =============//

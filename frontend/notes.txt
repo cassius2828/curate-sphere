@@ -2,10 +2,14 @@
 TO Do
 ///////////////////////////
 
-- create form 
-- route user to view where they see new exb (dashboard, already have navigate,
- not wired to show which user exb it is and the new one)
-- 
+Add Artworks to Exb 
+- click add btn 
+- brings up modal with list of your exbs
+- click exb to add artwork in it 
+- confirm you want to add it 
+- keep on art page (close modal)
 
 
-be able to see in exb dashboardm, see associated exb with signed in user 
+
+Understand through table CRUD 
+- test through table in postman 
