@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import { createContext, useEffect, useReducer } from "react";
 import artworkFilterData from "../../../data/artworkFilterData";
 import { getAllArtworks, getFilterObjs } from "../../services/artworkService";
@@ -77,8 +78,27 @@ const reducer = (state, action) => {
         },
       };
     case "toggleCheckbox/artworks":
+      console.log(action.payload);
+      const { primaryCategoryKey, subCategoryId, name } = action.payload;
+
       return {
         ...state,
+        [primaryCategoryKey]: {
+          ...state[primaryCategoryKey],
+          records: [
+            state[primaryCategoryKey].records.map((record) => {
+              if (record.id === subCategoryId && record.name === name) {
+                return {
+                  ...record,
+                  isChecked: !record.isChecked,
+                  clickCount: record.clickCount + 1,
+                };
+              } else {
+                return { record };
+              }
+            }),
+          ],
+        },
       };
     case "removeFilterArtworks/artworks":
       return {
@@ -243,11 +263,14 @@ export const ArtworkProvider = ({ children }) => {
     dispatch({ type: "resetFilterState/artworks" });
   };
 
-  const toggleCheckbox = (primaryCategoryKey, subCategory) => {
+  const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
+    primaryCategoryKey = primaryCategoryKey.toLowerCase();
+ 
     dispatch({
       type: "toggleCheckbox/artworks",
-      payload: { primaryCategoryKey, subCategory },
+      payload: { primaryCategoryKey, subCategoryId, name },
     });
+    console.log(medium)
   };
 
   ///////////////////////////
@@ -261,7 +284,6 @@ export const ArtworkProvider = ({ children }) => {
 
     try {
       const data1 = await getFilterObjs("century", 1);
-      console.log(data1, " century");
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
@@ -288,7 +310,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
-
+      console.log(data);
       dispatch({
         type: "getClassificationObjs/artworks",
         payload: data,
@@ -469,7 +491,6 @@ export const ArtworkProvider = ({ children }) => {
     technique,
     worktype,
   ];
-  console.log(primaryCategories);
 
   return (
     <ArtworkContext.Provider
@@ -479,7 +500,7 @@ export const ArtworkProvider = ({ children }) => {
         handleRemoveFilter,
         handleResetFilterState,
         handleSelectFilters,
-        toggleCheckbox,
+        handleToggleCheckbox,
         artworkFilterData,
         century,
         classification,
