@@ -41,7 +41,7 @@ const ExbDetail = () => {
   }, []);
 
   useEffect(() => {
-    console.log(showExb.description, " <-- showExb.description");
+    console.log(showExb, " <-- showExb");
   }, [showExb]);
 
   const handleDeleteButton = async (e) => {

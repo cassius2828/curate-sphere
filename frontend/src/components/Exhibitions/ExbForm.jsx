@@ -43,12 +43,11 @@ const ExbForm = () => {
   };
 
   useEffect(() => {
-    if (id && showExb) {
+    if (id) {
       async function fetchExbDetails() {
         try {
-          const data = await handleGetExbDetail(id);
-          console.log(data, " <-- data");
-
+          await handleGetExbDetail(id);
+          // console.log(data, " <-- data");
           // setFormData({ data });
         } catch (err) {
           console.error(err, " <-- unable to fetch exb details");
