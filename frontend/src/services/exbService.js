@@ -165,3 +165,30 @@ export const editExb = async (formData, exbId) => {
     console.log(`Unable to communicate with DB to update exhibition`);
   }
 };
+
+///////////////////////////
+// ? POST | add artwork to Exhibition
+///////////////////////////
+export const postAddArtworkToExb = async (exbId, objectid) => {
+  const params = {
+    exbId,
+    objectid,
+  };
+  const options = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  };
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/exhibitions/${exbId}/add-artwork/${objectid}`, options);
+    const data = await response.json();
+    console.log(response);
+   
+      return data;
+  
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to create through table row`);
+  }
+};

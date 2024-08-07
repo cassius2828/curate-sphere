@@ -30,7 +30,7 @@ function App() {
             <Route path="/exhibitions/create" element={<ExbForm />}/>
             <Route path="/exhibitions/:id/edit" element={<ExbForm />}/>
             <Route path="/exhibition/:id" element={<ExbDetail />}/>
-            <Route path='/artwork/detail' element={<ArtDetail />}/>
+            <Route path='/artwork/:id' element={<ArtDetail />}/>
             <Route path='/exhibitions/explore' element={<ExbExplore />}/>
           </Routes>
         </>

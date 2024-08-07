@@ -1,4 +1,4 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useParams } from "react-router-dom";
 import Modal from "../CommonComponents/Modal";
 import { useEffect, useState } from "react";
 import { getArtworkDetail } from "../../services/artworkService";
@@ -8,10 +8,11 @@ import Loader from "../CommonComponents/Loader";
 
 const ExbArtworkCard = ({ ArtworkObjectid }) => {
   const location = useLocation();
+  const {myExbs} = useExbContext()
   const [isModalVisible, setModalVisible] = useState(false);
-  const [artworkData, setArtworkData] = useState({})
-const {primaryimageurl, dated, division, people, title} = artworkData
-
+  const [artworkData, setArtworkData] = useState({});
+  const { primaryimageurl, dated, division, people, title } = artworkData;
+  const { id } = useParams();
 
   const showModal = () => {
     setModalVisible(true);
@@ -19,22 +20,28 @@ const {primaryimageurl, dated, division, people, title} = artworkData
   const hideModal = () => {
     setModalVisible(false);
   };
-const fetchArtworkDetails = async () => {
-     const data = await getArtworkDetail(ArtworkObjectid)
-     setArtworkData(data)
-}
+  const fetchArtworkDetails = async () => {
+    const data = await getArtworkDetail(ArtworkObjectid);
+    setArtworkData(data);
+  };
   useEffect(() => {
-fetchArtworkDetails()
-console.log(artworkData)
-  },[])
-
-
+    fetchArtworkDetails();
+    // console.log(artworkData);
+    console.log(myExbs)
+  }, []);
 
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
       <Link to="/artwork/detail">
         {/* <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" /> */}
-        <img src={primaryimageurl ? primaryimageurl : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" />
+        <img
+          src={
+            primaryimageurl
+              ? primaryimageurl
+              : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`
+          }
+          alt="sample image"
+        />
       </Link>
       <div className="mt-6 text-2xl flex flex-col gap-4">
         <span>{dated}</span>
@@ -54,19 +61,13 @@ console.log(artworkData)
           </span>
           {location.pathname === "/artworks/search" ? (
             <>
-                        <button onClick={showModal}>
-              +
-            </button>
-            <Modal isVisible={isModalVisible} onClose={hideModal} >
-              <p className="mt-4 px-4 py-2 bg-black text-white">Add to Exhibition</p>
-              <button onClick={hideModal} className="mt-4 px-4 py-2 bg-black text-white">
-                Close 
-              </button>
-            </Modal>
-            </>
+              <button onClick={showModal}>+</button>
+              <Modal  isVisible={isModalVisible} onClose={hideModal}>
 
+              </Modal>
+            </>
           ) : (
-            location.pathname === "/exhibition/detail" && (
+            location.pathname === `/exhibition/${id}` && (
               <button
                 className="text-red-500"
                 onClick={() =>

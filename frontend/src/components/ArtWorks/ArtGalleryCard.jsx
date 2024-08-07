@@ -8,7 +8,7 @@ const ArtGalleryCard = ({ year, people, division, title, img,ArtworkObjectid }) 
   const location = useLocation();
   const [isModalVisible, setModalVisible] = useState(false);
   const [artworkData, setArtworkData] = useState({})
-  const {showExb} = useExbContext()
+  const {showExb, myExbs} = useExbContext()
 
   const showModal = () => {
     setModalVisible(true);
@@ -16,15 +16,9 @@ const ArtGalleryCard = ({ year, people, division, title, img,ArtworkObjectid }) 
   const hideModal = () => {
     setModalVisible(false);
   };
-const fetchArtworkDetails = async () => {
-     const data = await getArtworkDetail(ArtworkObjectid)
-     setArtworkData(data)
-}
-  useEffect(() => {
-fetchArtworkDetails()
-console.log(artworkData, ' hello')
-  },[])
-  console.log(artworkData, ' hello')
+
+
+  // console.log(artworkData, ' hello')
 
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
@@ -50,10 +44,10 @@ console.log(artworkData, ' hello')
           </span>
           {location.pathname === "/artworks/search" ? (
             <>
-                        <button onClick={showModal}>
+                        <button onClick={() => {showModal()}}>
               +
             </button>
-            <Modal isVisible={isModalVisible} onClose={hideModal} >
+            <Modal ArtworkObjectid={ArtworkObjectid} exbs={myExbs} isVisible={isModalVisible} onClose={hideModal} >
               <p className="mt-4 px-4 py-2 bg-black text-white">Add to Exhibition</p>
               <button onClick={hideModal} className="mt-4 px-4 py-2 bg-black text-white">
                 Close 
