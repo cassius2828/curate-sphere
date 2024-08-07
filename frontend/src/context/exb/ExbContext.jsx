@@ -101,6 +101,7 @@ export const ExbProvider = ({ children }) => {
       const data = await getExbDetail(exbId);
 
       dispatch({ type: "getDetail/exb", payload: data });
+      // console.log(data)
       await handleGetExbArtworks(exbId);
     } catch (err) {
       console.error(err);

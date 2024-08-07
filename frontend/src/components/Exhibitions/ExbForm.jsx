@@ -43,7 +43,7 @@ const ExbForm = () => {
   };
 
   useEffect(() => {
-    if (id) {
+    if (id && showExb) {
       async function fetchExbDetails() {
         try {
           const data = await handleGetExbDetail(id);
@@ -96,6 +96,8 @@ const ExbForm = () => {
             Description:{" "}
           </label>
           <textarea
+            value={formData.description}
+            onChange={(e) => handleChange(e)}
             className="border-black border w-2/3"
             type="text"
             id="description"

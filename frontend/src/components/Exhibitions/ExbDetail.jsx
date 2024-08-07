@@ -36,12 +36,12 @@ const ExbDetail = () => {
     getDetailData();
   }, []);
 
-  // useEffect(() => {
-  //   handleGetExbDetail(id);
-  // }, []);
+  useEffect(() => {
+    handleGetExbDetail(id);
+  }, []);
 
   useEffect(() => {
-    console.log(showExb, " <-- showExb");
+    console.log(showExb.description, " <-- showExb.description");
   }, [showExb]);
 
   const handleDeleteButton = async (e) => {
