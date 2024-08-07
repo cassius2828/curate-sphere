@@ -16,9 +16,12 @@ const ExbDashboard = () => {
     handleDeleteExb,
     handleEditExb,
     myExbs,
-    showExb,
+    showExb,exploreExbs
   } = useExbContext();
-
+useEffect(() => {
+// console.log(myExbs[0])
+console.log(exploreExbs)
+},[])
   return (
     <section className="flex flex-col mb-24 mx-24">
       {/* <button
@@ -52,6 +55,7 @@ const ExbDashboard = () => {
         {myExbs?.map((exb) => {
           return (
             <ExbCard
+            // img={exb?.artworks[0]?.primaryimageurl}
               key={exb.id}
               id={exb.id}
               userId={exb.userId}

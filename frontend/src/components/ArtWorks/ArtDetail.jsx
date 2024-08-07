@@ -1,9 +1,21 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getArtworkDetail } from "../../services/artworkService";
+import Modal from "../CommonComponents/Modal";
+import useExbContext from "../../context/exb/useExbContext";
 
 const ArtDetail = () => {
   const [artDetails, setArtDetails] = useState({});
+  const [isModalVisible, setModalVisible] = useState(false);
+  const { myExbs} = useExbContext()
+ 
+
+  const showModal = () => {
+    setModalVisible(true);
+  };
+  const hideModal = () => {
+    setModalVisible(false);
+  };
   const { id } = useParams();
   const {
     primaryimageurl,
@@ -19,7 +31,6 @@ const ArtDetail = () => {
     try {
       const data = await getArtworkDetail(id);
       setArtDetails(data);
- 
     } catch (err) {
       console.error(err);
       console.log(
@@ -30,6 +41,7 @@ const ArtDetail = () => {
   useEffect(() => {
     fetchArtworkDetails();
   }, []);
+
   return (
     <section className="p-4">
       <h1 className="text-5xl md:text-6xl mb-12 md:mb-24 text-center font-marcellus">
@@ -49,11 +61,29 @@ const ArtDetail = () => {
           <p>Medium: {medium}</p>
           <p>Dimensions: {dimensions}</p>
           <p>Division: {division}</p>
-          <button className="border border-black px-6 py-1 font-cardo w-1/2">
+          <button onClick={showModal} className="border border-black px-6 py-1 font-cardo w-1/2">
             Add to Exhibition
           </button>
         </div>
       </div>
+      {isModalVisible && (
+        <Modal
+          ArtworkObjectid={artDetails.objectid}
+          exbs={myExbs} 
+          isVisible={isModalVisible}
+          onClose={hideModal}
+        >
+          <p className="mt-4 px-4 py-2 bg-black text-white">
+            Add to Exhibition
+          </p>
+          <button
+            onClick={hideModal}
+            className="mt-4 px-4 py-2 bg-black text-white"
+          >
+            Close
+          </button>
+        </Modal>
+      )}
     </section>
   );
 };

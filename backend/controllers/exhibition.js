@@ -1,6 +1,7 @@
 const sequelize = require("../config/database");
 const { Op } = require("sequelize");
-
+const BASE_URL = process.env.HARVARD_API_BASE_URL;
+const API_KEY = process.env.API_KEY;
 const {
   models: { Exhibition, Artwork, ExhibitionArtworks },
 } = sequelize;
@@ -101,7 +102,7 @@ const deleteExhibition = async (req, res) => {
 
 const postAddArtwork = async (req, res) => {
   const { exbId, objectid } = req.body;
-console.log(req.body)
+  console.log(req.body);
   try {
     const exb = await Exhibition.findByPk(exbId);
     const [artwork, created] = await Artwork.findOrCreate({
@@ -121,7 +122,7 @@ console.log(req.body)
 
     if (!duplicate) {
       const newExbAddition = await exb.addArtwork(artwork);
-      return res.status(200).json(newExbAddition);
+      return res.status(200).json({ newExbAddition, message: "success" });
     } else {
       return res
         .status(400)
@@ -132,6 +133,24 @@ console.log(req.body)
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unable to add artwork to exhibition" });
+  }
+};
+
+const deleteArtworkFromExb = async (req, res) => {
+  const { exbId, objectid } = req.body;
+
+  try {
+    const artwork = await ExhibitionArtworks.destroy({
+      where: {
+        ExhibitionId: exbId,
+        ArtworkObjectid: objectid,
+      },
+    });
+    console.log(artwork);
+    res.status(200).json({ message: "removed artwork from exhibition" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Unable to remove artwork from exhibition" });
   }
 };
 
@@ -154,6 +173,26 @@ const getExbArtworks = async (req, res) => {
   }
 };
 
+const getExbCoverImg = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const exb = await ExhibitionArtworks.findOne({
+      where: { ExhibitionId: id },
+    });
+    if (exb) {
+      const response = await fetch(
+        `${BASE_URL}/object/${exb.ArtworkObjectid}?apikey=${API_KEY}`
+      );
+      const data = await response.json();
+
+      res.status(200).json(data.primaryimageurl);
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getAllExhibitions,
   createExhibition,
@@ -163,9 +202,9 @@ module.exports = {
   getUserExhibitions,
   postAddArtwork,
   getExbArtworks,
+  deleteArtworkFromExb,
+  getExbCoverImg,
 };
-
-
 
 /*
 

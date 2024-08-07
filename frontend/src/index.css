@@ -66,13 +66,3 @@ section {
   height: 3rem !important;
 }
 
-.modal p:hover,
-.modal button:hover {
-  cursor: pointer;
-  background-color: rgb(67, 67, 67);
-  transition: all 0.2s ease-out;
-}
-
-.modal-close:hover {
-  background-color: transparent !important ;
-}
