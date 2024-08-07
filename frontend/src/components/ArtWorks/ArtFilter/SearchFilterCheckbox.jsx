@@ -9,7 +9,8 @@ export const SearchFilterCheckBox = ({
   // const [clickCount, setClickCount] = useState(0);
   const { handleSelectFilters, handleRemoveFilter, handleToggleCheckbox } =
     useArtworkContext();
-
+    const [isChecked,setIsChecked] = useState(category.isChecked)
+if(category.isChecked) console.log(category.isChecked)
   useEffect(() => {
     // function to filter results of artworks
     if (category.isChecked) {
@@ -19,7 +20,7 @@ export const SearchFilterCheckBox = ({
       console.log("it happens now");
     }
     console.log(category.clickCount);
-  }, [category.isChecked]);
+  },[category.isChecked] );
   return (
     <li className="flex items-center gap-4 p-3 bg-gray-200 ">
       <div
@@ -27,7 +28,7 @@ export const SearchFilterCheckBox = ({
         className="border-2 relative z-10 border-black p-3 cursor-pointer"
       >
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xl font-bold">
-          {category.isChecked ? "X" : ""}
+          {isChecked ? "X" : ""}
         </span>
       </div>
       <span className="capitalize">{category.name}</span>

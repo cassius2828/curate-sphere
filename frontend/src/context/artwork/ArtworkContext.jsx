@@ -80,24 +80,24 @@ const reducer = (state, action) => {
     case "toggleCheckbox/artworks":
       // console.log(action.payload);
       const { primaryCategoryKey, subCategoryId, name } = action.payload;
-
+      console.log(action.payload, " in reducer, action.payload");
       return {
         ...state,
         [primaryCategoryKey]: {
           ...state[primaryCategoryKey],
-          records: [
-            state[primaryCategoryKey].records.map((record) => {
-              if (record.id === subCategoryId && record.name === name) {
-                return {
-                  ...record,
-                  isChecked: !record.isChecked,
-                  clickCount: record.clickCount + 1,
-                };
-              } else {
-                return { record };
-              }
-            }),
-          ],
+          records: state[primaryCategoryKey].records.map((record) => {
+            if (record.id === subCategoryId && record.name === name) {
+              console.log("it matches");
+              console.log(record);
+              return {
+                ...record,
+                isChecked: !record.isChecked,
+                clickCount: record.clickCount + 1,
+              };
+            } else {
+              return { record };
+            }
+          }),
         },
       };
     case "removeFilterArtworks/artworks":
@@ -265,7 +265,7 @@ export const ArtworkProvider = ({ children }) => {
 
   const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
- 
+
     dispatch({
       type: "toggleCheckbox/artworks",
       payload: { primaryCategoryKey, subCategoryId, name },

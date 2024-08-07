@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchFilterCheckBox } from "./SearchFilterCheckbox";
 import { faChevronLeft, faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -25,6 +25,8 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
     // resets results if user cleared search
     if (searchQuery.length === 0) setDisplaySubCategories(subCategories);
   };
+
+
   return (
     <li className="p-4 text-3xl bg-gray-50 flex flex-col items-start gap-3">
       <div className="flex items-center gap-4">
