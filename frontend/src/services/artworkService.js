@@ -14,7 +14,7 @@ export const getAllArtworks = async (filters) => {
   try {
     const response = await fetch(`${BACKEND_URL}/artworks/search`, options);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (response.ok) {
       return data;
     } else {

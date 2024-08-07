@@ -6,6 +6,11 @@ const exhibitionCtrl = require("../controllers/exhibition");
 router.get("/explore/:userId", exhibitionCtrl.getAllExhibitions);
 // create exhibition
 router.post("/", exhibitionCtrl.createExhibition);
+// add artwork (through table)
+router.post("/:exbId/add-artwork/:objectid", exhibitionCtrl.postAddArtwork);
+
+router.get("/view-artworks/:ExhibitionId", exhibitionCtrl.getExbArtworks);
+
 // get user exhibitions by userId
 router.get("/dashboard/:userId", exhibitionCtrl.getUserExhibitions);
 // get exb by id
