@@ -94,7 +94,7 @@ const Nav = () => {
           ☰
         </button>
         {isMenuOpen && (
-          <ul className="absolute right-0 mt-2 bg-[#020617] text-gray-100 font-marcellus flex flex-col items-start p-4 space-y-4 rounded-lg shadow-lg">
+          <ul className="absolute right-32 mt-2 bg-[#020617] text-gray-100 font-marcellus flex flex-col items-start p-4 space-y-4 rounded-lg shadow-lg">
             {!user ? (
               <>
                 <Link to={`/login`}>
@@ -164,7 +164,7 @@ const Nav = () => {
                   path: "/exhibitions/dashboard",
                 },
               ]}
-              isMobile={false} 
+              // isMobile={false} 
             />
             <Link to={`/artworks/search`}>
               <li className="p-3 text-2xl ">Search Artworks</li>
