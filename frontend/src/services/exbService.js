@@ -181,14 +181,62 @@ export const postAddArtworkToExb = async (exbId, objectid) => {
   };
 
   try {
-    const response = await fetch(`${BACKEND_URL}/exhibitions/${exbId}/add-artwork/${objectid}`, options);
+    const response = await fetch(
+      `${BACKEND_URL}/exhibitions/${exbId}/add-artwork/${objectid}`,
+      options
+    );
     const data = await response.json();
     console.log(response);
-   
-      return data;
-  
+
+    return data;
   } catch (err) {
     console.error(err);
     console.log(`Unable to communicate with DB to create through table row`);
+  }
+};
+
+///////////////////////////
+// ! DELETE | remove artwork from Exhibition
+///////////////////////////
+export const removeArtworkFromExb = async (exbId, objectid) => {
+  const params = {
+    exbId,
+    objectid,
+  };
+  const options = {
+    method: "DELETE",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  };
+
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}/exhibitions/${exbId}/remove-artwork/${objectid}`,
+      options
+    );
+    const data = await response.json();
+    console.log(response);
+
+    return data;
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to create through table row`);
+  }
+};
+
+///////////////////////////
+// GET | cover img exb
+///////////////////////////
+
+export const getCoverImg = async (exbId) => {
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}/exhibitions/${exbId}/cover-img`
+    );
+    const data = await response.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get cover img exb`);
   }
 };
