@@ -47,7 +47,7 @@ export const ExbProvider = ({ children }) => {
     reducer,
     initialState
   );
-  const { user } = useGlobalContext();
+  const { user, setIsLoading } = useGlobalContext();
 
   ///////////////////////////
   //   GET | index
@@ -82,16 +82,18 @@ export const ExbProvider = ({ children }) => {
   //   GET | Exb Artworks
   ///////////////////////////
   const handleGetExbArtworks = async (exbId) => {
+  
     try {
       const data = await getExbArtworks(exbId);
-
+// console.log(data)
       dispatch({ type: "addArtworks/exb", payload: data });
+      return data
     } catch (err) {
       console.error(err);
       console.log(
         `Unable to communicate with db to add artworks to exb | context`
       );
-    }
+    } 
   };
   ///////////////////////////
   //   GET | show
@@ -102,7 +104,8 @@ export const ExbProvider = ({ children }) => {
 
       dispatch({ type: "getDetail/exb", payload: data });
       // console.log(data)
-      await handleGetExbArtworks(exbId);
+     const artworkData = await handleGetExbArtworks(exbId);
+    //  console.log(artworkData, ' <-- artwork data')
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);

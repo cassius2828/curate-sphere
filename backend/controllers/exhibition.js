@@ -135,22 +135,24 @@ const postAddArtwork = async (req, res) => {
   }
 };
 
-const getExbArtworks = async (req,res) => {
-  const {ExhibitionId} = req.params;
+const getExbArtworks = async (req, res) => {
+  const { ExhibitionId } = req.params;
   try {
     const userExbArtworks = await ExhibitionArtworks.findAll({
       where: {
-        ExhibitionId
-      }
-    })
-    if(userExbArtworks.length === 0){
-      return res.status(400).json({error: 'No artworks were found in this exb'})
+        ExhibitionId,
+      },
+    });
+    if (userExbArtworks.length === 0) {
+      return res
+        .status(400)
+        .json({ error: "No artworks were found in this exb" });
     }
-    return res.status(200).json(userExbArtworks)
+    return res.status(200).json(userExbArtworks);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-}
+};
 
 module.exports = {
   getAllExhibitions,
@@ -159,5 +161,6 @@ module.exports = {
   updateExhibition,
   deleteExhibition,
   getUserExhibitions,
-  postAddArtwork,getExbArtworks
+  postAddArtwork,
+  getExbArtworks,
 };
