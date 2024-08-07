@@ -16,7 +16,7 @@ const initialFormData = {
 const ExbForm = () => {
   const [formData, setFormData] = useState(initialFormData);
   const { handleGetExbDetail, showExb, handleGetUserExbs } = useExbContext();
-  const { user } = useGlobalContext();
+  const { user, formatDateForEdit } = useGlobalContext();
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -120,7 +120,7 @@ const ExbForm = () => {
             Start Date:{" "}
           </label>
           <input
-            value={formData.startDate}
+            value={formatDateForEdit(formData.startDate)}
             onChange={(e) => handleChange(e)}
             className="border-black border w-2/3"
             type="date"
@@ -133,7 +133,7 @@ const ExbForm = () => {
             End Date:{" "}
           </label>
           <input
-            value={formData.endDate}
+            value={formatDateForEdit(formData.endDate)}
             onChange={(e) => handleChange(e)}
             className="border-black border w-2/3"
             type="date"
