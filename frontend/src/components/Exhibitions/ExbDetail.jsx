@@ -4,6 +4,8 @@ import { FilterActionBtns } from "../ArtWorks/ArtSearch";
 import useExbContext from "../../context/exb/useExbContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useGlobalContext from "../../context/global/useGlobalContext";
+import Masonry from "react-masonry-css";
+import ArtGalleryCard from "../ArtWorks/ArtGalleryCard";
 const initialFormData = {
   title: "",
   location: "",
@@ -15,10 +17,16 @@ const ExbDetail = () => {
   const [formData, setFormData] = useState(initialFormData);
   const { id } = useParams();
   // console.log(id)
-  const navigate = useNavigate()
-  const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } = useExbContext();
+  const navigate = useNavigate();
+  const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } =
+    useExbContext();
   const { formatDate } = useGlobalContext();
-
+  const breakpointColumnsObj = {
+    default: 4,
+    1100: 3,
+    700: 2,
+    500: 1,
+  };
 
   // const handleSubmit = async (e) => {
   //   e.preventDefault()
@@ -42,20 +50,18 @@ const ExbDetail = () => {
   }, []);
 
   useEffect(() => {
-    console.log(formData, " <-- formdata");
     console.log(showExb, " <-- showExb");
-  }, [formData]);
+  }, [showExb]);
 
   const handleDeleteButton = async (e) => {
     try {
-      const data = await handleDeleteExb(id)
+      const data = await handleDeleteExb(id);
       handleGetUserExbs();
-      navigate('/exhibitions/dashboard')
+      navigate("/exhibitions/dashboard");
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-
-  }
+  };
 
   return (
     <>
@@ -75,8 +81,7 @@ const ExbDetail = () => {
               </button>
             </Link>
             <button
-              onClick={() => handleDeleteButton()
-              }
+              onClick={() => handleDeleteButton()}
               className="border border-black px-6 py-1 font-cardo"
             >
               Delete exhibition
@@ -86,7 +91,28 @@ const ExbDetail = () => {
 
         <div className="flex flex-col items-center mx-auto">
           <FilterActionBtns />
-          <ArtGallery />
+          <div className="w-3/4 mx-auto mt-8">
+            <Masonry
+              breakpointCols={breakpointColumnsObj}
+              className="masonry-grid"
+              columnClassName="masonry-grid_column"
+            >
+              {showExb.artworks?.map((record) => {
+                return (
+                  <ArtGalleryCard
+                    objectid={record.objectid}
+                    img={record.primaryimageurl}
+                    division={record.division}
+                    title={record.title}
+                    year={record.dated}
+                    details={record.description}
+                    key={record.id}
+                    people={record.people}
+                  />
+                );
+              })}
+            </Masonry>
+          </div>
         </div>
       </section>
     </>

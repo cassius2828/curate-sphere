@@ -1,10 +1,13 @@
 import { useLocation, Link } from "react-router-dom";
 import Modal from "../CommonComponents/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getArtworkDetail } from "../../services/artworkService";
+import useExbContext from "../../context/exb/useExbContext";
 
-const ArtGalleryCard = ({ year, people, division, title, img }) => {
+const ArtGalleryCard = ({ year, people, division, title, img, objectid }) => {
   const location = useLocation();
   const [isModalVisible, setModalVisible] = useState(false);
+  const {showExb} = useExbContext()
 
   const showModal = () => {
     setModalVisible(true);
@@ -12,10 +15,18 @@ const ArtGalleryCard = ({ year, people, division, title, img }) => {
   const hideModal = () => {
     setModalVisible(false);
   };
+const fetchArtworkDetails = async () => {
+      await getArtworkDetail(304069)
+}
+  useEffect(() => {
+fetchArtworkDetails()
+console.log(img, ' img')
+  },[])
 
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
       <Link to="/artwork/detail">
+        {/* <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" /> */}
         <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" />
       </Link>
       <div className="mt-6 text-2xl flex flex-col gap-4">

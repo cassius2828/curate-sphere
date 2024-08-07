@@ -78,7 +78,7 @@ const reducer = (state, action) => {
         },
       };
     case "toggleCheckbox/artworks":
-      console.log(action.payload);
+      // console.log(action.payload);
       const { primaryCategoryKey, subCategoryId, name } = action.payload;
 
       return {
@@ -270,7 +270,7 @@ export const ArtworkProvider = ({ children }) => {
       type: "toggleCheckbox/artworks",
       payload: { primaryCategoryKey, subCategoryId, name },
     });
-    console.log(medium)
+    // console.log(medium)
   };
 
   ///////////////////////////
@@ -310,7 +310,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
-      console.log(data);
+      // console.log(data);
       dispatch({
         type: "getClassificationObjs/artworks",
         payload: data,

@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      primaryKey: true,
+   
     },
     // changed to all lowercase to match harvard api naming convention
     objectid: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: false,   primaryKey: true,
     },
   });
   return Artwork;
