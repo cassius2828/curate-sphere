@@ -11,7 +11,7 @@ const ExbExplore = () => {
       <h1 className="text-6xl mb-32 mt-52 font-marcellus text-center">
         Explore Exhibitions
       </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3  justify-items-center">
         {exploreExbs.map((exb) => {
           return (
             <ExbCard

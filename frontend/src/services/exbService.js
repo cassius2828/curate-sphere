@@ -77,7 +77,7 @@ export const getExbArtworks = async (exbId) => {
       `${BACKEND_URL}/exhibitions/view-artworks/${exbId}`
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (response.ok) {
       return data;
     } else {

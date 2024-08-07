@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createExb } from "../../services/exbService";
+import { createExb, editExb } from "../../services/exbService";
 import useExbContext from "../../context/exb/useExbContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import { useNavigate, useParams } from "react-router";
@@ -15,15 +15,26 @@ const initialFormData = {
 
 const ExbForm = () => {
   const [formData, setFormData] = useState(initialFormData);
-  const { handleGetExbDetail, showExb,handleGetUserExbs } = useExbContext();
-  const { user } = useGlobalContext();
+  const { handleGetExbDetail, showExb, handleGetUserExbs } = useExbContext();
+  const { user, formatDateForEdit } = useGlobalContext();
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const handleChange = (e) => {
+    const { value, name } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+    console.log(formData);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await createExb(formData);
+      if (id) {
+        await editExb(id, formData);
+      } else {
+        await createExb(formData);
+      }
       handleGetUserExbs();
       navigate("/exhibitions/dashboard");
     } catch (err) {
@@ -32,24 +43,39 @@ const ExbForm = () => {
   };
 
   useEffect(() => {
-    setFormData({ ...formData, userId: user.user.id });
-  }, [formData.userId]);
+    if (id) {
+      async function fetchExbDetails() {
+        try {
+          await handleGetExbDetail(id);
+          // console.log(data, " <-- data");
+          // setFormData({ data });
+        } catch (err) {
+          console.error(err, " <-- unable to fetch exb details");
+        }
+      }
+      fetchExbDetails();
+    } else {
+      setFormData({ ...initialFormData, userId: user.user.id });
+    }
+  }, [id]);
+  //   setFormData({ ...formData, userId: user.user.id });
+  // }, [formData.userId]);
 
-  const handleChange = (e) => {
-    const { value, name } = e.target;
-  
-    setFormData({ ...formData, [name]: value });
-    console.log(formData);
-  };
-
-
+  useEffect(() => {
+    if (id && showExb) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        ...showExb,
+      }));
+    }
+  }, [showExb, id]);
 
   return (
     <section className="flex flex-col ml-10">
-      <h1 className="text-6xl mb-20 text-center">
+      <h1 className="text-6xl mb-20 text-center font-marcellus">
         {id ? "Edit" : "Create New"} Exhibition
       </h1>
-      <form className="border-black border-2 w-1/2 mx-auto p-11" action="">
+      <form className="border-black border-2 w-1/2 mx-auto p-11 font-cardo" action="">
         <div className="flex gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="title">
             Exhibition Title:{" "}
@@ -69,6 +95,8 @@ const ExbForm = () => {
             Description:{" "}
           </label>
           <textarea
+            value={formData.description}
+            onChange={(e) => handleChange(e)}
             className="border-black border w-2/3"
             type="text"
             id="description"
@@ -93,7 +121,7 @@ const ExbForm = () => {
             Start Date:{" "}
           </label>
           <input
-            value={formData.startDate}
+            value={formatDateForEdit(formData.startDate)}
             onChange={(e) => handleChange(e)}
             className="border-black border w-2/3"
             type="date"
@@ -106,7 +134,7 @@ const ExbForm = () => {
             End Date:{" "}
           </label>
           <input
-            value={formData.endDate}
+            value={formatDateForEdit(formData.endDate)}
             onChange={(e) => handleChange(e)}
             className="border-black border w-2/3"
             type="date"
