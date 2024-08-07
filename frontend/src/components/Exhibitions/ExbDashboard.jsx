@@ -20,15 +20,15 @@ const ExbDashboard = () => {
   } = useExbContext();
 
   return (
-    <section className="flex flex-col ml-32 mb-24">
-      <button
+    <section className="flex flex-col mb-24 mx-24">
+      {/* <button
         onClick={() => {
           handleEditExb("1", formData);
           console.log("click");
         }}
       >
         {user.user.username}
-      </button>
+      </button> */}
       <div className="flex gap-28 mb-20 items-center">
         <h1 className="text-6xl font-marcellus">My Exhibitions</h1>
         <Link to="/exhibitions/create">

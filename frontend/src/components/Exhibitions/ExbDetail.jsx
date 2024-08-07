@@ -6,15 +6,15 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import Masonry from "react-masonry-css";
 import ArtGalleryCard from "../ArtWorks/ArtGalleryCard";
-const initialFormData = {
-  title: "",
-  location: "",
-  description: "",
-  startDate: "",
-  endDate: "",
-};
+// const initialFormData = {
+//   title: "",
+//   location: "",
+//   description: "",
+//   startDate: "",
+//   endDate: "",
+// };
 const ExbDetail = () => {
-  const [formData, setFormData] = useState(initialFormData);
+  // const [formData, setFormData] = useState(initialFormData);
   const { id } = useParams();
   // console.log(id)
   const navigate = useNavigate();
@@ -28,30 +28,21 @@ const ExbDetail = () => {
     500: 1,
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault()
-  // try {
-  //  const data = await createExb(formData)
-  // } catch (err) {
-  //   console.error(err);
-  // }
-  // }
   useEffect(() => {
-    const getDetailData = () => {
-      const data = handleGetExbDetail("1");
-
-      setFormData(data);
+    const getDetailData = async () => {
+      const data = await handleGetExbDetail(id);
+      // setFormData(data);
     };
     getDetailData();
   }, []);
 
-  useEffect(() => {
-    handleGetExbDetail(id);
-  }, []);
+  // useEffect(() => {
+  //   handleGetExbDetail(id);
+  // }, []);
 
-  useEffect(() => {
-    console.log(showExb, " <-- showExb");
-  }, [showExb]);
+  // useEffect(() => {
+  //   console.log(showExb, " <-- showExb");
+  // }, [showExb]);
 
   const handleDeleteButton = async (e) => {
     try {
