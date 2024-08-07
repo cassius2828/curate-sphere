@@ -35,11 +35,17 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
           &times;
         </button>{" "}
         <p>Click Exhibition to Add Artwork</p>
-        {message && <p>{message}</p>}
+        {message === "success" ? (
+          <p className="text-green-500">{message}</p>
+        ) : (
+          <p className="text-red-500">{message}</p>
+        )}
         <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll ">
           {exbs?.map((exb, idx) => (
             <li
-              onClick={() => handleAddArtworkToExb(exb.id, ArtworkObjectid)}
+              onClick={() => {
+                handleAddArtworkToExb(exb.id, ArtworkObjectid);
+              }}
               key={idx}
               className="p-3 hover:bg-neutral-200 cursor-pointer"
             >

@@ -5,13 +5,16 @@ import { getArtworkDetail } from "../../services/artworkService";
 import useExbContext from "../../context/exb/useExbContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import Loader from "../CommonComponents/Loader";
+import { removeArtworkFromExb } from "../../services/exbService";
 
-const ExbArtworkCard = ({ ArtworkObjectid }) => {
+const ExbArtworkCard = ({ ArtworkObjectid,isUsersExb }) => {
   const location = useLocation();
-  const {myExbs} = useExbContext()
+  const { myExbs, handleGetExbArtworks } = useExbContext();
   const [isModalVisible, setModalVisible] = useState(false);
+  const [message, setMessage] = useState("");
   const [artworkData, setArtworkData] = useState({});
-  const { primaryimageurl, dated, division, people, title } = artworkData;
+  const { primaryimageurl, dated, division, people, title, objectid } =
+    artworkData;
   const { id } = useParams();
 
   const showModal = () => {
@@ -24,15 +27,32 @@ const ExbArtworkCard = ({ ArtworkObjectid }) => {
     const data = await getArtworkDetail(ArtworkObjectid);
     setArtworkData(data);
   };
+
+  const handleRemoveArtworkFromExb = async () => {
+    try {
+      const data = await removeArtworkFromExb(id, objectid);
+      if (data.message) {
+        setMessage(data.message);
+      }
+      if (data.error) {
+        setMessage(data.error);
+      }
+      await handleGetExbArtworks(id)
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to communicate with db to remove artwork from exb`);
+    } 
+  };
+
   useEffect(() => {
     fetchArtworkDetails();
     // console.log(artworkData);
-    console.log(myExbs)
+    console.log(myExbs);
   }, []);
 
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
-      <Link to="/artwork/detail">
+      <Link to={`/artwork/${objectid}`}>
         {/* <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" /> */}
         <img
           src={
@@ -59,20 +79,16 @@ const ExbArtworkCard = ({ ArtworkObjectid }) => {
           >
             details
           </span>
-          {location.pathname === "/artworks/search" ? (
+          {!isUsersExb ? (
             <>
               <button onClick={showModal}>+</button>
-              <Modal  isVisible={isModalVisible} onClose={hideModal}>
-
-              </Modal>
+              <Modal exbs={myExbs} isVisible={isModalVisible} onClose={hideModal}></Modal>
             </>
           ) : (
             location.pathname === `/exhibition/${id}` && (
               <button
                 className="text-red-500"
-                onClick={() =>
-                  alert("This will remove the art piece from the exhibition.")
-                }
+                onClick={() => handleRemoveArtworkFromExb()}
               >
                 [x]
               </button>

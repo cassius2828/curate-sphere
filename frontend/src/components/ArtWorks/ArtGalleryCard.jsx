@@ -22,7 +22,7 @@ const ArtGalleryCard = ({ year, people, division, title, img,ArtworkObjectid }) 
 
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
-      <Link to="/artwork/detail">
+      <Link to={`/artwork/${ArtworkObjectid}`}>
         {/* <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" /> */}
         <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" />
       </Link>
@@ -42,7 +42,7 @@ const ArtGalleryCard = ({ year, people, division, title, img,ArtworkObjectid }) 
           >
             details
           </span>
-          {location.pathname === "/artworks/search" ? (
+         
             <>
                         <button onClick={() => {showModal()}}>
               +
@@ -55,18 +55,7 @@ const ArtGalleryCard = ({ year, people, division, title, img,ArtworkObjectid }) 
             </Modal>
             </>
 
-          ) : (
-            location.pathname === "/exhibition/detail" && (
-              <button
-                className="text-red-500"
-                onClick={() =>
-                  alert("This will remove the art piece from the exhibition.")
-                }
-              >
-                [x]
-              </button>
-            )
-          )}
+      
         </div>
       </div>
     </div>

@@ -22,6 +22,7 @@ const ExbDetail = () => {
   const navigate = useNavigate();
   const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } =
     useExbContext();
+  const { user } = useGlobalContext();
   const [objectidMap, setObjectidMap] = useState([]);
   const { formatDate } = useGlobalContext();
   ///////////////////////////
@@ -62,9 +63,10 @@ const ExbDetail = () => {
   // Display objectidMap
   ///////////////////////////
   useEffect(() => {
-    const test = showExb?.artworks?.map((item) => item.ArtworkObjectid);
-    console.log(test);
-  });
+    console.log(showExb.userId, " <-- userId");
+    console.log(user.user.id, " <-- signed in user id");
+  }, []);
+  const isUsersExb = showExb.userId === user.user.id;
 
   ///////////////////////////
   // ! Delete Btn
@@ -96,12 +98,14 @@ const ExbDetail = () => {
                 Edit exhibition details
               </button>
             </Link>
-            <button
-              onClick={() => handleDeleteButton()}
-              className="border border-black px-6 py-1 font-cardo"
-            >
-              Delete exhibition
-            </button>
+            {isUsersExb && (
+              <button
+                onClick={() => handleDeleteButton()}
+                className="border border-black px-6 py-1 font-cardo"
+              >
+                Delete exhibition
+              </button>
+            )}
           </div>
         </div>
 
@@ -120,6 +124,7 @@ const ExbDetail = () => {
               {showExb?.artworks?.map((record) => {
                 return (
                   <ExbArtworkCard
+                  isUsersExb={isUsersExb}
                     key={record.ArtworkObjectid}
                     ArtworkObjectid={record.ArtworkObjectid}
                   />
