@@ -33,7 +33,7 @@ export const getArtworkDetail = async (objectid) => {
   try {
     const response = await fetch(`${BACKEND_URL}/artworks/${objectid}`);
     const data = await response.json();
-    console.log(data);
+ 
     if (response.ok) {
       return data;
     } else {

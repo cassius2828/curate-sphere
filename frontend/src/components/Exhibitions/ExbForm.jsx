@@ -31,7 +31,7 @@ const ExbForm = () => {
     e.preventDefault();
     try {
       if (id) {
-        await editExb(id, formData);
+        await editExb(formData, id);
       } else {
         await createExb(formData);
       }
@@ -44,6 +44,7 @@ const ExbForm = () => {
 
   useEffect(() => {
     if (id) {
+      // eslint-disable-next-line no-inner-declarations
       async function fetchExbDetails() {
         try {
           await handleGetExbDetail(id);
@@ -75,7 +76,10 @@ const ExbForm = () => {
       <h1 className="text-6xl mb-20 text-center font-marcellus">
         {id ? "Edit" : "Create New"} Exhibition
       </h1>
-      <form className="border-black border-2 w-1/2 mx-auto p-11 font-cardo" action="">
+      <form
+        className="border-black border-2 w-1/2 mx-auto p-11 font-cardo"
+        action=""
+      >
         <div className="flex gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="title">
             Exhibition Title:{" "}
