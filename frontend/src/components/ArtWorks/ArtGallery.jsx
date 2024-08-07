@@ -24,6 +24,7 @@ const ArtGallery = () => {
         {records.map((record) => {
           return (
             <ArtGalleryCard
+            ArtworkObjectid={record.objectid}
               img={record.primaryimageurl}
               division={record.division}
               title={record.title}

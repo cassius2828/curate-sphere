@@ -100,8 +100,8 @@ const deleteExhibition = async (req, res) => {
 };
 
 const postAddArtwork = async (req, res) => {
-  const { exbId, objectid } = req.params;
-
+  const { exbId, objectid } = req.body;
+console.log(req.body)
   try {
     const exb = await Exhibition.findByPk(exbId);
     const [artwork, created] = await Artwork.findOrCreate({
@@ -164,3 +164,15 @@ module.exports = {
   postAddArtwork,
   getExbArtworks,
 };
+
+
+
+/*
+
+  try {
+    res.status(200).json('hit')
+  } catch (err) {
+    res.status(200).json('miss')
+    
+  }
+*/
