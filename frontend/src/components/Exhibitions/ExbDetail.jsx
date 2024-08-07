@@ -40,9 +40,9 @@ const ExbDetail = () => {
   //   handleGetExbDetail(id);
   // }, []);
 
-  // useEffect(() => {
-  //   console.log(showExb, " <-- showExb");
-  // }, [showExb]);
+  useEffect(() => {
+    console.log(showExb, " <-- showExb");
+  }, [showExb]);
 
   const handleDeleteButton = async (e) => {
     try {

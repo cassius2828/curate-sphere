@@ -46,14 +46,12 @@ const ExbForm = () => {
     if (id) {
       async function fetchExbDetails() {
         try {
-          const data = await handleGetExbDetail();
+          const data = await handleGetExbDetail(id);
           console.log(data, " <-- data");
-          setFormData((prevFormData) => ({
-            ...prevFormData,
-            ...data,
-          }));
+
+          // setFormData({ data });
         } catch (err) {
-          console.error(err);
+          console.error(err, " <-- unable to fetch exb details");
         }
       }
       fetchExbDetails();
@@ -63,6 +61,15 @@ const ExbForm = () => {
   }, [id]);
   //   setFormData({ ...formData, userId: user.user.id });
   // }, [formData.userId]);
+
+  useEffect(() => {
+    if (id && showExb) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        ...showExb,
+      }));
+    }
+  }, [showExb, id]);
 
   return (
     <section className="flex flex-col ml-10">
