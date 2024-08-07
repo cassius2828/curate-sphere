@@ -5,9 +5,11 @@ const BACKEND_URL = import.meta.env.VITE_EXPRESS_BACKEND_URL;
 ///////////////////////////
 export const getAllExhibitions = async (userId) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/exhibitions/explore/${userId}`);
+    const response = await fetch(
+      `${BACKEND_URL}/exhibitions/explore/${userId}`
+    );
     const data = await response.json();
-    console.log(data, ' <-- non user exbs');
+    // console.log(data, ' <-- non user exbs');
     if (response.ok) {
       return data;
     } else {
@@ -24,9 +26,11 @@ export const getAllExhibitions = async (userId) => {
 ///////////////////////////
 export const getUserExhibitions = async (userId) => {
   try {
-    const response = await fetch(`${BACKEND_URL}/exhibitions/dashboard/${userId}`);
+    const response = await fetch(
+      `${BACKEND_URL}/exhibitions/dashboard/${userId}`
+    );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -52,7 +56,7 @@ export const getExbDetail = async (id) => {
       //   options
     );
     const data = await response.json();
-    console.log(data);
+
     if (response.ok) {
       return data;
     } else {
@@ -65,10 +69,31 @@ export const getExbDetail = async (id) => {
 };
 
 ///////////////////////////
+// Get | Exb Artworks
+///////////////////////////
+export const getExbArtworks = async (exbId) => {
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}/exhibitions/view-artworks/${exbId}`
+    );
+    const data = await response.json();
+    console.log(data);
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get exhibition artworks`);
+  }
+};
+
+///////////////////////////
 // ! DELETE | Delete Exhibition
 ///////////////////////////
 export const deleteExb = async (exbId) => {
-    console.log(exbId, ' <-- id')
+  console.log(exbId, " <-- id");
   const options = {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
@@ -79,7 +104,7 @@ export const deleteExb = async (exbId) => {
       options
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -103,7 +128,7 @@ export const createExb = async (formData) => {
   try {
     const response = await fetch(`${BACKEND_URL}/exhibitions`, options);
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -129,7 +154,7 @@ export const editExb = async (formData, exbId) => {
       options
     );
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (response.ok) {
       return data;
     } else {

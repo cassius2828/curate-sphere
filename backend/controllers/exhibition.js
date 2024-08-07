@@ -1,19 +1,21 @@
 const sequelize = require("../config/database");
 const { Op } = require("sequelize");
+
 const {
-  models: { Exhibition },
+  models: { Exhibition, Artwork, ExhibitionArtworks },
 } = sequelize;
 
 // get all exhibtions
 const getAllExhibitions = async (req, res) => {
   const { userId } = req.params;
+
   try {
     const exhibitions = await Exhibition.findAll({
       where: {
         userId: {
-          [Op.ne]: userId
-        }
-      }
+          [Op.ne]: userId,
+        },
+      },
     });
     // check if we found any exhibitions
     if (exhibitions.length === 0) {
@@ -97,6 +99,59 @@ const deleteExhibition = async (req, res) => {
   }
 };
 
+const postAddArtwork = async (req, res) => {
+  const { exbId, objectid } = req.params;
+
+  try {
+    const exb = await Exhibition.findByPk(exbId);
+    const [artwork, created] = await Artwork.findOrCreate({
+      where: {
+        objectid,
+      },
+      defaults: {
+        objectid,
+      },
+    });
+    const duplicate = await ExhibitionArtworks.findOne({
+      where: {
+        ExhibitionId: exbId,
+        ArtworkObjectid: objectid,
+      },
+    });
+
+    if (!duplicate) {
+      const newExbAddition = await exb.addArtwork(artwork);
+      return res.status(200).json(newExbAddition);
+    } else {
+      return res
+        .status(400)
+        .json({ message: "Artwork is already in this exhibition" });
+    }
+
+    // console.log(exb)
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Unable to add artwork to exhibition" });
+  }
+};
+
+const getExbArtworks = async (req,res) => {
+  const {ExhibitionId} = req.params;
+  try {
+    const userExbArtworks = await ExhibitionArtworks.findAll({
+      where: {
+        ExhibitionId
+      }
+    })
+    if(userExbArtworks.length === 0){
+      return res.status(400).json({error: 'No artworks were found in this exb'})
+    }
+    return res.status(200).json(userExbArtworks)
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+}
+
 module.exports = {
   getAllExhibitions,
   createExhibition,
@@ -104,4 +159,5 @@ module.exports = {
   updateExhibition,
   deleteExhibition,
   getUserExhibitions,
+  postAddArtwork,getExbArtworks
 };

@@ -4,6 +4,7 @@ import {
   deleteExb,
   editExb,
   getAllExhibitions,
+  getExbArtworks,
   getExbDetail,
   getUserExhibitions,
 } from "../../services/exbService";
@@ -28,7 +29,14 @@ const reducer = (state, action) => {
       return { ...state, myExbs: action.payload };
     case "editDetail/exb":
       return { ...state, showExb: action.payload };
-
+    case "addArtworks/exb":
+      return {
+        ...state,
+        showExb: {
+          ...state.showExb,
+          artworks: action.payload,
+        },
+      };
     default:
       break;
   }
@@ -40,7 +48,6 @@ export const ExbProvider = ({ children }) => {
     initialState
   );
   const { user } = useGlobalContext();
-
 
   ///////////////////////////
   //   GET | index
@@ -62,7 +69,7 @@ export const ExbProvider = ({ children }) => {
   const handleGetUserExbs = async () => {
     try {
       const data = await getUserExhibitions(user.user.id);
-console.log(data, ' <-- users exbs')
+      // console.log(data, ' <-- users exbs')
       dispatch({ type: "userExbs/exb", payload: data });
     } catch (err) {
       console.error(err);
@@ -70,6 +77,22 @@ console.log(data, ' <-- users exbs')
     }
   };
 
+
+  ///////////////////////////
+  //   GET | Exb Artworks
+  ///////////////////////////
+  const handleGetExbArtworks = async (exbId) => {
+    try {
+      const data = await getExbArtworks(exbId);
+
+      dispatch({ type: "addArtworks/exb", payload: data });
+    } catch (err) {
+      console.error(err);
+      console.log(
+        `Unable to communicate with db to add artworks to exb | context`
+      );
+    }
+  };
   ///////////////////////////
   //   GET | show
   ///////////////////////////
@@ -78,6 +101,7 @@ console.log(data, ' <-- users exbs')
       const data = await getExbDetail(exbId);
 
       dispatch({ type: "getDetail/exb", payload: data });
+      await handleGetExbArtworks(exbId);
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);
@@ -93,7 +117,7 @@ console.log(data, ' <-- users exbs')
   const handleDeleteExb = async (id) => {
     try {
       const data = await deleteExb(id);
-      console.log(data);
+      // console.log(data);
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to delete exb | context`);
@@ -120,11 +144,10 @@ console.log(data, ' <-- users exbs')
   };
   // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
 
-
   useEffect(() => {
-    handleGetUserExbs()
-    handleGetAllExbs()
-  },[])
+    handleGetUserExbs();
+    handleGetAllExbs();
+  }, []);
   return (
     <ExbContext.Provider
       value={{
@@ -135,7 +158,9 @@ console.log(data, ' <-- users exbs')
         myExbs,
         handleGetAllExbs,
         handleGetExbDetail,
-        handleDeleteExb,handleGetUserExbs
+        handleDeleteExb,
+        handleGetUserExbs,
+        handleGetExbArtworks,
       }}
     >
       {children}
