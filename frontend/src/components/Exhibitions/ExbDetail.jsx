@@ -47,7 +47,6 @@ const ExbDetail = () => {
   }, [formData]);
 
   const handleDeleteButton = async (e) => {
-    
     try {
       const data = await handleDeleteExb(id)
       handleGetUserExbs();
