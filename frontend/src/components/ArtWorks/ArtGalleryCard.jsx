@@ -27,7 +27,7 @@ const ArtGalleryCard = ({
 
 
   return (
-    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
+    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto mx-auto font-cardo">
       <Link to={`/artwork/${ArtworkObjectid}`}>
         <img
           src={

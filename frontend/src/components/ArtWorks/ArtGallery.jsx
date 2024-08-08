@@ -7,8 +7,8 @@ const ArtGallery = () => {
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
-    700: 2,
-    500: 1,
+    850: 2,
+    600: 1,
   };
 
   if (isLoading) return <Loader />;

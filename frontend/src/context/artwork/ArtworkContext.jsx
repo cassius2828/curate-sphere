@@ -1,11 +1,12 @@
 /* eslint-disable no-case-declarations */
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import artworkFilterData from "../../../data/artworkFilterData";
 import {
   getAllArtworks,
   getArtworkBySearch,
   getFilterObjs,
 } from "../../services/artworkService";
+import useGlobalContext from "../global/useGlobalContext";
 // Create a Context
 const ArtworkContext = createContext();
 const initialArtworksState = {
@@ -20,6 +21,7 @@ const initialArtworksState = {
   showArtwork: {},
   displayView: "",
   isLoading: false,
+  filtersAreLoading: false,
   isError: false,
   artFilter: {
     size: "12",
@@ -78,6 +80,10 @@ const reducer = (state, action) => {
       return { ...state, isLoading: true };
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
+    case "filtersStartLoading/artworks":
+      return { ...state, filtersAreLoading: true };
+    case "filtersStopLoading/artworks":
+      return { ...state, filtersAreLoading: false };
     // Filter Section
     case "filterArtworks/artworks":
       return {
@@ -198,6 +204,7 @@ export const ArtworkProvider = ({ children }) => {
       info,
       isError,
       isLoading,
+      filtersAreLoading,
       medium,
       period,
       records,
@@ -514,20 +521,28 @@ export const ArtworkProvider = ({ children }) => {
   // Get initial Filter Values from api
   ///////////////////////////
   useEffect(() => {
-    // Fetches and processes culture objects
-    handleGetCultureObjs();
-    // Fetches and processes classification objects
-    handleGetClassificationObjs();
-    // Fetches and processes work type objects
-    handleGetWorktypeObjs();
-    // Fetches and processes medium objects
-    handleGetMediumObjs();
-    // Fetches and processes century objects
-    handleGetCenturyObjs();
-    // Fetches and processes technique objects
-    handleGetTechniqueObjs();
-    // Fetches and processes period objects
-    handleGetPeriodObjs();
+    dispatch({ type: "filtersStartLoading/artworks" });
+    try {
+      // Fetches and processes culture objects
+      handleGetCultureObjs();
+      // Fetches and processes classification objects
+      handleGetClassificationObjs();
+      // Fetches and processes work type objects
+      handleGetWorktypeObjs();
+      // Fetches and processes medium objects
+      handleGetMediumObjs();
+      // Fetches and processes century objects
+      handleGetCenturyObjs();
+      // Fetches and processes technique objects
+      handleGetTechniqueObjs();
+      // Fetches and processes period objects
+      handleGetPeriodObjs();
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to fetch all filters from harvard api`);
+    } finally {
+      dispatch({ type: "filtersStopLoading/artworks" });
+    }
   }, []);
 
   // all categories combined to one array
@@ -560,6 +575,7 @@ export const ArtworkProvider = ({ children }) => {
         info,
         isError,
         isLoading,
+        filtersAreLoading,
         medium,
         period,
         records,

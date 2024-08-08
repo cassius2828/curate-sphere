@@ -27,13 +27,18 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
     // resets results if user cleared search
     if (searchQuery.length === 0) setDisplaySubCategories(subCategories);
   };
-
+  ///////////////////////////
+  // Handle Show Dropdown
+  //////////////////////////F
+  const handleShowDropdown = () => {
+    setShowDropdown((prev) => !prev);
+  };
   return (
     <li className="p-4 text-3xl bg-gray-50 flex flex-col items-start gap-3">
       <div className="flex items-center gap-4">
         <span>{primaryCategory} </span>
         <FontAwesomeIcon
-          onClick={() => setShowDropdown((prev) => !prev)}
+          onClick={handleShowDropdown}
           className={`${
             showDropdown ? "rotate-90" : "-rotate-90"
           } cursor-pointer text-4xl`}
