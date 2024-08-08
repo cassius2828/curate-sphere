@@ -18,13 +18,14 @@ const postArtworks = async (req, res) => {
   // ! on front end
 
   const queriedFilter = getQueryString(req.body);
-  console.log(queriedFilter);
+  // console.log(queriedFilter);
   try {
     const response = await fetch(
       `${BASE_URL}/object?apikey=${API_KEY}${queriedFilter}`
     );
-    const data = await response.json();
-
+    let data = await response.json();
+    data.info.next = replaceApikeyWithPlaceholder(data.info.next);
+    data.info.prev = "";
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -45,7 +46,9 @@ const getArtworkDetail = async (req, res) => {
     const response = await fetch(
       `${BASE_URL}/object/${objectid}?apikey=${API_KEY}`
     );
-    const data = await response.json();
+    let data = await response.json();
+    data.info.next = replaceApikeyWithPlaceholder(data.info.next);
+    data.info.prev = "";
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -62,8 +65,9 @@ const getFilterObjs = async (req, res) => {
     const response = await fetch(
       `${BASE_URL}/${filter}?apikey=${API_KEY}&size=100&page=${page}`
     );
-    const data = await response.json();
-
+    let data = await response.json();
+    data.info.next = replaceApikeyWithPlaceholder(data.info.next);
+    data.info.prev = "";
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -77,15 +81,16 @@ const getFilterObjs = async (req, res) => {
 ///////////////////////////
 // GET | Artwork Search
 ///////////////////////////
-const getArtworkBySearch = async (req,res) => {
-  const {query} = req.query
-  console.log(query)
+const getArtworkBySearch = async (req, res) => {
+  const { query } = req.query;
+  console.log(query);
   try {
     const response = await fetch(
       `${BASE_URL}/object?q=${query}&apikey=${API_KEY}&size=24`
     );
-    const data = await response.json();
-
+    let data = await response.json();
+    data.info.next = replaceApikeyWithPlaceholder(data.info.next);
+    data.info.prev = "";
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -93,31 +98,36 @@ const getArtworkBySearch = async (req,res) => {
       .status(500)
       .json({ error: `cannot get ${query} from harvard search api ` });
   }
-}
+};
 
-const postNextPageOfArtworks = async (req,res) => {
-  const {url} = req.body
-  console.log(req.body, ' <-- req.body')
-  console.log(url)
+const postNextPageOfArtworks = async (req, res) => {
+  const { altUrl } = req.body;
+  // the frontend removes the api key and replaces it with a placeholder | API_KEY
+  // we select the string before and after the place holder, then insert our key in place of it
+  const beforeApiKey = altUrl.slice(0, 48);
+  const afterApiKey = altUrl.slice(55);
+  const fullUrl = beforeApiKey + API_KEY + afterApiKey;
+  // console.log(fullUrl)
   try {
-    const response = await fetch(
-      url
-    );
+    const response = await fetch(fullUrl);
+
     const data = await response.json();
-console.log(data)
+// console.log(data)
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
     res
       .status(500)
-      .json({ error: `cannot get ${query} from harvard search api ` });
+      .json({ error: `cannot get next page from harvard search api ` });
   }
-}
+};
 
 module.exports = {
   postArtworks,
   getArtworkDetail,
-  getFilterObjs,getArtworkBySearch,postNextPageOfArtworks
+  getFilterObjs,
+  getArtworkBySearch,
+  postNextPageOfArtworks,
 };
 
 ///////////////////////////
@@ -129,4 +139,20 @@ const getQueryString = (query) => {
   return Object.keys(query)
     .map((key) => `&${key}=${query[key]}`)
     .join("");
+};
+
+const replaceApikeyWithPlaceholder = (str) => {
+  const apiKeyPattern = /(apikey=)([a-f0-9-]+)(&)/;
+
+  // Use match to extract the parts
+  const matches = str?.match(apiKeyPattern);
+  if (matches) {
+    const beforeApiKey = str.substring(0, matches.index + matches[1].length); // "https://api.harvardartmuseums.org/object?apikey="
+
+    const afterApiKey = str.substring(matches.index + matches[0].length - 1); // "&size=12&page=2"
+    console.log(beforeApiKey, "before api key");
+    console.log(afterApiKey, "after api key");
+    str = beforeApiKey + "API_KEY" + afterApiKey;
+    return str;
+  }
 };

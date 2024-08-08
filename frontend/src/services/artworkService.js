@@ -100,13 +100,13 @@ export const getFilterObjs = async (filter, page) => {
 ///////////////////////////
 // GET | Next page of artworks
 ///////////////////////////
-export const postNextPageOfArtworks = async (url) => {
+export const postNextPageOfArtworks = async (altUrl) => {
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(url),
+    body: JSON.stringify({ altUrl }),
   };
   try {
     const response = await fetch(`${BACKEND_URL}/artworks/next`, options);

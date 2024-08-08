@@ -111,7 +111,7 @@ const reducer = (state, action) => {
           // spread the state of the category | keep title, update records
           ...state[primaryCategoryKey],
           // iterate thru records and find matching key-value from payload
-          records: state[primaryCategoryKey].records.map((record) => {
+          records: state[primaryCategoryKey]?.records?.map((record) => {
             if (record.id === subCategoryId && record.name === name) {
               //  update the isChecked and clickCount to control the UI for filter boxes
               return {
@@ -233,6 +233,7 @@ export const ArtworkProvider = ({ children }) => {
     try {
       const data = await getAllArtworks(artFilter);
       //   gets all info related to artworks (info and data)
+      console.log(data, ' <-- all artworks')
       dispatch({ type: "getArtworks/artworks", payload: data });
     } catch (err) {
       console.error(err);
@@ -282,7 +283,7 @@ export const ArtworkProvider = ({ children }) => {
     dispatch({ type: "startLoading/artworks" });
     try {
       // making this a post so I can send info.next in the body to keep API key secure
-      const data = await postNextPageOfArtworks({url:info.next});
+      const data = await postNextPageOfArtworks(info.next);
       //   gets all info related to artworks (info and data)
       dispatch({ type: "postNextPageOfArtworks/artworks", payload: data });
     } catch (err) {
@@ -543,7 +544,7 @@ export const ArtworkProvider = ({ children }) => {
 
   useEffect(() => {
     handleGetAllArtworks();
-    console.log(info);
+  
   }, [artFilter]);
 
   ///////////////////////////

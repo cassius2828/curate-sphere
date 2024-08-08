@@ -21,7 +21,7 @@ const ArtFilter = () => {
         onClick={handleShowDropdown}
         className={`text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4 `}
       >
-        Fitlers
+        Filters
       </button>
       <select
         value={displayView}
