@@ -67,10 +67,10 @@ const ArtDetail = () => {
             ))}
           </ul>
           {/* other info */}
-          <p>Date: {dated}</p>
-          <p>Medium: {medium}</p>
-          <p>Dimensions: {dimensions}</p>
-          <p>Division: {division}</p>
+          <p>Date: {dated ? dated : 'N/A'}</p>
+          <p>Medium: {medium ? medium : 'N/A'}</p>
+          <p>Dimensions: {dimensions ? dimensions : 'N/A'}</p>
+          <p>Division: {division ? division : 'N/A'}</p>
           
           {/* action btn */}
           <button
