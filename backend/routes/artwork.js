@@ -8,6 +8,11 @@ const artworkCtrl = require("../controllers/artwork");
 router.post("/search", artworkCtrl.postArtworks);
 
 //////////////////////
+// ? POST | Get next page of artworks
+//////////////////////
+router.post("/next", artworkCtrl.postNextPageOfArtworks);
+
+//////////////////////
 // GET | Get artworks by search
 //////////////////////
 router.get("/search", artworkCtrl.getArtworkBySearch);

@@ -1,15 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtGallery from "./ArtGallery";
-
-import ArtSearchFilter from "./ArtFilter/ArtFilter";
-import {
-  faLink,
-  faRotateBack,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
-import { getArtworkBySearch } from "../../services/artworkService";
+
 import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
 import ArtListMobile from "./ArtListMobile";
 import ArtListDesktop from "./ArtListDesktop";
@@ -18,14 +12,13 @@ import ArtListDesktop from "./ArtListDesktop";
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
-  const [loadAmountVal, setLoadAmountVal] = useState(12);
   const [query, setQuery] = useState("");
   const {
     displayView,
     records,
-    dispatch,
-    handleGetAllArtworks,
+
     handleSearchArtworksByTitle,
+    handleGetNextPageOfArtworks,
   } = useArtworkContext();
   // uses input value to filter results based on text search
   const handleSearchQuery = async (e) => {
@@ -35,7 +28,7 @@ const ArtSearch = () => {
     console.log(query);
     console.log(records);
   };
-  const isMobile = window.innerWidth
+  const isMobile = window.innerWidth;
   if (!records) return;
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
@@ -65,7 +58,10 @@ const ArtSearch = () => {
           <ArtGallery />
         )}
       </div>
-      <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">
+      <button
+        onClick={handleGetNextPageOfArtworks}
+        className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize"
+      >
         load more
       </button>
     </section>

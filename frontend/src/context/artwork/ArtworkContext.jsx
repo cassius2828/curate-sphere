@@ -5,6 +5,7 @@ import {
   getAllArtworks,
   getArtworkBySearch,
   getFilterObjs,
+  postNextPageOfArtworks,
 } from "../../services/artworkService";
 import useGlobalContext from "../global/useGlobalContext";
 // Create a Context
@@ -69,6 +70,14 @@ const reducer = (state, action) => {
       return {
         ...state,
         records: action.payload.records,
+        info: action.payload.info,
+      };
+    case "postNextPageOfArtworks/artworks":
+      return {
+        ...state,
+        records: [
+          ...state.records, ...action.payload.records
+        ],
         info: action.payload.info,
       };
     case "getArtworkDetail/artworks":
@@ -265,6 +274,25 @@ export const ArtworkProvider = ({ children }) => {
     }
   };
 
+  ///////////////////////////
+  // Get Next Page of Artworks
+  ///////////////////////////
+  const handleGetNextPageOfArtworks = async () => {
+    // starts loading
+    dispatch({ type: "startLoading/artworks" });
+    try {
+      // making this a post so I can send info.next in the body to keep API key secure
+      const data = await postNextPageOfArtworks({url:info.next});
+      //   gets all info related to artworks (info and data)
+      dispatch({ type: "postNextPageOfArtworks/artworks", payload: data });
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to get next page of artworks | context`);
+    } finally {
+      // stops loading
+      dispatch({ type: "stopLoading/artworks" });
+    }
+  };
   ///////////////////////////
   // Display View of Artworks
   ///////////////////////////
@@ -515,6 +543,7 @@ export const ArtworkProvider = ({ children }) => {
 
   useEffect(() => {
     handleGetAllArtworks();
+    console.log(info);
   }, [artFilter]);
 
   ///////////////////////////
@@ -567,6 +596,7 @@ export const ArtworkProvider = ({ children }) => {
         handleSelectFilters,
         handleToggleCheckbox,
         handleSearchArtworksByTitle,
+        handleGetNextPageOfArtworks,
         artworkFilterData,
         century,
         classification,

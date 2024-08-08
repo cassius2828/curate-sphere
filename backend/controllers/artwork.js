@@ -95,10 +95,29 @@ const getArtworkBySearch = async (req,res) => {
   }
 }
 
+const postNextPageOfArtworks = async (req,res) => {
+  const {url} = req.body
+  console.log(req.body, ' <-- req.body')
+  console.log(url)
+  try {
+    const response = await fetch(
+      url
+    );
+    const data = await response.json();
+console.log(data)
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: `cannot get ${query} from harvard search api ` });
+  }
+}
+
 module.exports = {
   postArtworks,
   getArtworkDetail,
-  getFilterObjs,getArtworkBySearch
+  getFilterObjs,getArtworkBySearch,postNextPageOfArtworks
 };
 
 ///////////////////////////
