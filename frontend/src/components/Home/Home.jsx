@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom'
-// import { getAllArtworks } from '../../services/artworkService';
 import { LampContainer } from '../ui/lamp';
 import useGlobalContext from "../../context/global/useGlobalContext";
 
 
 const Home = () => {
-  // getAllArtworks()
   const { user } = useGlobalContext();
   console.log(user.user.username)
 

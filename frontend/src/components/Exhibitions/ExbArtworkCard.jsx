@@ -46,12 +46,11 @@ const ExbArtworkCard = ({ ArtworkObjectid,isUsersExb }) => {
 
   useEffect(() => {
     fetchArtworkDetails();
-    // console.log(artworkData);
     console.log(myExbs);
   }, []);
 
   return (
-    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto font-cardo">
+    <div className="shadow-md rounded-md p-4 text-gray-900 w-full h-auto font-cardo">
       <Link to={`/artwork/${objectid}`}>
         {/* <img src={img ? img : `https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg`} alt="sample image" /> */}
         <img
