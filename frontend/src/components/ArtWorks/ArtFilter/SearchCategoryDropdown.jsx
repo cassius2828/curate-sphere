@@ -8,7 +8,9 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
   const [displaySubCategories, setDisplaySubCategories] =
     useState(subCategories);
 
-  // uses input value to filter results based on text search
+  ///////////////////////////
+  // Search Functions / Actions
+  ///////////////////////////
   const handleSearchQuery = (e) => {
     const { value } = e.target;
     filterSubCategoriesBySearch(value);
@@ -26,7 +28,6 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
     if (searchQuery.length === 0) setDisplaySubCategories(subCategories);
   };
 
-
   return (
     <li className="p-4 text-3xl bg-gray-50 flex flex-col items-start gap-3">
       <div className="flex items-center gap-4">
@@ -41,6 +42,7 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
       </div>
 
       <div className=" w-full">
+        {/* dropdown */}
         {showDropdown && (
           <>
             {" "}
@@ -56,17 +58,18 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
                 className="absolute top-8 right-5  text-2xl "
                 icon={faSearch}
               />
+              {/* subcategories */}
               <ul className=" overflow-y-scroll h-72">
-                {displaySubCategories.map((category, idx) => {
+                {displaySubCategories?.map((category, idx) => {
                   return (
                     <SearchFilterCheckBox
-                    primaryCategoryKey={primaryCategory}
+                      primaryCategoryKey={primaryCategory}
                       category={category}
                       key={category + idx}
                     />
                   );
                 })}
-              </ul>{" "}
+              </ul>
             </div>
           </>
         )}

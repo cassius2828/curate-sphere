@@ -26,6 +26,25 @@ export const getAllArtworks = async (filters) => {
   }
 };
 
+//////////////////////////////////////////////////////
+// GET | Get All Artworks By Search
+//////////////////////////////////////////////////////
+export const getArtworkBySearch = async (query) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/artworks/search/?query=${query}`, );
+    const data = await response.json();
+    // console.log(data);
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get all artworks`);
+  }
+};
+
 ///////////////////////////
 // Get | Get Artwork Detail
 ///////////////////////////

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchCategoryDropdown } from "./SearchCategoryDropdown";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
@@ -6,6 +6,7 @@ const ArtFilter = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const { handleDisplayView, displayView } = useArtworkContext();
   const { primaryCategories } = useArtworkContext();
+
   return (
     <div className="flex gap-4 font-cardo">
       <button
@@ -29,6 +30,7 @@ const ArtFilter = () => {
         <option value="gallery">Gallery View</option>
         <option value="list">List View</option>
       </select>
+      {/* dropdown */}
       {showFilterDropdown && (
         <ul className="shadow-md w-full md:w-72 min-w-[25vw] absolute top-full">
           {primaryCategories.map((category, idx) => {

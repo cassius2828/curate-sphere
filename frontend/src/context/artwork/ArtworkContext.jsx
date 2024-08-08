@@ -1,7 +1,11 @@
 /* eslint-disable no-case-declarations */
 import { createContext, useEffect, useReducer } from "react";
 import artworkFilterData from "../../../data/artworkFilterData";
-import { getAllArtworks, getFilterObjs } from "../../services/artworkService";
+import {
+  getAllArtworks,
+  getArtworkBySearch,
+  getFilterObjs,
+} from "../../services/artworkService";
 // Create a Context
 const ArtworkContext = createContext();
 const initialArtworksState = {
@@ -59,6 +63,12 @@ const reducer = (state, action) => {
         records: action.payload.records,
         info: action.payload.info,
       };
+    case "getArworksBySearch/artworks":
+      return {
+        ...state,
+        records: action.payload.records,
+        info: action.payload.info,
+      };
     case "getArtworkDetail/artworks":
       return { ...state, showArtwork: action.payload };
     case "displayView/artworks":
@@ -74,28 +84,28 @@ const reducer = (state, action) => {
         ...state,
         artFilter: {
           ...state.artFilter,
-          [action.payload[0]]: action.payload[1],
+          [action.payload.key]: action.payload.id,
         },
       };
     case "toggleCheckbox/artworks":
-      // console.log(action.payload);
       const { primaryCategoryKey, subCategoryId, name } = action.payload;
-      console.log(action.payload, " in reducer, action.payload");
+
       return {
         ...state,
         [primaryCategoryKey]: {
+          // spread the state of the category | keep title, update records
           ...state[primaryCategoryKey],
+          // iterate thru records and find matching key-value from payload
           records: state[primaryCategoryKey].records.map((record) => {
             if (record.id === subCategoryId && record.name === name) {
-              console.log("it matches");
-              console.log(record);
+              //  update the isChecked and clickCount to control the UI for filter boxes
               return {
                 ...record,
                 isChecked: !record.isChecked,
                 clickCount: record.clickCount + 1,
               };
             } else {
-              return { record };
+              return record;
             }
           }),
         },
@@ -103,6 +113,8 @@ const reducer = (state, action) => {
     case "removeFilterArtworks/artworks":
       return {
         ...state,
+        // replace current filter with new filter that does not contain the key-value passed in the function that
+        // calls dispatch
         artFilter: action.payload,
       };
     case "resetFilterState/artworks":
@@ -214,6 +226,38 @@ export const ArtworkProvider = ({ children }) => {
       dispatch({ type: "stopLoading/artworks" });
     }
   };
+
+  ///////////////////////////
+  // Get Artworks By Search
+  ///////////////////////////
+  const handleSearchArtworksByTitle = async (query) => {
+    // begins search when query is at least 3 chars long
+
+    if (query.length > 2) {
+      // start loading
+      dispatch({ type: "startLoading/artworks" });
+      try {
+        // fetch artworks by search
+        const data = await getArtworkBySearch(query);
+        console.log(data);
+        dispatch({ type: "getArworksBySearch/artworks", payload: data });
+      } catch (err) {
+        console.error(err);
+        console.log(
+          `Unable to get artworks by the following search: ${query} | context`
+        );
+      } finally {
+        // stops loading
+        dispatch({ type: "stopLoading/artworks" });
+      }
+    }
+
+    // resets results if user cleared search
+    if (query.length === 0) {
+      await handleGetAllArtworks();
+    }
+  };
+
   ///////////////////////////
   // Display View of Artworks
   ///////////////////////////
@@ -230,11 +274,9 @@ export const ArtworkProvider = ({ children }) => {
       key = key.split(" ").join("");
     }
 
-    const arr = [key, id];
-    dispatch({ type: "filterArtworks/artworks", payload: arr });
-
-    console.log(arr, " <-- arr");
-    console.log(artFilter, " <-- art filter");
+    const obj = { key, id };
+    if (artFilter[key] === id) return;
+    dispatch({ type: "filterArtworks/artworks", payload: obj });
   };
 
   ///////////////////////////
@@ -246,12 +288,11 @@ export const ArtworkProvider = ({ children }) => {
     if (key[0] === "w") {
       key = key.split(" ").join("");
     }
-    console.log(key, "<-- remove filter key");
-    console.log(id, "<-- remove filter id");
 
     if (artFilter[key] === id) {
       const { [key]: _, ...removedFilterObj } = artFilter;
       console.log("this key value pair exists");
+      console.log(removedFilterObj, " <-- removed filter obj");
       dispatch({
         type: "removeFilterArtworks/artworks",
         payload: removedFilterObj,
@@ -265,7 +306,6 @@ export const ArtworkProvider = ({ children }) => {
 
   const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
-
     dispatch({
       type: "toggleCheckbox/artworks",
       payload: { primaryCategoryKey, subCategoryId, name },
@@ -276,6 +316,14 @@ export const ArtworkProvider = ({ children }) => {
   ///////////////////////////
   // * FILTER CATEGORIES
   ///////////////////////////
+  /*
+  //* All filter functions follow the same structure
+  1. store data for each page in variable | async func from service to retrieve data from harvard api
+  2. push all data into array
+  3. flatten array
+  4. sort data by name
+  5. dispatch to appropriate case in reducer
+  */
   ///////////////////////////
   // GET CENTURIES
   ///////////////////////////
@@ -482,6 +530,7 @@ export const ArtworkProvider = ({ children }) => {
     handleGetPeriodObjs();
   }, []);
 
+  // all categories combined to one array
   const primaryCategories = [
     century,
     classification,
@@ -495,12 +544,14 @@ export const ArtworkProvider = ({ children }) => {
   return (
     <ArtworkContext.Provider
       value={{
+        dispatch,
         handleDisplayView,
         handleGetAllArtworks,
         handleRemoveFilter,
         handleResetFilterState,
         handleSelectFilters,
         handleToggleCheckbox,
+        handleSearchArtworksByTitle,
         artworkFilterData,
         century,
         classification,

@@ -32,12 +32,10 @@ const postArtworks = async (req, res) => {
   }
 };
 
-// const sampleObjId = 153503;
+///////////////////////////
+// GET | Artwork Detail
+///////////////////////////
 const getArtworkDetail = async (req, res) => {
-  // getting the artwork
-  // user clicks btn that will pass state data to the service function
-  // a handle func will contain the data pulled from params, send it as a param to service func
-  // we are doing a get req so this will be a query
   const { objectid } = req.params;
 
   try {
@@ -54,7 +52,9 @@ const getArtworkDetail = async (req, res) => {
     res.status(500).json({ error: "cannot get selected artwork" });
   }
 };
-
+///////////////////////////
+// GET | Filter Artwork Objs
+///////////////////////////
 const getFilterObjs = async (req, res) => {
   const { page, filter } = req.query;
 
@@ -74,10 +74,31 @@ const getFilterObjs = async (req, res) => {
   // res.status(200).json({ page, filter });
 };
 
+///////////////////////////
+// GET | Artwork Search
+///////////////////////////
+const getArtworkBySearch = async (req,res) => {
+  const {query} = req.query
+  console.log(query)
+  try {
+    const response = await fetch(
+      `${BASE_URL}/object?q=${query}&apikey=${API_KEY}&size=24`
+    );
+    const data = await response.json();
+
+    res.status(200).json(data);
+  } catch (err) {
+    console.error(err);
+    res
+      .status(500)
+      .json({ error: `cannot get ${query} from harvard search api ` });
+  }
+}
+
 module.exports = {
   postArtworks,
   getArtworkDetail,
-  getFilterObjs,
+  getFilterObjs,getArtworkBySearch
 };
 
 ///////////////////////////

@@ -1,10 +1,9 @@
 import useArtworkContext from "../../context/artwork/useArtworkContext";
-import DisplayError from "../CommonComponents/DisplayError";
 import Loader from "../CommonComponents/Loader";
 import ArtGalleryCard from "./ArtGalleryCard";
 import Masonry from "react-masonry-css";
 const ArtGallery = () => {
-  const { records, isLoading, isError } = useArtworkContext();
+  const { records, isLoading } = useArtworkContext();
   const breakpointColumnsObj = {
     default: 4,
     1100: 3,
@@ -13,7 +12,6 @@ const ArtGallery = () => {
   };
 
   if (isLoading) return <Loader />;
-  // if (isError) return <DisplayError />;
   return (
     <div className="w-3/4 mx-auto mt-8">
       <Masonry
@@ -24,7 +22,7 @@ const ArtGallery = () => {
         {records.map((record) => {
           return (
             <ArtGalleryCard
-            ArtworkObjectid={record.objectid}
+              ArtworkObjectid={record.objectid}
               img={record.primaryimageurl}
               division={record.division}
               title={record.title}
