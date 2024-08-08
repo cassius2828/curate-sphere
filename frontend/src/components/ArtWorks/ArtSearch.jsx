@@ -25,8 +25,6 @@ const ArtSearch = () => {
     const { value } = e.target;
     setQuery(value);
     await handleSearchArtworksByTitle(value);
-    console.log(query);
-    console.log(records);
   };
   const isMobile = window.innerWidth;
   if (!records) return;

@@ -19,7 +19,6 @@ export const SearchFilterCheckBox = ({
       handleSelectFilters(primaryCategoryKey, category.id);
     } else if (!isChecked && clickCount > 0) {
       handleRemoveFilter(primaryCategoryKey, category.id);
-      console.log("it happens now");
     }
   
   }, [isChecked]);
