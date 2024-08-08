@@ -44,12 +44,9 @@ const ExbForm = () => {
 
   useEffect(() => {
     if (id) {
-      // eslint-disable-next-line no-inner-declarations
       async function fetchExbDetails() {
         try {
           await handleGetExbDetail(id);
-          // console.log(data, " <-- data");
-          // setFormData({ data });
         } catch (err) {
           console.error(err, " <-- unable to fetch exb details");
         }
@@ -59,8 +56,7 @@ const ExbForm = () => {
       setFormData({ ...initialFormData, userId: user.user.id });
     }
   }, [id]);
-  //   setFormData({ ...formData, userId: user.user.id });
-  // }, [formData.userId]);
+
 
   useEffect(() => {
     if (id && showExb) {
