@@ -26,6 +26,27 @@ export const getAllArtworks = async (filters) => {
   }
 };
 
+//////////////////////////////////////////////////////
+// GET | Get All Artworks By Search
+//////////////////////////////////////////////////////
+export const getArtworkBySearch = async (query) => {
+  try {
+    const response = await fetch(
+      `${BACKEND_URL}/artworks/search/?query=${query}`
+    );
+    const data = await response.json();
+    // console.log(data);
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error();
+    }
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get all artworks`);
+  }
+};
+
 ///////////////////////////
 // Get | Get Artwork Detail
 ///////////////////////////
@@ -33,7 +54,7 @@ export const getArtworkDetail = async (objectid) => {
   try {
     const response = await fetch(`${BACKEND_URL}/artworks/${objectid}`);
     const data = await response.json();
- 
+
     if (response.ok) {
       return data;
     } else {
@@ -74,5 +95,26 @@ export const getFilterObjs = async (filter, page) => {
   } catch (err) {
     console.error(err);
     console.log(`Unable to communicate with DB to get ${filter} objects`);
+  }
+};
+///////////////////////////
+// GET | Next page of artworks
+///////////////////////////
+export const postNextPageOfArtworks = async (altUrl) => {
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ altUrl }),
+  };
+  try {
+    const response = await fetch(`${BACKEND_URL}/artworks/next`, options);
+    const data = await response.json();
+
+    return data;
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with DB to get next page of objects`);
   }
 };

@@ -1,7 +1,13 @@
 /* eslint-disable no-case-declarations */
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import artworkFilterData from "../../../data/artworkFilterData";
-import { getAllArtworks, getFilterObjs } from "../../services/artworkService";
+import {
+  getAllArtworks,
+  getArtworkBySearch,
+  getFilterObjs,
+  postNextPageOfArtworks,
+} from "../../services/artworkService";
+import useGlobalContext from "../global/useGlobalContext";
 // Create a Context
 const ArtworkContext = createContext();
 const initialArtworksState = {
@@ -16,6 +22,7 @@ const initialArtworksState = {
   showArtwork: {},
   displayView: "",
   isLoading: false,
+  filtersAreLoading: false,
   isError: false,
   artFilter: {
     size: "12",
@@ -59,6 +66,20 @@ const reducer = (state, action) => {
         records: action.payload.records,
         info: action.payload.info,
       };
+    case "getArworksBySearch/artworks":
+      return {
+        ...state,
+        records: action.payload.records,
+        info: action.payload.info,
+      };
+    case "postNextPageOfArtworks/artworks":
+      return {
+        ...state,
+        records: [
+          ...state.records, ...action.payload.records
+        ],
+        info: action.payload.info,
+      };
     case "getArtworkDetail/artworks":
       return { ...state, showArtwork: action.payload };
     case "displayView/artworks":
@@ -68,34 +89,38 @@ const reducer = (state, action) => {
       return { ...state, isLoading: true };
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
+    case "filtersStartLoading/artworks":
+      return { ...state, filtersAreLoading: true };
+    case "filtersStopLoading/artworks":
+      return { ...state, filtersAreLoading: false };
     // Filter Section
     case "filterArtworks/artworks":
       return {
         ...state,
         artFilter: {
           ...state.artFilter,
-          [action.payload[0]]: action.payload[1],
+          [action.payload.key]: action.payload.id,
         },
       };
     case "toggleCheckbox/artworks":
-      // console.log(action.payload);
       const { primaryCategoryKey, subCategoryId, name } = action.payload;
-      console.log(action.payload, " in reducer, action.payload");
+
       return {
         ...state,
         [primaryCategoryKey]: {
+          // spread the state of the category | keep title, update records
           ...state[primaryCategoryKey],
-          records: state[primaryCategoryKey].records.map((record) => {
+          // iterate thru records and find matching key-value from payload
+          records: state[primaryCategoryKey]?.records?.map((record) => {
             if (record.id === subCategoryId && record.name === name) {
-              console.log("it matches");
-              console.log(record);
+              //  update the isChecked and clickCount to control the UI for filter boxes
               return {
                 ...record,
                 isChecked: !record.isChecked,
                 clickCount: record.clickCount + 1,
               };
             } else {
-              return { record };
+              return record;
             }
           }),
         },
@@ -103,6 +128,8 @@ const reducer = (state, action) => {
     case "removeFilterArtworks/artworks":
       return {
         ...state,
+        // replace current filter with new filter that does not contain the key-value passed in the function that
+        // calls dispatch
         artFilter: action.payload,
       };
     case "resetFilterState/artworks":
@@ -186,6 +213,7 @@ export const ArtworkProvider = ({ children }) => {
       info,
       isError,
       isLoading,
+      filtersAreLoading,
       medium,
       period,
       records,
@@ -205,10 +233,62 @@ export const ArtworkProvider = ({ children }) => {
     try {
       const data = await getAllArtworks(artFilter);
       //   gets all info related to artworks (info and data)
+      console.log(data, ' <-- all artworks')
       dispatch({ type: "getArtworks/artworks", payload: data });
     } catch (err) {
       console.error(err);
       console.log(`Unable to get all artworks | context`);
+    } finally {
+      // stops loading
+      dispatch({ type: "stopLoading/artworks" });
+    }
+  };
+
+  ///////////////////////////
+  // Get Artworks By Search
+  ///////////////////////////
+  const handleSearchArtworksByTitle = async (query) => {
+    // begins search when query is at least 3 chars long
+
+    if (query.length > 2) {
+      // start loading
+      dispatch({ type: "startLoading/artworks" });
+      try {
+        // fetch artworks by search
+        const data = await getArtworkBySearch(query);
+        console.log(data);
+        dispatch({ type: "getArworksBySearch/artworks", payload: data });
+      } catch (err) {
+        console.error(err);
+        console.log(
+          `Unable to get artworks by the following search: ${query} | context`
+        );
+      } finally {
+        // stops loading
+        dispatch({ type: "stopLoading/artworks" });
+      }
+    }
+
+    // resets results if user cleared search
+    if (query.length === 0) {
+      await handleGetAllArtworks();
+    }
+  };
+
+  ///////////////////////////
+  // Get Next Page of Artworks
+  ///////////////////////////
+  const handleGetNextPageOfArtworks = async () => {
+    // starts loading
+    dispatch({ type: "startLoading/artworks" });
+    try {
+      // making this a post so I can send info.next in the body to keep API key secure
+      const data = await postNextPageOfArtworks(info.next);
+      //   gets all info related to artworks (info and data)
+      dispatch({ type: "postNextPageOfArtworks/artworks", payload: data });
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to get next page of artworks | context`);
     } finally {
       // stops loading
       dispatch({ type: "stopLoading/artworks" });
@@ -230,28 +310,25 @@ export const ArtworkProvider = ({ children }) => {
       key = key.split(" ").join("");
     }
 
-    const arr = [key, id];
-    dispatch({ type: "filterArtworks/artworks", payload: arr });
-
-    console.log(arr, " <-- arr");
-    console.log(artFilter, " <-- art filter");
+    const obj = { key, id };
+    if (artFilter[key] === id) return;
+    dispatch({ type: "filterArtworks/artworks", payload: obj });
   };
 
   ///////////////////////////
   // Remove Filter From Query
   ///////////////////////////
   const handleRemoveFilter = (key, id) => {
-    // const { [action.payload]: _, ...newArtFilter } = state.artFilter;
+
     key = key.toLowerCase();
     if (key[0] === "w") {
       key = key.split(" ").join("");
     }
-    console.log(key, "<-- remove filter key");
-    console.log(id, "<-- remove filter id");
 
     if (artFilter[key] === id) {
+      // this first checks if the key value pair matches then it destructures the artFilter obj to 
+      // not inlcude the key value pair specified, but keeps the rest of the state
       const { [key]: _, ...removedFilterObj } = artFilter;
-      console.log("this key value pair exists");
       dispatch({
         type: "removeFilterArtworks/artworks",
         payload: removedFilterObj,
@@ -265,17 +342,23 @@ export const ArtworkProvider = ({ children }) => {
 
   const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
-
     dispatch({
       type: "toggleCheckbox/artworks",
       payload: { primaryCategoryKey, subCategoryId, name },
     });
-    // console.log(medium)
   };
 
   ///////////////////////////
   // * FILTER CATEGORIES
   ///////////////////////////
+  /*
+  //* All filter functions follow the same structure
+  1. store data for each page in variable | async func from service to retrieve data from harvard api
+  2. push all data into array
+  3. flatten array
+  4. sort data by name
+  5. dispatch to appropriate case in reducer
+  */
   ///////////////////////////
   // GET CENTURIES
   ///////////////////////////
@@ -310,7 +393,6 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
-      // console.log(data);
       dispatch({
         type: "getClassificationObjs/artworks",
         payload: data,
@@ -460,28 +542,38 @@ export const ArtworkProvider = ({ children }) => {
 
   useEffect(() => {
     handleGetAllArtworks();
+  
   }, [artFilter]);
 
   ///////////////////////////
   // Get initial Filter Values from api
   ///////////////////////////
   useEffect(() => {
-    // Fetches and processes culture objects
-    handleGetCultureObjs();
-    // Fetches and processes classification objects
-    handleGetClassificationObjs();
-    // Fetches and processes work type objects
-    handleGetWorktypeObjs();
-    // Fetches and processes medium objects
-    handleGetMediumObjs();
-    // Fetches and processes century objects
-    handleGetCenturyObjs();
-    // Fetches and processes technique objects
-    handleGetTechniqueObjs();
-    // Fetches and processes period objects
-    handleGetPeriodObjs();
+    dispatch({ type: "filtersStartLoading/artworks" });
+    try {
+      // Fetches and processes culture objects
+      handleGetCultureObjs();
+      // Fetches and processes classification objects
+      handleGetClassificationObjs();
+      // Fetches and processes work type objects
+      handleGetWorktypeObjs();
+      // Fetches and processes medium objects
+      handleGetMediumObjs();
+      // Fetches and processes century objects
+      handleGetCenturyObjs();
+      // Fetches and processes technique objects
+      handleGetTechniqueObjs();
+      // Fetches and processes period objects
+      handleGetPeriodObjs();
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to fetch all filters from harvard api`);
+    } finally {
+      dispatch({ type: "filtersStopLoading/artworks" });
+    }
   }, []);
 
+  // all categories combined to one array
   const primaryCategories = [
     century,
     classification,
@@ -495,12 +587,15 @@ export const ArtworkProvider = ({ children }) => {
   return (
     <ArtworkContext.Provider
       value={{
+        dispatch,
         handleDisplayView,
         handleGetAllArtworks,
         handleRemoveFilter,
         handleResetFilterState,
         handleSelectFilters,
         handleToggleCheckbox,
+        handleSearchArtworksByTitle,
+        handleGetNextPageOfArtworks,
         artworkFilterData,
         century,
         classification,
@@ -509,6 +604,7 @@ export const ArtworkProvider = ({ children }) => {
         info,
         isError,
         isLoading,
+        filtersAreLoading,
         medium,
         period,
         records,

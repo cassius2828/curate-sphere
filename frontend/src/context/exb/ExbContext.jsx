@@ -47,7 +47,7 @@ export const ExbProvider = ({ children }) => {
     reducer,
     initialState
   );
-  const { user, setIsLoading } = useGlobalContext();
+  const { user } = useGlobalContext();
 
   ///////////////////////////
   //   GET | index

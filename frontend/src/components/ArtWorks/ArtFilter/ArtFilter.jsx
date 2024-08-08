@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchCategoryDropdown } from "./SearchCategoryDropdown";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
 const ArtFilter = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
-  const { handleDisplayView, displayView } = useArtworkContext();
-  const { primaryCategories } = useArtworkContext();
+  const { handleDisplayView, displayView, primaryCategories } =
+    useArtworkContext();
+  // worktype is the last filter that is loaded from the api, so if it has content in its records array,
+  //  then all filters are loaded and ready tobe accessed
+  const { worktype } = useArtworkContext();
+  const allFiltersLoaded = worktype.records.length > 0;
+  const handleShowDropdown = () => {
+    if (allFiltersLoaded) {
+      setShowFilterDropdown((prev) => !prev);
+    }
+  };
   return (
-    <div className="flex gap-4 font-cardo">
+    <div className="flex gap-4 font-cardo mt-12 md:mt-0">
       <button
-        onClick={() => setShowFilterDropdown((prev) => !prev)}
+        onClick={handleShowDropdown}
         className={`text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4 `}
       >
-        Fitlers
+        Filters
       </button>
       <select
         value={displayView}
@@ -26,9 +35,10 @@ const ArtFilter = () => {
         <option disabled value="">
           Display Style
         </option>
-        <option value="gallery">Gallery View</option>
-        <option value="list">List View</option>
+        <option value="gallery">Gallery</option>
+        <option value="list">List</option>
       </select>
+      {/* dropdown */}
       {showFilterDropdown && (
         <ul className="shadow-md w-full md:w-72 min-w-[25vw] absolute top-full">
           {primaryCategories.map((category, idx) => {

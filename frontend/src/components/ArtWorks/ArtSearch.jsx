@@ -1,21 +1,32 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtGallery from "./ArtGallery";
-import ArtList from "./ArtList";
-import ArtSearchFilter from "./ArtFilter/ArtFilter";
-import {
-  faLink,
-  faRotateBack,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
+
+import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
+import ArtListMobile from "./ArtListMobile";
+import ArtListDesktop from "./ArtListDesktop";
 
 ///////////////////////////
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
-  const [loadAmountVal, setLoadAmountVal] = useState(12);
-  const { displayView, records } = useArtworkContext();
+  const [query, setQuery] = useState("");
+  const {
+    displayView,
+    records,
+
+    handleSearchArtworksByTitle,
+    handleGetNextPageOfArtworks,
+  } = useArtworkContext();
+  // uses input value to filter results based on text search
+  const handleSearchQuery = async (e) => {
+    const { value } = e.target;
+    setQuery(value);
+    await handleSearchArtworksByTitle(value);
+  };
+  const isMobile = window.innerWidth;
   if (!records) return;
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
@@ -24,6 +35,8 @@ const ArtSearch = () => {
       {/* search input */}
       <div className="relative w-3/4">
         <input
+          onChange={handleSearchQuery}
+          value={query}
           className=" border-4 border-neutral-900 p-2 mt-12 mb-6 w-full  text-2xl"
           type="text"
         />
@@ -36,68 +49,20 @@ const ArtSearch = () => {
       <FilterActionBtns />
       {/* results */}
       <div className="w-full">
-        {displayView === "list" ? <ArtList /> : <ArtGallery />}
+        {displayView === "list" ? (
+          // renders mobile vs desktop based on viewport
+          <>{isMobile < 768 ? <ArtListMobile /> : <ArtListDesktop />}</>
+        ) : (
+          <ArtGallery />
+        )}
       </div>
-      <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">
+      <button
+        onClick={handleGetNextPageOfArtworks}
+        className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize"
+      >
         load more
       </button>
     </section>
   );
 };
 export default ArtSearch;
-
-///////////////////////////
-// FilterActionBtns
-///////////////////////////
-export const FilterActionBtns = () => {
-  const { info, records, handleSelectFilters, handleResetFilterState } =
-    useArtworkContext();
-  return (
-    <div className="flex w-3/4 justify-between items-center relative">
-      {/* filter */}
-      <ArtSearchFilter />
-      {/* display num of objets */}
-      <p className=" absolute top-0 w-full md:w-auto md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-cardo">
-        Showing <span className="text-red-400">{records.length}</span> of{" "}
-        <span className="text-red-400">{info?.totalrecords}</span> objects
-      </p>
-      {/* load amount and btns */}
-      <div className="flex gap-3 items-center mt-12 md:mt-0">
-        <div className="flex flex-col gap-3 items-center md:mr-16">
-          <span className="text-xl font-cardo">load amount</span>
-
-          <select
-            className="border rounded-md w-20 p-1 text-xl"
-            onChange={(e) =>
-              handleSelectFilters( e.target.name, e.target.value )
-            }
-            name="size"
-            id="size"
-          >
-            <option value="12">12</option>
-            <option value="24">24</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </div>
-        <button className="border p-3 bg-neutral-400">
-          <FontAwesomeIcon
-            onClick={handleResetFilterState}
-            className="text-2xl text-gray-100"
-            icon={faRotateBack}
-          />
-        </button>
-        <button
-          onClick={() =>
-            alert(
-              "this will copy a link for the user to past into their browser if desired"
-            )
-          }
-          className="border p-3 bg-neutral-400"
-        >
-          <FontAwesomeIcon className="text-2xl text-gray-100" icon={faLink} />
-        </button>
-      </div>
-    </div>
-  );
-};

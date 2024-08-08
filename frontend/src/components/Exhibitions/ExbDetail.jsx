@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import ArtGallery from "../ArtWorks/ArtGallery";
-import { FilterActionBtns } from "../ArtWorks/ArtSearch";
+// import ArtGallery from "../ArtWorks/ArtGallery";
+// import { FilterActionBtns } from "../ArtWorks/ArtSearch";
 import useExbContext from "../../context/exb/useExbContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import Masonry from "react-masonry-css";
-import ArtGalleryCard from "../ArtWorks/ArtGalleryCard";
+// import ArtGalleryCard from "../ArtWorks/ArtGalleryCard";
 import ExbArtworkCard from "./ExbArtworkCard";
 
 
