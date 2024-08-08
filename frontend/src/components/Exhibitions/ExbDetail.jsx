@@ -92,21 +92,22 @@ const ExbDetail = () => {
             {formatDate(showExb.endDate)}
           </p>
           <p className="text-3xl font-cardo">{showExb.description}</p>
-          <div className="flex gap-4 text-2xl mt-8">
-            <Link to={`/exhibitions/${id}/edit`}>
-              <button className="border border-black px-6 py-1 font-cardo">
-                Edit exhibition details
-              </button>
-            </Link>
-            {isUsersExb && (
+
+          {isUsersExb && (
+            <div className="flex gap-4 text-2xl mt-8">
+              <Link to={`/exhibitions/${id}/edit`}>
+                <button className="border border-black px-6 py-1 font-cardo">
+                  Edit exhibition details
+                </button>
+              </Link>
               <button
                 onClick={() => handleDeleteButton()}
                 className="border border-black px-6 py-1 font-cardo"
               >
                 Delete exhibition
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
 
         <div className="flex flex-col items-center mx-auto">
@@ -124,7 +125,7 @@ const ExbDetail = () => {
               {showExb?.artworks?.map((record) => {
                 return (
                   <ExbArtworkCard
-                  isUsersExb={isUsersExb}
+                    isUsersExb={isUsersExb}
                     key={record.ArtworkObjectid}
                     ArtworkObjectid={record.ArtworkObjectid}
                   />
