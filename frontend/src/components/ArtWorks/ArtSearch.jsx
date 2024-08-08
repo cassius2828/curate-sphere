@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtGallery from "./ArtGallery";
-import ArtList from "./ArtList";
+
 import ArtSearchFilter from "./ArtFilter/ArtFilter";
 import {
   faLink,
@@ -11,6 +11,8 @@ import { useState } from "react";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import { getArtworkBySearch } from "../../services/artworkService";
 import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
+import ArtListMobile from "./ArtListMobile";
+import ArtListDesktop from "./ArtListDesktop";
 
 ///////////////////////////
 // ArtSearch
@@ -33,7 +35,7 @@ const ArtSearch = () => {
     console.log(query);
     console.log(records);
   };
-
+  const isMobile = window.innerWidth
   if (!records) return;
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
@@ -56,7 +58,12 @@ const ArtSearch = () => {
       <FilterActionBtns />
       {/* results */}
       <div className="w-full">
-        {displayView === "list" ? <ArtList /> : <ArtGallery />}
+        {displayView === "list" ? (
+          // renders mobile vs desktop based on viewport
+          <>{isMobile < 768 ? <ArtListMobile /> : <ArtListDesktop />}</>
+        ) : (
+          <ArtGallery />
+        )}
       </div>
       <button className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize">
         load more
@@ -65,5 +72,3 @@ const ArtSearch = () => {
   );
 };
 export default ArtSearch;
-
-

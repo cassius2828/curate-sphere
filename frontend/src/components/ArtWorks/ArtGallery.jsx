@@ -6,7 +6,7 @@ const ArtGallery = () => {
   const { records, isLoading } = useArtworkContext();
   const breakpointColumnsObj = {
     default: 4,
-    1100: 3,
+    1200: 3,
     850: 2,
     600: 1,
   };

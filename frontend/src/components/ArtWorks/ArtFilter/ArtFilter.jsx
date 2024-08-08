@@ -35,8 +35,8 @@ const ArtFilter = () => {
         <option disabled value="">
           Display Style
         </option>
-        <option value="gallery">Gallery View</option>
-        <option value="list">List View</option>
+        <option value="gallery">Gallery</option>
+        <option value="list">List</option>
       </select>
       {/* dropdown */}
       {showFilterDropdown && (
