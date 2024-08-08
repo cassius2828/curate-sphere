@@ -8,17 +8,9 @@ import Masonry from "react-masonry-css";
 import ArtGalleryCard from "../ArtWorks/ArtGalleryCard";
 import ExbArtworkCard from "./ExbArtworkCard";
 
-// const initialFormData = {
-//   title: "",
-//   location: "",
-//   description: "",
-//   startDate: "",
-//   endDate: "",
-// };
+
 const ExbDetail = () => {
-  // const [formData, setFormData] = useState(initialFormData);
   const { id } = useParams();
-  // console.log(id)
   const navigate = useNavigate();
   const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } =
     useExbContext();

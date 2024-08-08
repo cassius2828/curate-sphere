@@ -6,7 +6,6 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
     const [message, setMessage] = useState("");
     const { myExbs } = useExbContext();
     useEffect(() => {
-        // console.log(ArtworkObjectid, ' art obj id')
         console.log(myExbs)
     }, []);
     if (!isVisible) {

@@ -46,7 +46,6 @@ const ExbArtworkCard = ({ ArtworkObjectid,isUsersExb }) => {
 
   useEffect(() => {
     fetchArtworkDetails();
-    // console.log(artworkData);
     console.log(myExbs);
   }, []);
 
