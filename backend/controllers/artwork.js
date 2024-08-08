@@ -2,23 +2,22 @@ const sequelize = require("../config/database");
 const {
   models: { Artwork },
 } = sequelize;
+
+// env vars
 const BASE_URL = process.env.HARVARD_API_BASE_URL;
 const API_KEY = process.env.API_KEY;
 
-// totalrecordsperquery is how we will filter load results
 ///////////////////////////
 // ? POST | get artworks
 ///////////////////////////
 const postArtworks = async (req, res) => {
-  // console.log(req.query)
-
   // this will take our query obj and turn it into a useable string for the
   // API to consume
   // ! Queries are case sensitive to harvard api structure | be sure to provide correct name for form inputs
   // ! on front end
 
   const queriedFilter = getQueryString(req.body);
-  // console.log(queriedFilter);
+
   try {
     const response = await fetch(
       `${BASE_URL}/object?apikey=${API_KEY}${queriedFilter}`
@@ -46,9 +45,8 @@ const getArtworkDetail = async (req, res) => {
     const response = await fetch(
       `${BASE_URL}/object/${objectid}?apikey=${API_KEY}`
     );
-    let data = await response.json();
-    data.info.next = replaceApikeyWithPlaceholder(data.info.next);
-    data.info.prev = "";
+    const data = await response.json();
+
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -75,7 +73,6 @@ const getFilterObjs = async (req, res) => {
       .status(500)
       .json({ error: `cannot get ${filter} objs from harvard api` });
   }
-  // res.status(200).json({ page, filter });
 };
 
 ///////////////////////////
@@ -83,7 +80,6 @@ const getFilterObjs = async (req, res) => {
 ///////////////////////////
 const getArtworkBySearch = async (req, res) => {
   const { query } = req.query;
-  console.log(query);
   try {
     const response = await fetch(
       `${BASE_URL}/object?q=${query}&apikey=${API_KEY}&size=24`
@@ -107,12 +103,10 @@ const postNextPageOfArtworks = async (req, res) => {
   const beforeApiKey = altUrl.slice(0, 48);
   const afterApiKey = altUrl.slice(55);
   const fullUrl = beforeApiKey + API_KEY + afterApiKey;
-  // console.log(fullUrl)
   try {
     const response = await fetch(fullUrl);
 
     const data = await response.json();
-// console.log(data)
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -143,15 +137,11 @@ const getQueryString = (query) => {
 
 const replaceApikeyWithPlaceholder = (str) => {
   const apiKeyPattern = /(apikey=)([a-f0-9-]+)(&)/;
-
   // Use match to extract the parts
   const matches = str?.match(apiKeyPattern);
   if (matches) {
-    const beforeApiKey = str.substring(0, matches.index + matches[1].length); // "https://api.harvardartmuseums.org/object?apikey="
-
-    const afterApiKey = str.substring(matches.index + matches[0].length - 1); // "&size=12&page=2"
-    console.log(beforeApiKey, "before api key");
-    console.log(afterApiKey, "after api key");
+    const beforeApiKey = str.substring(0, matches.index + matches[1].length); // ex: "https://api.harvardartmuseums.org/object?apikey="
+    const afterApiKey = str.substring(matches.index + matches[0].length - 1); // ex: "&size=12&page=2"
     str = beforeApiKey + "API_KEY" + afterApiKey;
     return str;
   }

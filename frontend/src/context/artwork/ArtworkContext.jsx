@@ -319,16 +319,16 @@ export const ArtworkProvider = ({ children }) => {
   // Remove Filter From Query
   ///////////////////////////
   const handleRemoveFilter = (key, id) => {
-    // const { [action.payload]: _, ...newArtFilter } = state.artFilter;
+
     key = key.toLowerCase();
     if (key[0] === "w") {
       key = key.split(" ").join("");
     }
 
     if (artFilter[key] === id) {
+      // this first checks if the key value pair matches then it destructures the artFilter obj to 
+      // not inlcude the key value pair specified, but keeps the rest of the state
       const { [key]: _, ...removedFilterObj } = artFilter;
-      console.log("this key value pair exists");
-      console.log(removedFilterObj, " <-- removed filter obj");
       dispatch({
         type: "removeFilterArtworks/artworks",
         payload: removedFilterObj,
@@ -346,7 +346,6 @@ export const ArtworkProvider = ({ children }) => {
       type: "toggleCheckbox/artworks",
       payload: { primaryCategoryKey, subCategoryId, name },
     });
-    // console.log(medium)
   };
 
   ///////////////////////////
@@ -394,7 +393,6 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
-      // console.log(data);
       dispatch({
         type: "getClassificationObjs/artworks",
         payload: data,
