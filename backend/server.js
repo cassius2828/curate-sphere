@@ -3,7 +3,7 @@ dotenv.config();
 const express = require("express");
 const sequelize = require("./config/database");
 const cors = require("cors");
-
+const corsMiddleware = require('./middleware/corsMiddleware')
 
 const app = express();
 const port = process.env.PORT ? process.env.PORT : "3000";
@@ -38,6 +38,7 @@ app.use(cors({
     }
   }
 }));
+app.use(corsMiddleware)
 app.use(express.json());
 // app.use(morgan())
 
@@ -48,6 +49,7 @@ const testJwtRouter = require("./routes/test-jwt");
 const authRouter = require("./routes/auth");
 const exhRouter = require("./routes/exhibition");
 const artworkRouter = require("./routes/artwork");
+
 
 ///////////////////////////
 // Routes
