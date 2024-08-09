@@ -48,3 +48,17 @@ function App() {
 }
 
 export default App;
+
+/*
+postgres://
+* username
+uasj6h6qjm19hg
+* password
+:p13b73eb2332321150596ef392f172193fcbf0d5ff77e9d688bba6eb68658e42a
+* host
+@c8lj070d5ubs83.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com
+* port
+:5432
+* database name
+/dcn462eqq78ei
+*/
