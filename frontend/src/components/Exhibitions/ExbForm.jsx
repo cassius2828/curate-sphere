@@ -44,6 +44,7 @@ const ExbForm = () => {
 
   useEffect(() => {
     if (id) {
+      // eslint-disable-next-line no-inner-declarations
       async function fetchExbDetails() {
         try {
           await handleGetExbDetail(id);
@@ -83,7 +84,7 @@ const ExbForm = () => {
           <input
             value={formData.title}
             onChange={(e) => handleChange(e)}
-            className="border-black border w-2/3"
+            className="border-black border w-2/3 p-3 text-xl"
             type="text"
             id="title"
             name="title"
@@ -97,7 +98,7 @@ const ExbForm = () => {
           <textarea
             value={formData.description}
             onChange={(e) => handleChange(e)}
-            className="border-black border w-2/3"
+            className="border-black border w-2/3 p-3 text-xl"
             type="text"
             id="description"
             name="description"
@@ -110,7 +111,7 @@ const ExbForm = () => {
           <input
             value={formData.location}
             onChange={(e) => handleChange(e)}
-            className="border-black border w-2/3"
+            className="border-black border w-2/3 p-3 text-xl"
             type="text"
             id="location"
             name="location"
@@ -123,7 +124,7 @@ const ExbForm = () => {
           <input
             value={formatDateForEdit(formData.startDate)}
             onChange={(e) => handleChange(e)}
-            className="border-black border w-2/3"
+            className="border-black border w-2/3 p-3 text-xl"
             type="date"
             id="startDate"
             name="startDate"
@@ -136,7 +137,7 @@ const ExbForm = () => {
           <input
             value={formatDateForEdit(formData.endDate)}
             onChange={(e) => handleChange(e)}
-            className="border-black border w-2/3"
+            className="border-black border w-2/3 p-3 text-xl"
             type="date"
             id="endDate"
             name="endDate"

@@ -13,13 +13,15 @@ const ExbDashboard = () => {
   const {
     handleGetExbDetail,
     handleGetAllExbs,
+    handleGetUserExbs,
     handleDeleteExb,
     handleEditExb,
     myExbs,
     showExb,exploreExbs
   } = useExbContext();
 useEffect(() => {
-console.log(exploreExbs)
+
+handleGetUserExbs()
 },[])
   return (
     <section className="flex flex-col mb-24 mx-24">

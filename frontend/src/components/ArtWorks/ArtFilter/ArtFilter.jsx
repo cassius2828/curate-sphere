@@ -9,7 +9,7 @@ const ArtFilter = () => {
   // worktype is the last filter that is loaded from the api, so if it has content in its records array,
   //  then all filters are loaded and ready tobe accessed
   const { worktype } = useArtworkContext();
-  const allFiltersLoaded = worktype.records.length > 0;
+  const allFiltersLoaded = worktype?.records.length > 0;
   const handleShowDropdown = () => {
     if (allFiltersLoaded) {
       setShowFilterDropdown((prev) => !prev);

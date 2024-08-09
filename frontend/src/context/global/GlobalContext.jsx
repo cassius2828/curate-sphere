@@ -13,15 +13,13 @@ export const GlobalProvider = ({ children }) => {
   // user state | retrieve the user, set them to local storage,
   const [user, setUser] = useState(getUser());
   // console.log(user)
+  
 
   const handleSignout = () => {
     signout();
     setUser(null);
   };
-  // console.log(user)
-  // useEffect(() => {
-  //   as
-  // })
+
 
   // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
   ///////////////////////////
