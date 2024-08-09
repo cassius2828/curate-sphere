@@ -24,7 +24,20 @@ connectToDB();
 ///////////////////////////
 // Middleware
 ///////////////////////////
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000', // Development URL
+  process.env.HEROKU_URL // Production URL
+];
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
 app.use(express.json());
 // app.use(morgan())
 
