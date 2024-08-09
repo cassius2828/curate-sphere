@@ -3,7 +3,6 @@ dotenv.config();
 const express = require("express");
 const sequelize = require("./config/database");
 const cors = require("cors");
-const corsMiddleware = require('./middleware/corsMiddleware')
 
 const app = express();
 const port = process.env.PORT ? process.env.PORT : "3000";
@@ -24,21 +23,7 @@ connectToDB();
 ///////////////////////////
 // Middleware
 ///////////////////////////
-const allowedOrigins = [
-  'http://localhost:3000', // Development URL
-  process.env.NETLIFY_URL // Production URL
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-}));
-app.use(corsMiddleware)
+app.use(cors());
 app.use(express.json());
 // app.use(morgan())
 
