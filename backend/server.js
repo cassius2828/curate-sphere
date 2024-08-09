@@ -26,7 +26,7 @@ connectToDB();
 ///////////////////////////
 const allowedOrigins = [
   'http://localhost:3000', // Development URL
-  process.env.HEROKU_URL // Production URL
+  process.env.NETLIFY_URL // Production URL
 ];
 
 app.use(cors({
