@@ -106,7 +106,9 @@ const postNextPageOfArtworks = async (req, res) => {
   try {
     const response = await fetch(fullUrl);
 
-    const data = await response.json();
+    let data = await response.json();
+    data.info.next = replaceApikeyWithPlaceholder(data.info.next);
+    data.info.prev = "";
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
