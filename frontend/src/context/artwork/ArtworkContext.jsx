@@ -86,6 +86,9 @@ const reducer = (state, action) => {
       return { ...state, isLoading: true };
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
+    // Reset State
+    case "resetAll/artworks":
+      return initialArtworksState ;
     // Filter Section
     case "filterArtworks/artworks":
       return {
@@ -134,6 +137,7 @@ const reducer = (state, action) => {
       };
     // Filter Categories
     case "getCultureObjs/artworks":
+      console.log(state, ' this is the current state')
       return {
         ...state,
         culture: {
@@ -415,6 +419,7 @@ export const ArtworkProvider = ({ children }) => {
       data.sort((a, b) => a.name.localeCompare(b.name));
 
       dispatch({ type: "getCultureObjs/artworks", payload: data.flat() });
+      return data
     } catch (err) {
       console.error(err);
       console.log(`Unable to fetch culture objs | context`);
@@ -543,31 +548,41 @@ export const ArtworkProvider = ({ children }) => {
   ///////////////////////////
   // Get initial Filter Values from api
   ///////////////////////////
-  useEffect(() => {
+  const handleGetAllFilterObjs = async () => {
     dispatch({ type: "filtersStartLoading/artworks" });
     try {
       // Fetches and processes culture objects
-      handleGetCultureObjs();
+     console.log(
+      await handleGetCultureObjs()
+     )
       // Fetches and processes classification objects
-      handleGetClassificationObjs();
+      await handleGetClassificationObjs();
       // Fetches and processes work type objects
-      handleGetWorktypeObjs();
+      await handleGetWorktypeObjs();
       // Fetches and processes medium objects
-      handleGetMediumObjs();
+      await handleGetMediumObjs();
       // Fetches and processes century objects
-      handleGetCenturyObjs();
+      await handleGetCenturyObjs();
       // Fetches and processes technique objects
-      handleGetTechniqueObjs();
+      await handleGetTechniqueObjs();
       // Fetches and processes period objects
-      handleGetPeriodObjs();
+      await handleGetPeriodObjs();
     } catch (err) {
       console.error(err);
       console.log(`Unable to fetch all filters from harvard api`);
     } finally {
       dispatch({ type: "filtersStopLoading/artworks" });
+      console.log(primaryCategories);
     }
+  };
+  useEffect(() => {
+    console.log("getting filter objects");
+    handleGetAllFilterObjs();
   }, []);
-
+  const handleResetArtworkState = () => {
+    dispatch({ type: "resetAll/artworks" });
+    console.log("reset artwork state, reducer there --> ", reducer);
+  };
   // all categories combined to one array
   const primaryCategories = [
     century,
@@ -585,12 +600,13 @@ export const ArtworkProvider = ({ children }) => {
         dispatch,
         handleDisplayView,
         handleGetAllArtworks,
-        handleRemoveFilter,
-        handleResetFilterState,
-        handleSelectFilters,
-        handleToggleCheckbox,
-        handleSearchArtworksByTitle,
         handleGetNextPageOfArtworks,
+        handleRemoveFilter,
+        handleResetArtworkState,
+        handleResetFilterState,
+        handleSearchArtworksByTitle,
+        handleSelectFilters,
+        handleToggleCheckbox,handleGetAllFilterObjs,
         artworkFilterData,
         century,
         classification,
@@ -599,14 +615,13 @@ export const ArtworkProvider = ({ children }) => {
         info,
         isError,
         isLoading,
-
         medium,
         period,
+        primaryCategories,
         records,
         showArtwork,
         technique,
         worktype,
-        primaryCategories,
       }}
     >
       {children}

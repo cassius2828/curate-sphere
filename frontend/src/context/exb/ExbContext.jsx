@@ -37,6 +37,9 @@ const reducer = (state, action) => {
           artworks: action.payload,
         },
       };
+    // reset
+    case "resetAll/exb":
+      return initialState;
     default:
       break;
   }
@@ -54,7 +57,8 @@ export const ExbProvider = ({ children }) => {
   ///////////////////////////
   const handleGetAllExbs = async () => {
     try {
-      const data = await getAllExhibitions(user.user.id);
+      const data = await getAllExhibitions(user?.user.id);
+      console.log(data, " <-- all exbs");
 
       dispatch({ type: "explore/exb", payload: data });
     } catch (err) {
@@ -68,8 +72,8 @@ export const ExbProvider = ({ children }) => {
   ///////////////////////////
   const handleGetUserExbs = async () => {
     try {
-      const data = await getUserExhibitions(user.user.id);
-      // console.log(data, ' <-- users exbs')
+      const data = await getUserExhibitions(user?.user.id);
+      console.log(data, " <-- users exbs");
       dispatch({ type: "userExbs/exb", payload: data });
     } catch (err) {
       console.error(err);
@@ -77,23 +81,21 @@ export const ExbProvider = ({ children }) => {
     }
   };
 
-
   ///////////////////////////
   //   GET | Exb Artworks
   ///////////////////////////
   const handleGetExbArtworks = async (exbId) => {
-  
     try {
       const data = await getExbArtworks(exbId);
-// console.log(data)
+      // console.log(data)
       dispatch({ type: "addArtworks/exb", payload: data });
-      return data
+      return data;
     } catch (err) {
       console.error(err);
       console.log(
         `Unable to communicate with db to add artworks to exb | context`
       );
-    } 
+    }
   };
   ///////////////////////////
   //   GET | show
@@ -104,17 +106,14 @@ export const ExbProvider = ({ children }) => {
 
       dispatch({ type: "getDetail/exb", payload: data });
       // console.log(data)
-     const artworkData = await handleGetExbArtworks(exbId);
-    //  console.log(artworkData, ' <-- artwork data')
+      const artworkData = await handleGetExbArtworks(exbId);
+      //  console.log(artworkData, ' <-- artwork data')
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);
     }
   };
 
-  // useEffect(() => {
-  //   console.log(showExb);
-  // }, [showExb]);
   ///////////////////////////
   //   ! DELETE
   ///////////////////////////
@@ -140,31 +139,29 @@ export const ExbProvider = ({ children }) => {
     }
   };
 
-  ///////////////////////////
-  //   ? POST | create
-  ///////////////////////////
-  const handleCreateExb = async () => {
-    await createExb();
+  const handleResetExbState = () => {
+    dispatch({ type: "resetAll/exb" });
+    console.log(myExbs, " my exbs");
+    console.log(exploreExbs, " explore exsb");
+    console.log(showExb, " <-- showexb");
+    console.log("reset exb state, reducer there --> ", reducer);
   };
   // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
 
-  useEffect(() => {
-    handleGetUserExbs();
-    handleGetAllExbs();
-  }, []);
   return (
     <ExbContext.Provider
       value={{
         dispatch,
+        handleDeleteExb,
         handleEditExb,
-        showExb,
+        handleGetAllExbs,
+        handleGetExbArtworks,
+        handleGetExbDetail,
+        handleGetUserExbs,
+        handleResetExbState,
         exploreExbs,
         myExbs,
-        handleGetAllExbs,
-        handleGetExbDetail,
-        handleDeleteExb,
-        handleGetUserExbs,
-        handleGetExbArtworks,
+        showExb,
       }}
     >
       {children}
