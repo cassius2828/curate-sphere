@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import artworkFilterData from "../../../data/artworkFilterData";
 import {
   getAllArtworks,
@@ -7,7 +7,7 @@ import {
   getFilterObjs,
   postNextPageOfArtworks,
 } from "../../services/artworkService";
-import useGlobalContext from "../global/useGlobalContext";
+
 // Create a Context
 const ArtworkContext = createContext();
 const initialArtworksState = {
@@ -22,7 +22,6 @@ const initialArtworksState = {
   showArtwork: {},
   displayView: "",
   isLoading: false,
-  filtersAreLoading: false,
   isError: false,
   artFilter: {
     size: "12",
@@ -75,9 +74,7 @@ const reducer = (state, action) => {
     case "postNextPageOfArtworks/artworks":
       return {
         ...state,
-        records: [
-          ...state.records, ...action.payload.records
-        ],
+        records: [...state.records, ...action.payload.records],
         info: action.payload.info,
       };
     case "getArtworkDetail/artworks":
@@ -89,10 +86,6 @@ const reducer = (state, action) => {
       return { ...state, isLoading: true };
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
-    case "filtersStartLoading/artworks":
-      return { ...state, filtersAreLoading: true };
-    case "filtersStopLoading/artworks":
-      return { ...state, filtersAreLoading: false };
     // Filter Section
     case "filterArtworks/artworks":
       return {
@@ -213,7 +206,6 @@ export const ArtworkProvider = ({ children }) => {
       info,
       isError,
       isLoading,
-      filtersAreLoading,
       medium,
       period,
       records,
@@ -233,7 +225,7 @@ export const ArtworkProvider = ({ children }) => {
     try {
       const data = await getAllArtworks(artFilter);
       //   gets all info related to artworks (info and data)
-      console.log(data, ' <-- all artworks')
+      console.log(data, " <-- all artworks");
       dispatch({ type: "getArtworks/artworks", payload: data });
     } catch (err) {
       console.error(err);
@@ -319,14 +311,13 @@ export const ArtworkProvider = ({ children }) => {
   // Remove Filter From Query
   ///////////////////////////
   const handleRemoveFilter = (key, id) => {
-
     key = key.toLowerCase();
     if (key[0] === "w") {
       key = key.split(" ").join("");
     }
 
     if (artFilter[key] === id) {
-      // this first checks if the key value pair matches then it destructures the artFilter obj to 
+      // this first checks if the key value pair matches then it destructures the artFilter obj to
       // not inlcude the key value pair specified, but keeps the rest of the state
       const { [key]: _, ...removedFilterObj } = artFilter;
       dispatch({
@@ -336,10 +327,15 @@ export const ArtworkProvider = ({ children }) => {
     }
   };
 
+  ///////////////////////////
+  // Reset Filter State
+  ///////////////////////////
   const handleResetFilterState = () => {
     dispatch({ type: "resetFilterState/artworks" });
   };
-
+  ///////////////////////////
+  // Toggle Checkbox State
+  ///////////////////////////
   const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
     dispatch({
@@ -542,7 +538,6 @@ export const ArtworkProvider = ({ children }) => {
 
   useEffect(() => {
     handleGetAllArtworks();
-  
   }, [artFilter]);
 
   ///////////////////////////
@@ -604,7 +599,7 @@ export const ArtworkProvider = ({ children }) => {
         info,
         isError,
         isLoading,
-        filtersAreLoading,
+
         medium,
         period,
         records,
