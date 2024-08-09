@@ -14,6 +14,7 @@ const port = process.env.PORT ? process.env.PORT : "3000";
 const connectToDB = async () => {
   try {
     await sequelize.authenticate();
+    await sequelize.sync({ force: false }); 
     console.log("Successfully connected to db ");
   } catch (err) {
     console.error("Unable to connect to the db", err);
