@@ -44,6 +44,7 @@ const Nav = () => {
             ) : (
               <>
                 <NavListItem
+                  setIsMenuOpen={setIsMenuOpen}
                   listItemText={`Exhibitions`}
                   dropDownItems={[
                     {
@@ -62,6 +63,7 @@ const Nav = () => {
                 />
                 {/* if artworks have not loaded then the link will not activate */}
                 <Link
+                  onClick={() => setIsMenuOpen(false)}
                   className={isLoading ? `pointer-events-none` : ""}
                   to={`/artworks/search`}
                 >
@@ -72,6 +74,7 @@ const Nav = () => {
                     onClick={() => {
                       handleResetContextState();
                       handleSignout();
+                      setIsMenuOpen(false);
                     }}
                     className="p-3 text-2xl "
                   >
@@ -84,6 +87,7 @@ const Nav = () => {
         )}
       </div>
       <ul className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center">
+        {/* desktop */}
         {!user ? (
           <>
             <Link to={`/login`}>
@@ -112,7 +116,6 @@ const Nav = () => {
                   path: "/exhibitions/dashboard",
                 },
               ]}
-              // isMobile={false}
             />
             <Link to={`/artworks/search`}>
               <li className="p-3 text-2xl ">Search Artworks</li>

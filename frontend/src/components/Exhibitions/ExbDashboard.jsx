@@ -16,7 +16,7 @@ const ExbDashboard = () => {
   }, []);
   return (
     <section className="flex flex-col mb-24 mx-24">
-      <div className="flex gap-28 mb-20 items-center">
+      <div className="flex flex-col md:flex-row text-center md:text-start gap-28 mb-20 items-center">
         <h1 className="text-6xl font-marcellus">My Exhibitions</h1>
         <Link to="/exhibitions/create">
           <button className="text-2xl border-black border px-6 py-1 font-cardo">

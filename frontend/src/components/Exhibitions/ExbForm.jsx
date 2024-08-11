@@ -69,15 +69,15 @@ const ExbForm = () => {
   }, [showExb, id]);
 
   return (
-    <section className="flex flex-col ml-10">
+    <section className="flex flex-col md:ml-10">
       <h1 className="text-6xl mb-20 text-center font-marcellus">
         {id ? "Edit" : "Create New"} Exhibition
       </h1>
       <form
-        className="border-black border-2 w-1/2 mx-auto p-11 font-cardo"
+        className="border-t-black border-2 md:border-black w-full md:w-1/2 mx-auto p-5 md:p-11 font-cardo"
         action=""
       >
-        <div className="flex gap-8 mb-5 items-center">
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="title">
             Exhibition Title:{" "}
           </label>
@@ -91,7 +91,7 @@ const ExbForm = () => {
             required
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="description">
             Description:{" "}
           </label>
@@ -104,7 +104,7 @@ const ExbForm = () => {
             name="description"
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="location">
             Location:{" "}
           </label>
@@ -117,7 +117,7 @@ const ExbForm = () => {
             name="location"
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="startDate">
             Start Date:{" "}
           </label>
@@ -130,7 +130,7 @@ const ExbForm = () => {
             name="startDate"
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="endDate">
             End Date:{" "}
           </label>

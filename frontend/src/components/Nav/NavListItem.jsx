@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 export const NavListItem = ({
   dropDownItems,
   listItemText,
+  setIsMenuOpen,
   onClick,
   isMobile,
 }) => {
@@ -24,9 +25,12 @@ export const NavListItem = ({
         >
           {dropDownItems.map((item, idx) => {
             return (
-              <Link  key={item.text + idx} to={item.path}>
+              <Link key={item.text + idx} to={item.path}>
                 <li
-                  onClick={() => setIsHovered(false)}
+                  onClick={() => {
+                    setIsHovered(false);
+                    setIsMenuOpen(false);
+                  }}
                   className="dropdown-li hover:bg-neutral-700 text-gray-100 relative z-10 p-3 text-xl capitalize"
                 >
                   {item.text}
