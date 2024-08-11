@@ -76,14 +76,14 @@ const ExbDetail = () => {
   return (
     <>
       <section>
-        <div className="flex flex-col items-center mx-auto mb-16 p-5 md:p-0 md:w-1/2">
-          <h1 className="text-6xl text-center mb-5 font-marcellus">{showExb.title}</h1>
+        <div className="flex flex-col items-center text-center mx-auto mb-16 p-5 md:p-0 md:w-1/2">
+          <h1 className="text-6xl mb-5 font-marcellus">{showExb.title}</h1>
           <p className="text-4xl font-cardo">Location: {showExb.location}</p>
           <p className="text-4xl mb-10 font-cardo">
             Dates: {formatDate(showExb.startDate)} -{" "}
             {formatDate(showExb.endDate)}
           </p>
-          <p className="text-3xl font-cardo">{showExb.description}</p>
+          <p className="text-3xl font-cardo text-start">{showExb.description}</p>
 
           {isUsersExb && (
             <div className="flex gap-4 text-2xl mt-8">

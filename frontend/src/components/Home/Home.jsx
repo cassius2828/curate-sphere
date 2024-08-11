@@ -4,10 +4,12 @@ import useGlobalContext from "../../context/global/useGlobalContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import { useEffect } from "react";
 import { getUser } from "../../services/authService";
+import useExbContext from "../../context/exb/useExbContext";
 
 const Home = () => {
   const { user, setUser } = useGlobalContext();
   const { handleGetAllArtworks, handleGetAllFilterObjs } = useArtworkContext();
+  const {handleGetUserExbs} = useExbContext()
 
   const fetchUser = async () => {
     try {
@@ -22,6 +24,7 @@ const Home = () => {
   useEffect(() => {
     handleGetAllArtworks();
     handleGetAllFilterObjs();
+    handleGetUserExbs()
     fetchUser();
   }, []);
   return (
