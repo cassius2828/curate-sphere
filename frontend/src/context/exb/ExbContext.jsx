@@ -1,6 +1,5 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useReducer } from "react";
 import {
-  createExb,
   deleteExb,
   editExb,
   getAllExhibitions,
@@ -58,7 +57,6 @@ export const ExbProvider = ({ children }) => {
   const handleGetAllExbs = async () => {
     try {
       const data = await getAllExhibitions(user?.user.id);
-      console.log(data, " <-- all exbs");
 
       dispatch({ type: "explore/exb", payload: data });
     } catch (err) {
@@ -73,7 +71,6 @@ export const ExbProvider = ({ children }) => {
   const handleGetUserExbs = async () => {
     try {
       const data = await getUserExhibitions(user?.user.id);
-      console.log(data, " <-- users exbs");
       dispatch({ type: "userExbs/exb", payload: data });
     } catch (err) {
       console.error(err);
@@ -87,7 +84,6 @@ export const ExbProvider = ({ children }) => {
   const handleGetExbArtworks = async (exbId) => {
     try {
       const data = await getExbArtworks(exbId);
-      // console.log(data)
       dispatch({ type: "addArtworks/exb", payload: data });
       return data;
     } catch (err) {
@@ -103,11 +99,8 @@ export const ExbProvider = ({ children }) => {
   const handleGetExbDetail = async (exbId) => {
     try {
       const data = await getExbDetail(exbId);
-
       dispatch({ type: "getDetail/exb", payload: data });
-      // console.log(data)
       const artworkData = await handleGetExbArtworks(exbId);
-      //  console.log(artworkData, ' <-- artwork data')
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);
@@ -120,7 +113,6 @@ export const ExbProvider = ({ children }) => {
   const handleDeleteExb = async (id) => {
     try {
       const data = await deleteExb(id);
-      // console.log(data);
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to delete exb | context`);
@@ -141,10 +133,6 @@ export const ExbProvider = ({ children }) => {
 
   const handleResetExbState = () => {
     dispatch({ type: "resetAll/exb" });
-    console.log(myExbs, " my exbs");
-    console.log(exploreExbs, " explore exsb");
-    console.log(showExb, " <-- showexb");
-    console.log("reset exb state, reducer there --> ", reducer);
   };
   // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
 

@@ -137,7 +137,6 @@ const reducer = (state, action) => {
       };
     // Filter Categories
     case "getCultureObjs/artworks":
-      console.log(state, ' this is the current state')
       return {
         ...state,
         culture: {
@@ -229,7 +228,6 @@ export const ArtworkProvider = ({ children }) => {
     try {
       const data = await getAllArtworks(artFilter);
       //   gets all info related to artworks (info and data)
-      console.log(data, " <-- all artworks");
       dispatch({ type: "getArtworks/artworks", payload: data });
     } catch (err) {
       console.error(err);
@@ -252,7 +250,6 @@ export const ArtworkProvider = ({ children }) => {
       try {
         // fetch artworks by search
         const data = await getArtworkBySearch(query);
-        console.log(data);
         dispatch({ type: "getArworksBySearch/artworks", payload: data });
       } catch (err) {
         console.error(err);
@@ -552,9 +549,7 @@ export const ArtworkProvider = ({ children }) => {
     dispatch({ type: "filtersStartLoading/artworks" });
     try {
       // Fetches and processes culture objects
-     console.log(
       await handleGetCultureObjs()
-     )
       // Fetches and processes classification objects
       await handleGetClassificationObjs();
       // Fetches and processes work type objects
@@ -572,16 +567,13 @@ export const ArtworkProvider = ({ children }) => {
       console.log(`Unable to fetch all filters from harvard api`);
     } finally {
       dispatch({ type: "filtersStopLoading/artworks" });
-      console.log(primaryCategories);
     }
   };
   useEffect(() => {
-    console.log("getting filter objects");
     handleGetAllFilterObjs();
   }, []);
   const handleResetArtworkState = () => {
-    dispatch({ type: "resetAll/artworks" });
-    console.log("reset artwork state, reducer there --> ", reducer);
+    dispatch({ type: "resetAll/artworks" })
   };
   // all categories combined to one array
   const primaryCategories = [
