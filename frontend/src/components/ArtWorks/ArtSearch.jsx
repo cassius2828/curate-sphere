@@ -11,20 +11,19 @@ import ArtListDesktop from "./ArtListDesktop";
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
-  const [query, setQuery] = useState("");
+  const {searchQuery, handleUpdateSearchQuery} = useArtworkContext()
   const {
     displayView,
     records,
-
     handleSearchArtworksByTitle,
-    handleGetNextPageOfArtworks,
+    handleGetNextPageOfArtworks,artFilter
   } = useArtworkContext();
 
   // uses input value to filter results based on text search
   const handleSearchQuery = async (e) => {
     const { value } = e.target;
-    setQuery(value);
-    await handleSearchArtworksByTitle(value);
+    handleUpdateSearchQuery(value);
+    await handleSearchArtworksByTitle(value, artFilter);
   };
   // find viewport width on load
   const isMobile = window.innerWidth;
@@ -38,7 +37,7 @@ const ArtSearch = () => {
       <div className="relative w-3/4">
         <input
           onChange={handleSearchQuery}
-          value={query}
+          value={searchQuery}
           className=" border-4 border-neutral-900 p-2 mt-12 mb-6 w-full  text-2xl"
           type="text"
         />
