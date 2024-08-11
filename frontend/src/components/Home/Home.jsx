@@ -3,20 +3,61 @@ import { LampContainer } from "../ui/lamp";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import { useEffect } from "react";
+import { getUser } from "../../services/authService";
+import useExbContext from "../../context/exb/useExbContext";
 
 const Home = () => {
-  const { user } = useGlobalContext();
-  const { handleGetAllArtworks, handleGetAllFilterObjs } = useArtworkContext();
+  const { user, setUser } = useGlobalContext();
+  const { handleGetAllArtworks, handleGetAllFilterObjs, records } =
+    useArtworkContext();
+  const { handleGetUserExbs, myExbs } = useExbContext();
 
+  ///////////////////////////
+  // Fetches User
+  ///////////////////////////
+  const fetchUser = async () => {
+    try {
+      const data = getUser();
+      setUser(data);
+    } catch (err) {
+      console.error(err);
+      console.log(`Could not get user | context`);
+    }
+  };
+
+  //////////////////////////////////////////////////////
+  // Fetches User, Artworks, Filters, and User Exbs
+  //////////////////////////////////////////////////////
+  // this prevents redundant fetch calls if necessary data already exists
+  const fetchAllData = async () => {
+    // user
+    if (!user) {
+      fetchUser();
+      console.log("fetched user");
+    }
+    // artworks
+    if (records.length === 0) {
+      await handleGetAllArtworks();
+      await handleGetAllFilterObjs();
+      console.log("fetched filters and artworks");
+    }
+    // user exbs
+    if (myExbs.length === 0) {
+      await handleGetUserExbs();
+    }
+  };
+
+  ///////////////////////////
+  // useEffect to run all fetches
+  ///////////////////////////
   useEffect(() => {
-    handleGetAllArtworks();
-    handleGetAllFilterObjs();
+    fetchAllData();
   }, []);
   return (
     <LampContainer>
       <div className="relative z-50 min-h-screen w-screen flex flex-col gap-y-5 justify-center items-center">
-        <h1 className="text-8xl text-white font-marcellus">
-          Welcome, {user.user.username}
+        <h1 className=" text-6xl md:text-8xl text-white font-marcellus capitalize">
+          Welcome, {user?.user?.username}
         </h1>
         <Link to="/exhibitions/dashboard">
           <button className="relative text-3xl border-2 text-white p-6 m-6 font-marcellus">

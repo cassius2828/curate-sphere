@@ -1,28 +1,19 @@
+import { useEffect } from "react";
+import useExbContext from "../../context/exb/useExbContext";
+import useGlobalContext from "../../context/global/useGlobalContext";
+import { ExbCard } from "./ExbCard";
 import { Link } from "react-router-dom";
-const initialFormData = {
-  title: "",
-  location: "",
-  description: "",
-  startDate: "",
-  endDate: "",
-};
+
 const ExbDashboard = () => {
-  const [formData, setFormData] = useState(initialFormData);
-  const { user, formatDate } = useGlobalContext();
-
+  const { formatDate } = useGlobalContext();
   const {
-    handleGetExbDetail,
-    handleGetAllExbs,
     handleGetUserExbs,
-    handleDeleteExb,
-    handleEditExb,
     myExbs,
-    showExb,exploreExbs
   } = useExbContext();
-useEffect(() => {
-
-handleGetUserExbs()
-},[])
+  
+  useEffect(() => {
+    handleGetUserExbs();
+  }, []);
   return (
     <section className="flex flex-col mb-24 mx-24">
       <div className="flex gap-28 mb-20 items-center">
@@ -51,8 +42,3 @@ handleGetUserExbs()
   );
 };
 export default ExbDashboard;
-
-import React, { useEffect, useState } from "react";
-import useExbContext from "../../context/exb/useExbContext";
-import useGlobalContext from "../../context/global/useGlobalContext";
-import { ExbCard } from "./ExbCard";

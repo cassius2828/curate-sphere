@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 import { getUser, signout } from "../../services/authService";
 
@@ -13,13 +13,11 @@ export const GlobalProvider = ({ children }) => {
   // user state | retrieve the user, set them to local storage,
   const [user, setUser] = useState(getUser());
   // console.log(user)
-  
 
   const handleSignout = () => {
     signout();
     setUser(null);
   };
-
 
   // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
   ///////////////////////////
@@ -39,9 +37,12 @@ export const GlobalProvider = ({ children }) => {
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
-  }
+  };
+
   return (
-    <GlobalContext.Provider value={{ user, setUser, handleSignout,formatDate,formatDateForEdit }}>
+    <GlobalContext.Provider
+      value={{ user, setUser, handleSignout, formatDate, formatDateForEdit }}
+    >
       {children}
     </GlobalContext.Provider>
   );

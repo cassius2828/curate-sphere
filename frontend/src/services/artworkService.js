@@ -14,7 +14,6 @@ export const getAllArtworks = async (filters) => {
   try {
     const response = await fetch(`${BACKEND_URL}/artworks/search`, options);
     const data = await response.json();
-    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -35,7 +34,6 @@ export const getArtworkBySearch = async (query) => {
       `${BACKEND_URL}/artworks/search/?query=${query}`
     );
     const data = await response.json();
-    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -70,13 +68,6 @@ export const getArtworkDetail = async (objectid) => {
 //  Get | Get Filter Objs
 ///////////////////////////
 export const getFilterObjs = async (filter, page) => {
-  // const options = {
-  //   method: "PUT",
-  //   headers: {
-  //     "Content-Type": "application/json",
-  //   },
-  //   body: JSON.stringify(page),
-  // };
   try {
     const response = await fetch(
       `${BACKEND_URL}/artworks/filter?filter=${filter}&page=${page}`

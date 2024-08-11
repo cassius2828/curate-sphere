@@ -32,8 +32,8 @@ export const ExbCard = ({ title, date, location, id, img }) => {
         <span className="text-3xl mt-4">{title}</span>
         <span className="text-2xl">Date: {date}</span>
         <span className="text-2xl">Location: {location}</span>
-        <Link to={`/exhibition/${id}`}>
-          <button className="text-[12px] border-black border w-3/4 mx-auto mb-4">
+        <Link className="text-center" to={`/exhibition/${id}`}>
+          <button className="text-[12px] border-black border  w-3/4 mb-4">
             View full details
           </button>
         </Link>
