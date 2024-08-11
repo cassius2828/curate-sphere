@@ -1,40 +1,41 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { login } from "../../services/authService";
 import Btn from "../CommonComponents/Btn";
 import { useNavigate } from "react-router";
 import useGlobalContext from "../../context/global/useGlobalContext";
 
 const initialFormData = {
-  username: '',
-  password: ''
-}
+  username: "",
+  password: "",
+};
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState(initialFormData)
-  const {setUser} = useGlobalContext();
-  const navigate = useNavigate()
+  const [formData, setFormData] = useState(initialFormData);
+  const { setUser } = useGlobalContext();
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const user = await login(formData);
       console.log("user logged in successfully");
-      setUser(user)
-      navigate('/')
+      setUser(user);
+      navigate("/");
     } catch (error) {
       console.log(error, "error");
     }
   };
 
   const handleChange = (e) => {
-    const {value, name} = e.target
-    setFormData({...formData, [name]: value})
-  }
+    const { value, name } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   return (
     <section className="flex flex-col items-center">
       <h1 className="text-3xl text-neutral-700 mb-12">Login</h1>
       <form className="max-w-sm mx-auto border border-neutral-900 p-12 rounded-md">
         <div className="mb-5">
+          {/* username */}
           <label
             htmlFor="username"
             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -53,6 +54,7 @@ const LoginForm = () => {
           />
         </div>
         <div className="mb-5">
+          {/* password */}
           <label
             htmlFor="password"
             className="block mb-2 text-sm font-medium text-gray-900"
@@ -69,7 +71,7 @@ const LoginForm = () => {
             required
           />
         </div>
-    
+
         <Btn handleAction={handleSubmit} text={`Login`} />
       </form>
     </section>

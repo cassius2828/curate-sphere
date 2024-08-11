@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import ArtworkContext from './ArtworkContext';
 
-// Custom hook to use the ArtworkContext
 const useArtworkContext = () => {
   const context = useContext(ArtworkContext);
 

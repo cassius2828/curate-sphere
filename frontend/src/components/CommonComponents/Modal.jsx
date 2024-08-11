@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { postAddArtworkToExb } from "../../services/exbService";
 
 const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
@@ -21,7 +21,6 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
     }
   };
 
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 modal">
       <div className="flex flex-col items-center justify-center gap-4 bg-white p-8 h-96 rounded-lg shadow-lg w-1/2 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -35,7 +34,11 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
           &times;
         </button>{" "}
         <p className="text-center">Click Exhibition to Add Artwork</p>
-        {message && <p>{message}</p>}
+        {message === "success" ? (
+          <p className="text-green-500">{message}</p>
+        ) : (
+          <p className="text-red-500">{message}</p>
+        )}
         <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll ">
           {exbs?.map((exb, idx) => (
             <li
@@ -43,7 +46,7 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
               key={idx}
               className="p-3 hover:bg-neutral-200 cursor-pointer"
             >
-              {exb.title.slice(0,20) + '...'}
+              {exb.title.slice(0, 20) + "..."}
             </li>
           ))}
         </ul>

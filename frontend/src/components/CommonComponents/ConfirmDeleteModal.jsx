@@ -1,10 +1,9 @@
-import { useState } from "react";
+
 import {
-  postAddArtworkToExb,
   removeArtworkFromExb,
 } from "../../services/exbService";
 import Btn from "./Btn";
-import { useNavigate } from "react-router";
+
 
 const ConfirmDeleteModal = ({
   isVisible,

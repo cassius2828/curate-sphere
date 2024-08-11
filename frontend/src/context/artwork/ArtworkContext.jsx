@@ -8,8 +8,14 @@ import {
   postNextPageOfArtworks,
 } from "../../services/artworkService";
 
-// Create a Context
+///////////////////////////
+// Context Creation
+///////////////////////////
 const ArtworkContext = createContext();
+
+///////////////////////////
+// Initial State
+///////////////////////////
 const initialArtworksState = {
   records: [],
   info: {
@@ -197,7 +203,9 @@ const reducer = (state, action) => {
   }
 };
 
-// Create a Provider component
+///////////////////////////
+// Provider
+///////////////////////////
 export const ArtworkProvider = ({ children }) => {
   const [
     {

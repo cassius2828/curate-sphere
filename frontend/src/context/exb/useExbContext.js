@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import ExbContext from './ExbContext';
 
-// Custom hook to use the ExbContext
 const useExbContext = () => {
   const context = useContext(ExbContext);
 

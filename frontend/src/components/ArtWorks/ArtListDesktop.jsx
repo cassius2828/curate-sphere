@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import userecordContext from "../../context/artwork/useArtworkContext";
 import Loader from "../CommonComponents/Loader";
 import DisplayError from "../CommonComponents/DisplayError";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
@@ -30,7 +29,7 @@ const ArtListDesktop = () => {
         </thead>
         {/* body */}
         <tbody>
-          {/* // ! sync these values with what we would get from the harvard api */}
+       {/* rows */}
           {records.map((record) => (
             <ArtListDesktopRow
               img={record.primaryimageurl}
@@ -50,6 +49,11 @@ const ArtListDesktop = () => {
 };
 export default ArtListDesktop;
 
+
+
+///////////////////////////
+// List Desktop Row
+///////////////////////////
 export const ArtListDesktopRow = ({
   year,
   people,

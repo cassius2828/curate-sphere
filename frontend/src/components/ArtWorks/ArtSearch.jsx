@@ -3,7 +3,6 @@ import ArtGallery from "./ArtGallery";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
-
 import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
 import ArtListMobile from "./ArtListMobile";
 import ArtListDesktop from "./ArtListDesktop";
@@ -20,13 +19,16 @@ const ArtSearch = () => {
     handleSearchArtworksByTitle,
     handleGetNextPageOfArtworks,
   } = useArtworkContext();
+
   // uses input value to filter results based on text search
   const handleSearchQuery = async (e) => {
     const { value } = e.target;
     setQuery(value);
     await handleSearchArtworksByTitle(value);
   };
+  // find viewport width on load
   const isMobile = window.innerWidth;
+  // if no records then return
   if (!records) return;
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">

@@ -13,7 +13,7 @@ const ArtGalleryCard = ({
   ArtworkObjectid,
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const { showExb, myExbs } = useExbContext();
+  const {  myExbs } = useExbContext();
 
   ///////////////////////////
   // Modal Actions
@@ -39,7 +39,9 @@ const ArtGalleryCard = ({
         />
       </Link>
       <div className="mt-6 text-2xl flex flex-col gap-4">
+        {/* year */}
         <span>{year}</span>
+        {/* artists / contribs */}
         {people?.map((person) => (
           <span key={person.personid}>
             {person.role}: {person.name}
