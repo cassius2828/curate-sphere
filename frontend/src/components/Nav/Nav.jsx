@@ -23,7 +23,7 @@ const Nav = () => {
   return (
     <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between items-center bg-[#020617] text-gray-100 font-marcellus">
       <Link to={`/`}>
-        <h1 className="text-2xl md:text-4xl lg:text-5xl ml-4 md:ml-12">
+        <h1 className="text-4xl md:text-6xl  ml-4 md:ml-12">
           Curate Sphere
         </h1>
       </Link>

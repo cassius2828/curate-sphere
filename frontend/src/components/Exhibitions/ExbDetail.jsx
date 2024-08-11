@@ -76,8 +76,8 @@ const ExbDetail = () => {
   return (
     <>
       <section>
-        <div className="flex flex-col items-center mx-auto mb-16 w-1/2">
-          <h1 className="text-6xl mb-5 font-marcellus">{showExb.title}</h1>
+        <div className="flex flex-col items-center mx-auto mb-16 p-5 md:p-0 md:w-1/2">
+          <h1 className="text-6xl text-center mb-5 font-marcellus">{showExb.title}</h1>
           <p className="text-4xl font-cardo">Location: {showExb.location}</p>
           <p className="text-4xl mb-10 font-cardo">
             Dates: {formatDate(showExb.startDate)} -{" "}
@@ -111,7 +111,7 @@ const ExbDetail = () => {
           <div className="w-3/4 mx-auto mt-8">
             <Masonry
               breakpointCols={breakpointColumnsObj}
-              className="masonry-grid"
+              className="masonry-grid gap-6"
               columnClassName="masonry-grid_column"
             >
               {showExb?.artworks?.map((record) => {

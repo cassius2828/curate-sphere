@@ -27,7 +27,7 @@ const Home = () => {
   return (
     <LampContainer>
       <div className="relative z-50 min-h-screen w-screen flex flex-col gap-y-5 justify-center items-center">
-        <h1 className="text-8xl text-white font-marcellus capitalize">
+        <h1 className=" text-6xl md:text-8xl text-white font-marcellus capitalize">
           Welcome, {user?.user?.username}
         </h1>
         <Link to="/exhibitions/dashboard">

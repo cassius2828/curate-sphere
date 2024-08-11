@@ -1,16 +1,17 @@
 import { useLocation, Link, useParams } from "react-router-dom";
 import Modal from "../CommonComponents/Modal";
-import { useEffect, useState } from "react";
+import { isValidElement, useEffect, useState } from "react";
 import { getArtworkDetail } from "../../services/artworkService";
 import useExbContext from "../../context/exb/useExbContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import Loader from "../CommonComponents/Loader";
 import { removeArtworkFromExb } from "../../services/exbService";
+import ConfirmDeleteModal from "../CommonComponents/ConfirmDeleteModal";
 
 const ExbArtworkCard = ({ ArtworkObjectid,isUsersExb }) => {
   const location = useLocation();
   const { myExbs, handleGetExbArtworks } = useExbContext();
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const [message, setMessage] = useState("");
   const [artworkData, setArtworkData] = useState({});
   const { primaryimageurl, dated, division, people, title, objectid } =
@@ -18,35 +19,20 @@ const ExbArtworkCard = ({ ArtworkObjectid,isUsersExb }) => {
   const { id } = useParams();
 
   const showModal = () => {
-    setModalVisible(true);
+    setIsModalVisible(true);
   };
   const hideModal = () => {
-    setModalVisible(false);
+    setIsModalVisible(false);
   };
   const fetchArtworkDetails = async () => {
     const data = await getArtworkDetail(ArtworkObjectid);
     setArtworkData(data);
   };
 
-  const handleRemoveArtworkFromExb = async () => {
-    try {
-      const data = await removeArtworkFromExb(id, objectid);
-      if (data.message) {
-        setMessage(data.message);
-      }
-      if (data.error) {
-        setMessage(data.error);
-      }
-      await handleGetExbArtworks(id)
-    } catch (err) {
-      console.error(err);
-      console.log(`Unable to communicate with db to remove artwork from exb`);
-    } 
-  };
-
+ 
   useEffect(() => {
     fetchArtworkDetails();
-    console.log(myExbs);
+ 
   }, []);
 
   return (
@@ -85,12 +71,16 @@ const ExbArtworkCard = ({ ArtworkObjectid,isUsersExb }) => {
             </>
           ) : (
             location.pathname === `/exhibition/${id}` && (
+              <>
+              
               <button
                 className="text-red-500"
-                onClick={() => handleRemoveArtworkFromExb()}
+                onClick={showModal}
               >
                 [x]
               </button>
+              <ConfirmDeleteModal handleReloadResource={handleGetExbArtworks} id={id} objectid={objectid} isVisible={isModalVisible} onClose={hideModal}/>
+              </>
             )
           )}
         </div>
