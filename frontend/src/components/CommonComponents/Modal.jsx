@@ -34,7 +34,7 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
         >
           &times;
         </button>{" "}
-        <p>Click Exhibition to Add Artwork</p>
+        <p className="text-center">Click Exhibition to Add Artwork</p>
         {message && <p>{message}</p>}
         <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll ">
           {exbs?.map((exb, idx) => (

@@ -8,9 +8,13 @@ import useExbContext from "../../context/exb/useExbContext";
 
 const Home = () => {
   const { user, setUser } = useGlobalContext();
-  const { handleGetAllArtworks, handleGetAllFilterObjs } = useArtworkContext();
-  const {handleGetUserExbs} = useExbContext()
+  const { handleGetAllArtworks, handleGetAllFilterObjs, records } =
+    useArtworkContext();
+  const { handleGetUserExbs, myExbs } = useExbContext();
 
+  ///////////////////////////
+  // Fetches User
+  ///////////////////////////
   const fetchUser = async () => {
     try {
       const data = getUser();
@@ -21,11 +25,33 @@ const Home = () => {
     }
   };
 
+  //////////////////////////////////////////////////////
+  // Fetches User, Artworks, Filters, and User Exbs
+  //////////////////////////////////////////////////////
+  // this prevents redundant fetch calls if necessary data already exists
+  const fetchAllData = async () => {
+    // user
+    if (!user) {
+      fetchUser();
+      console.log("fetched user");
+    }
+    // artworks
+    if (records.length === 0) {
+      await handleGetAllArtworks();
+      await handleGetAllFilterObjs();
+      console.log("fetched filters and artworks");
+    }
+    // user exbs
+    if (myExbs.length === 0) {
+      await handleGetUserExbs();
+    }
+  };
+
+  ///////////////////////////
+  // useEffect to run all fetches
+  ///////////////////////////
   useEffect(() => {
-    handleGetAllArtworks();
-    handleGetAllFilterObjs();
-    handleGetUserExbs()
-    fetchUser();
+    fetchAllData();
   }, []);
   return (
     <LampContainer>

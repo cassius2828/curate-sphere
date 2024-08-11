@@ -6,12 +6,11 @@ import { Link } from "react-router-dom";
 
 const ExbDashboard = () => {
   const { formatDate } = useGlobalContext();
-
   const {
     handleGetUserExbs,
-
     myExbs,
   } = useExbContext();
+  
   useEffect(() => {
     handleGetUserExbs();
   }, []);

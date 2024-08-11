@@ -9,7 +9,6 @@ export const getAllExhibitions = async (userId) => {
       `${BACKEND_URL}/exhibitions/explore/${userId}`
     );
     const data = await response.json();
-    // console.log(data, ' <-- non user exbs');
     if (response.ok) {
       return data;
     } else {
@@ -30,7 +29,6 @@ export const getUserExhibitions = async (userId) => {
       `${BACKEND_URL}/exhibitions/dashboard/${userId}`
     );
     const data = await response.json();
-    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -77,7 +75,6 @@ export const getExbArtworks = async (exbId) => {
       `${BACKEND_URL}/exhibitions/view-artworks/${exbId}`
     );
     const data = await response.json();
-    // console.log(data);
     if (response.ok) {
       return data;
     } else {
@@ -104,7 +101,7 @@ export const deleteExb = async (exbId) => {
       options
     );
     const data = await response.json();
-    // console.log(data);
+
     if (response.ok) {
       return data;
     } else {
@@ -128,7 +125,7 @@ export const createExb = async (formData) => {
   try {
     const response = await fetch(`${BACKEND_URL}/exhibitions`, options);
     const data = await response.json();
-    // console.log(data);
+
     if (response.ok) {
       return data;
     } else {
@@ -154,7 +151,7 @@ export const editExb = async (formData, exbId) => {
       options
     );
     const data = await response.json();
-    // console.log(data);
+
     if (response.ok) {
       return data;
     } else {
@@ -186,8 +183,6 @@ export const postAddArtworkToExb = async (exbId, objectid) => {
       options
     );
     const data = await response.json();
-    console.log(response);
-
     return data;
   } catch (err) {
     console.error(err);
@@ -215,8 +210,6 @@ export const removeArtworkFromExb = async (exbId, objectid) => {
       options
     );
     const data = await response.json();
-    console.log(response);
-
     return data;
   } catch (err) {
     console.error(err);

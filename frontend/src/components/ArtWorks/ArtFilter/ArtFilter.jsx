@@ -40,7 +40,7 @@ const ArtFilter = () => {
       </select>
       {/* dropdown */}
       {showFilterDropdown && (
-        <ul className="shadow-md w-full md:w-72 min-w-[25vw] absolute top-full">
+        <ul className="shadow-md w-3/4 md:w-96 min-w-96 absolute top-full">
           {primaryCategories.map((category, idx) => {
             return (
               <SearchCategoryDropdown
