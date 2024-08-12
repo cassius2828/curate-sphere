@@ -68,7 +68,7 @@ const ExbExplore = () => {
         Explore Exhibitions
       </h1>
       {/* search */}
-      <div className=" flex items-center justify-start w-1/2 gap-8 mb-20 mx-auto">
+      <div className=" flex flex-col md:flex-row  items-center justify-center w-full md:w-1/2 gap-8 mb-20 mx-auto">
         <div className="relative w-full max-w-[40rem]">
           <input
             onChange={handleSearchInputChange}
