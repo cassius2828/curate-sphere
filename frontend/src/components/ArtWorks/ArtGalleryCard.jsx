@@ -14,7 +14,6 @@ const ArtGalleryCard = ({
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const {  myExbs } = useExbContext();
-console.log(myExbs, ' myexbs')
   ///////////////////////////
   // Modal Actions
   ///////////////////////////

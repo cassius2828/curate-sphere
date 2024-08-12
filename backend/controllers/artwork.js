@@ -82,7 +82,6 @@ let queryObjWithoutSearchQuery = req.query;
 delete queryObjWithoutSearchQuery.searchQuery
 
   const queriedFilter = getQueryString(queryObjWithoutSearchQuery);
-  console.log(queriedFilter, 'qf')
   try {
     const response = await fetch(
       `${BASE_URL}/object?q=${searchQuery}&apikey=${API_KEY}${queriedFilter}`
@@ -99,6 +98,9 @@ delete queryObjWithoutSearchQuery.searchQuery
   }
 };
 
+///////////////////////////
+// ? POST | Next page of artworks
+///////////////////////////
 const postNextPageOfArtworks = async (req, res) => {
   const { altUrl } = req.body;
   // the frontend removes the api key and replaces it with a placeholder | API_KEY
@@ -133,6 +135,7 @@ module.exports = {
 // Functions
 ///////////////////////////
 
+// transform obj to query str
 const getQueryString = (query) => {
   if (!query) return;
   return Object.keys(query)
@@ -140,6 +143,7 @@ const getQueryString = (query) => {
     .join("");
 };
 
+// replace api key with place holder
 const replaceApikeyWithPlaceholder = (str) => {
   const apiKeyPattern = /(apikey=)([a-f0-9-]+)(&)/;
   // Use match to extract the parts

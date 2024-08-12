@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
   const [message, setMessage] = useState("");
-  console.log(exbs);
   if (!isVisible) {
     return null;
   }

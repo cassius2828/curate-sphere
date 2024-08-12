@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArtGallery from "./ArtGallery";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { useState } from "react";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
 import ArtListMobile from "./ArtListMobile";

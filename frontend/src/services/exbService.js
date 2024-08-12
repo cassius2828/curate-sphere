@@ -29,7 +29,6 @@ export const getUserExhibitions = async (userId) => {
       `${BACKEND_URL}/exhibitions/dashboard/${userId}`
     );
     const data = await response.json();
-    console.log(data);
 
     return data;
   } catch (err) {

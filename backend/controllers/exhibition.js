@@ -6,7 +6,9 @@ const {
   models: { Exhibition, Artwork, ExhibitionArtworks },
 } = sequelize;
 
-// get all exhibtions
+///////////////////////////
+// GET | Get all exhibitions
+///////////////////////////
 const getAllExhibitions = async (req, res) => {
   const { userId } = req.params;
 
@@ -18,7 +20,7 @@ const getAllExhibitions = async (req, res) => {
         },
       },
     });
-    // check if we found any exhibitions
+    // Check if we found any exhibitions
     if (exhibitions.length === 0) {
       return res.status(400).json({ error: "No exhibitions were found" });
     }
@@ -27,7 +29,10 @@ const getAllExhibitions = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// get user exhibtions
+
+///////////////////////////
+// GET | Get user exhibitions
+///////////////////////////
 const getUserExhibitions = async (req, res) => {
   const { userId } = req.params;
   try {
@@ -36,7 +41,7 @@ const getUserExhibitions = async (req, res) => {
         userId,
       },
     });
-    // check if we found any exhibitions
+    // Check if we found any exhibitions
     if (exhibitions.length === 0) {
       return res
         .status(400)
@@ -48,7 +53,10 @@ const getUserExhibitions = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-// create exhibition
+
+///////////////////////////
+// ? POST | Create exhibition
+///////////////////////////
 const createExhibition = async (req, res) => {
   try {
     const newExhibition = await Exhibition.create(req.body);
@@ -58,7 +66,9 @@ const createExhibition = async (req, res) => {
   }
 };
 
-// get exhibition by id
+///////////////////////////
+// GET | Get exhibition by ID
+///////////////////////////
 const getExhibitionById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -69,7 +79,9 @@ const getExhibitionById = async (req, res) => {
   }
 };
 
-// update exhibition
+///////////////////////////
+// * PUT | Update exhibition
+///////////////////////////
 const updateExhibition = async (req, res) => {
   const { id } = req.params;
   try {
@@ -84,7 +96,9 @@ const updateExhibition = async (req, res) => {
   }
 };
 
-// delete exhibition
+///////////////////////////
+// ! DELETE | Delete exhibition
+///////////////////////////
 const deleteExhibition = async (req, res) => {
   const { id } = req.params;
   try {
@@ -99,6 +113,9 @@ const deleteExhibition = async (req, res) => {
   }
 };
 
+///////////////////////////
+// ? POST | Add artwork to exhibition
+///////////////////////////
 const postAddArtwork = async (req, res) => {
   const { exbId, objectid } = req.body;
   try {
@@ -126,14 +143,15 @@ const postAddArtwork = async (req, res) => {
         .status(400)
         .json({ message: "Artwork is already in this exhibition" });
     }
-
-    // console.log(exb)
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unable to add artwork to exhibition" });
   }
 };
 
+///////////////////////////
+// ! DELETE | Remove artwork from exhibition
+///////////////////////////
 const deleteArtworkFromExb = async (req, res) => {
   const { exbId, objectid } = req.body;
 
@@ -151,6 +169,9 @@ const deleteArtworkFromExb = async (req, res) => {
   }
 };
 
+///////////////////////////
+// GET | Get artworks in exhibition
+///////////////////////////
 const getExbArtworks = async (req, res) => {
   const { ExhibitionId } = req.params;
   try {
@@ -170,6 +191,9 @@ const getExbArtworks = async (req, res) => {
   }
 };
 
+///////////////////////////
+// GET | Get exhibition cover image
+///////////////////////////
 const getExbCoverImg = async (req, res) => {
   const { id } = req.params;
 
@@ -202,13 +226,3 @@ module.exports = {
   deleteArtworkFromExb,
   getExbCoverImg,
 };
-
-/*
-
-  try {
-    res.status(200).json('hit')
-  } catch (err) {
-    res.status(200).json('miss')
-    
-  }
-*/
