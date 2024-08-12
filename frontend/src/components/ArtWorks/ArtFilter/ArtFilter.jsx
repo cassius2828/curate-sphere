@@ -6,14 +6,30 @@ const ArtFilter = () => {
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const { handleDisplayView, displayView, primaryCategories } =
     useArtworkContext();
-  // worktype is the last filter that is loaded from the api, so if it has content in its records array,
-  //  then all filters are loaded and ready tobe accessed
-  const { worktype } = useArtworkContext();
-  const allFiltersLoaded = worktype?.records.length > 0;
+  // ensures all are loaded before accessing the dropdown
+  const {
+    century,
+    classification,
+    culture,
+    medium,
+    period,
+    technique,
+    worktype,
+  } = useArtworkContext();
+
+  const allFiltersLoaded =
+    century?.records.length > 0 &&
+    classification?.records.length > 0 &&
+    culture?.records.length > 0 &&
+    medium?.records.length > 0 &&
+    period?.records.length > 0 &&
+    technique?.records.length > 0 &&
+    worktype?.records.length > 0;
+
   const handleShowDropdown = () => {
     if (allFiltersLoaded) {
       setShowFilterDropdown((prev) => !prev);
-    }
+    } else alert('filters are still loading...')
   };
   return (
     <div className="flex gap-4 font-cardo mt-12 md:mt-0">
