@@ -78,7 +78,9 @@ export const ExbProvider = ({ children }) => {
   const handleGetUserExbs = async () => {
     try {
       const data = await getUserExhibitions(user?.user.id);
-      dispatch({ type: "userExbs/exb", payload: data });
+      if (!data.error) {
+        dispatch({ type: "userExbs/exb", payload: data });
+      }
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get all exbs | context`);
@@ -120,6 +122,9 @@ export const ExbProvider = ({ children }) => {
   const handleDeleteExb = async (id) => {
     try {
       const data = await deleteExb(id);
+      const updatedUserExbs = myExbs.filter((exb) => exb.id === id);
+      dispatch({ type: "userExbs/exb", payload: updatedUserExbs });
+      // handleGetUserExbs();
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to delete exb | context`);
@@ -139,10 +144,8 @@ export const ExbProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if(myExbs.length === 0)
-    handleGetUserExbs()
-
-  },[])
+    handleGetUserExbs();
+  }, []);
 
   const handleResetExbState = () => {
     dispatch({ type: "resetAll/exb" });
