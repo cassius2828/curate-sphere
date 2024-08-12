@@ -31,6 +31,12 @@ const reducer = (state, action) => {
       return { ...state, showExb: action.payload };
     case "userExbs/exb":
       return { ...state, myExbs: action.payload };
+    case "sortUserExbs/exb":
+      return { ...state, myExbs: action.payload };
+    case "sortExploreExbs/exb":
+      return { ...state, exploreExbs: action.payload };
+    case "searchUserExbs/exb":
+      return { ...state, myExbs: action.payload };
     case "editDetail/exb":
       return { ...state, showExb: action.payload };
     case "addArtworks/exb":
@@ -143,6 +149,31 @@ export const ExbProvider = ({ children }) => {
     }
   };
 
+  ///////////////////////////
+  // Sort User Exbs
+  ///////////////////////////
+  const handleSortExbs = (sortInput, exbs) => {
+    let sortedExbs;
+    if (sortInput === "a-z") {
+      sortedExbs = exbs.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (sortInput === "z-a") {
+      sortedExbs = exbs.sort((a, b) => b.title.localeCompare(a.title));
+    } else if (sortInput === "newest") {
+      sortedExbs = exbs.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    } else {
+      sortedExbs = exbs.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
+    }
+    if (exbs === myExbs) {
+      dispatch({ type: "sortUserExbs/exb", payload: sortedExbs });
+    } else {
+      dispatch({ type: "sortExploreExbs/exb", payload: sortedExbs });
+    }
+  };
+
   useEffect(() => {
     handleGetUserExbs();
   }, []);
@@ -163,6 +194,7 @@ export const ExbProvider = ({ children }) => {
         handleGetExbDetail,
         handleGetUserExbs,
         handleResetExbState,
+        handleSortExbs,
         exploreExbs,
         myExbs,
         showExb,

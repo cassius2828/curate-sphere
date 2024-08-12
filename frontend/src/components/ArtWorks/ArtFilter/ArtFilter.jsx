@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SearchCategoryDropdown } from "./SearchCategoryDropdown";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 

@@ -104,6 +104,7 @@ const Nav = () => {
         ) : (
           <>
             <NavListItem
+            setIsMenuOpen={setIsMenuOpen}
               listItemText={`Exhibitions`}
               dropDownItems={[
                 {
