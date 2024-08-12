@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
   const [message, setMessage] = useState("");
-console.log(exbs)
+  console.log(exbs);
   if (!isVisible) {
     return null;
   }
@@ -54,7 +54,9 @@ console.log(exbs)
               key={idx}
               className="p-3 hover:bg-neutral-200 cursor-pointer"
             >
-              {exb.title.slice(0, 20) + "..."}
+              {exb.title.length > 19
+                ? exb.title.slice(0, 20) + "..."
+                : exb.title}
             </li>
           ))}
         </ul>
