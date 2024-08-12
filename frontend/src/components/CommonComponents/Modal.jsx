@@ -2,7 +2,7 @@ import { useState } from "react";
 import { postAddArtworkToExb } from "../../services/exbService";
 import { Link } from "react-router-dom";
 
-const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
+const Modal = ({ isVisible, onClose, exbs=[], ArtworkObjectid }) => {
   const [message, setMessage] = useState("");
   if (!isVisible) {
     return null;
