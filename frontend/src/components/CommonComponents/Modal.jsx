@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { postAddArtworkToExb } from "../../services/exbService";
+import { Link } from "react-router-dom";
 
 const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
   const [message, setMessage] = useState("");
@@ -34,6 +35,13 @@ const Modal = ({ isVisible, onClose, exbs, ArtworkObjectid }) => {
           &times;
         </button>{" "}
         <p className="text-center">Click Exhibition to Add Artwork</p>
+        {exbs.length === 0 && (
+          <Link to={`/exhibitions/create`}>
+            <p className="capitalize text-lg mt-5 border-2 px-4 py-2">
+              Create your first Exhibition!
+            </p>
+          </Link>
+        )}
         {message === "success" ? (
           <p className="text-green-500">{message}</p>
         ) : (

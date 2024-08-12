@@ -1,4 +1,4 @@
-import { createContext, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import {
   deleteExb,
   editExb,
@@ -137,6 +137,12 @@ export const ExbProvider = ({ children }) => {
       console.log(`Unable to communicate with db to edit exb | context`);
     }
   };
+
+  useEffect(() => {
+    if(myExbs.length === 0)
+    handleGetUserExbs()
+
+  },[])
 
   const handleResetExbState = () => {
     dispatch({ type: "resetAll/exb" });
