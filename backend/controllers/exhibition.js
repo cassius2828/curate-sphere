@@ -42,6 +42,7 @@ const getUserExhibitions = async (req, res) => {
         .status(400)
         .json({ error: "No exhibitions were found for this user" });
     }
+
     res.status(200).json(exhibitions);
   } catch (error) {
     res.status(500).json({ message: error.message });
