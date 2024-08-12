@@ -29,14 +29,12 @@ export const getUserExhibitions = async (userId) => {
       `${BACKEND_URL}/exhibitions/dashboard/${userId}`
     );
     const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      throw new Error();
-    }
+    console.log(data);
+
+    return data;
   } catch (err) {
     console.error(err);
-    console.log(`Unable to communicate with DB to get all exhibitions`);
+    console.log(`Unable to communicate with DB to get user exhibitions`);
   }
 };
 

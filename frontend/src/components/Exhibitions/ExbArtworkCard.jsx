@@ -68,6 +68,7 @@ const ExbArtworkCard = ({ ArtworkObjectid, isUsersExb }) => {
             <>
               <button onClick={showModal}>+</button>
               <Modal
+              ArtworkObjectid={ArtworkObjectid}
                 exbs={myExbs}
                 isVisible={isModalVisible}
                 onClose={hideModal}
