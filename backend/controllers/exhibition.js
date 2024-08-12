@@ -36,7 +36,6 @@ const getUserExhibitions = async (req, res) => {
         userId,
       },
     });
-    console.log(exhibitions);
     // check if we found any exhibitions
     if (exhibitions.length === 0) {
       return res
@@ -61,7 +60,6 @@ const createExhibition = async (req, res) => {
 // get exhibition by id
 const getExhibitionById = async (req, res) => {
   const { id } = req.params;
-  console.log(id, " <-- exb id");
   try {
     const exhibition = await Exhibition.findByPk(id);
     res.status(200).json(exhibition);
@@ -102,7 +100,6 @@ const deleteExhibition = async (req, res) => {
 
 const postAddArtwork = async (req, res) => {
   const { exbId, objectid } = req.body;
-  console.log(req.body);
   try {
     const exb = await Exhibition.findByPk(exbId);
     const [artwork, created] = await Artwork.findOrCreate({
@@ -146,7 +143,6 @@ const deleteArtworkFromExb = async (req, res) => {
         ArtworkObjectid: objectid,
       },
     });
-    console.log(artwork);
     res.status(200).json({ message: "removed artwork from exhibition" });
   } catch (err) {
     console.error(err);

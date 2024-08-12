@@ -41,16 +41,7 @@ export const FilterActionBtns = () => {
               icon={faRotateBack}
             />
           </button>
-          <button
-            onClick={() =>
-              alert(
-                "this will copy a link for the user to past into their browser if desired"
-              )
-            }
-            className="border p-3 bg-neutral-400"
-          >
-            <FontAwesomeIcon className="text-2xl text-gray-100" icon={faLink} />
-          </button>
+     
         </div>
       </div>
     );

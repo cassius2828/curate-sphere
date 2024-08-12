@@ -1,7 +1,3 @@
-const sequelize = require("../config/database");
-const {
-  models: { Artwork },
-} = sequelize;
 
 // env vars
 const BASE_URL = process.env.HARVARD_API_BASE_URL;
@@ -17,8 +13,6 @@ const getArtworks = async (req, res) => {
   // ! on front end
 
   const queriedFilter = getQueryString(req.query);
-  // console.log(req.query, 'req.query')
-  // console.log(queriedFilter, 'queried filter')
 
   try {
     const response = await fetch(
@@ -83,6 +77,7 @@ const getFilterObjs = async (req, res) => {
 const getArtworkBySearch = async (req, res) => {
   const { searchQuery } = req.query;
 
+  // remove searchQuery key to add the rest of the queries to the end
 let queryObjWithoutSearchQuery = req.query;
 delete queryObjWithoutSearchQuery.searchQuery
 
