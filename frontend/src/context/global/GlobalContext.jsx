@@ -41,7 +41,7 @@ export const GlobalProvider = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ user, setUser, handleSignout, formatDate, formatDateForEdit }}
+      value={{ user, setUser, handleSignout, formatDate, formatDateForEdit,}}
     >
       {children}
     </GlobalContext.Provider>

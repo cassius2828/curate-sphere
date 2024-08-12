@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { getUserExhibitions } from "../../services/exbService";
+import Loader from "../CommonComponents/Loader";
 
 const ExbDashboard = () => {
   // state
@@ -14,7 +15,7 @@ const ExbDashboard = () => {
   const [displayedExbs, setDisplayedExbs] = useState([]);
 
   // context
-  const { formatDate, user } = useGlobalContext();
+  const { formatDate, user, isLoading } = useGlobalContext();
   const { myExbs, handleSortExbs } = useExbContext();
 
   ///////////////////////////
@@ -53,10 +54,13 @@ const ExbDashboard = () => {
   useEffect(() => {
     const fetchUserExbs = async () => {
       const data = await getUserExhibitions(user?.user.id);
-      setDisplayedExbs(data);
+      if (!data.error) {
+        setDisplayedExbs(data);
+      }
     };
     fetchUserExbs();
   }, []);
+  // if(isLoading)return <Loader/>
 
   return (
     <section className="flex flex-col mb-24 mx-24">
@@ -71,7 +75,7 @@ const ExbDashboard = () => {
         </div>
 
         {/* search */}
-        <div className=" flex items-center justify-start w-1/2 gap-8">
+        <div className=" flex flex-col md:flex-row  items-center justify-center w-full md:w-1/2 gap-8 mb-20 mx-auto">
           <div className="relative w-full max-w-[40rem]">
             <input
               onChange={handleSearchInputChange}
