@@ -145,6 +145,7 @@ const reducer = (state, action) => {
         artFilter: {
           size: "12",
         },
+        searchQuery: "",
       };
     // Filter Categories
     case "getCultureObjs/artworks":
