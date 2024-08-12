@@ -10,12 +10,14 @@ import ArtListDesktop from "./ArtListDesktop";
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
-  const {searchQuery, handleUpdateSearchQuery} = useArtworkContext()
+  const { searchQuery, handleUpdateSearchQuery } = useArtworkContext();
   const {
     displayView,
     records,
     handleSearchArtworksByTitle,
-    handleGetNextPageOfArtworks,artFilter
+    handleGetNextPageOfArtworks,
+    artFilter,
+    info,
   } = useArtworkContext();
 
   // uses input value to filter results based on text search
@@ -56,12 +58,14 @@ const ArtSearch = () => {
           <ArtGallery />
         )}
       </div>
-      <button
-        onClick={handleGetNextPageOfArtworks}
-        className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize"
-      >
-        load more
-      </button>
+      {info.next && (
+        <button
+          onClick={handleGetNextPageOfArtworks}
+          className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize"
+        >
+          load more
+        </button>
+      )}
     </section>
   );
 };
