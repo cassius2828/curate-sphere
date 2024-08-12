@@ -3,9 +3,9 @@ const router = express.Router();
 const artworkCtrl = require("../controllers/artwork");
 
 //////////////////////
-// ? POST | Get all artworks
+// GET | Get all artworks
 //////////////////////
-router.post("/search", artworkCtrl.postArtworks);
+router.get("/search", artworkCtrl.getArtworks);
 
 //////////////////////
 // ? POST | Get next page of artworks
@@ -15,7 +15,7 @@ router.post("/next", artworkCtrl.postNextPageOfArtworks);
 //////////////////////
 // GET | Get artworks by search
 //////////////////////
-router.get("/search", artworkCtrl.getArtworkBySearch);
+router.get("/text-search", artworkCtrl.getArtworkBySearch);
 
 //////////////////////
 // GET | Get filter objects for filtering data

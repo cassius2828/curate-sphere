@@ -1,22 +1,18 @@
-const sequelize = require("../config/database");
-const {
-  models: { Artwork },
-} = sequelize;
 
 // env vars
 const BASE_URL = process.env.HARVARD_API_BASE_URL;
 const API_KEY = process.env.API_KEY;
 
 ///////////////////////////
-// ? POST | get artworks
+// GET | get artworks
 ///////////////////////////
-const postArtworks = async (req, res) => {
+const getArtworks = async (req, res) => {
   // this will take our query obj and turn it into a useable string for the
   // API to consume
   // ! Queries are case sensitive to harvard api structure | be sure to provide correct name for form inputs
   // ! on front end
 
-  const queriedFilter = getQueryString(req.body);
+  const queriedFilter = getQueryString(req.query);
 
   try {
     const response = await fetch(
@@ -79,10 +75,17 @@ const getFilterObjs = async (req, res) => {
 // GET | Artwork Search
 ///////////////////////////
 const getArtworkBySearch = async (req, res) => {
-  const { query } = req.query;
+  const { searchQuery } = req.query;
+
+  // remove searchQuery key to add the rest of the queries to the end
+let queryObjWithoutSearchQuery = req.query;
+delete queryObjWithoutSearchQuery.searchQuery
+
+  const queriedFilter = getQueryString(queryObjWithoutSearchQuery);
+  console.log(queriedFilter, 'qf')
   try {
     const response = await fetch(
-      `${BASE_URL}/object?q=${query}&apikey=${API_KEY}&size=24`
+      `${BASE_URL}/object?q=${searchQuery}&apikey=${API_KEY}${queriedFilter}`
     );
     let data = await response.json();
     data.info.next = replaceApikeyWithPlaceholder(data.info.next);
@@ -92,7 +95,7 @@ const getArtworkBySearch = async (req, res) => {
     console.error(err);
     res
       .status(500)
-      .json({ error: `cannot get ${query} from harvard search api ` });
+      .json({ error: `cannot get ${searchQuery} from harvard search api ` });
   }
 };
 
@@ -119,7 +122,7 @@ const postNextPageOfArtworks = async (req, res) => {
 };
 
 module.exports = {
-  postArtworks,
+  getArtworks,
   getArtworkDetail,
   getFilterObjs,
   getArtworkBySearch,

@@ -44,10 +44,6 @@ export const getUserExhibitions = async (userId) => {
 // Get | Get Detail Exhibitions
 ///////////////////////////
 export const getExbDetail = async (id) => {
-  //   const options = {
-  //     method: "GET",
-  //     headers: { "Content-Type": "application/json" },
-  //   };
   try {
     const response = await fetch(
       `${BACKEND_URL}/exhibitions/${id}`
@@ -90,7 +86,6 @@ export const getExbArtworks = async (exbId) => {
 // ! DELETE | Delete Exhibition
 ///////////////////////////
 export const deleteExb = async (exbId) => {
-  console.log(exbId, " <-- id");
   const options = {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },

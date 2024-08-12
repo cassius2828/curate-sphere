@@ -1,10 +1,9 @@
-import { useState } from "react";
+
 import {
-  postAddArtworkToExb,
   removeArtworkFromExb,
 } from "../../services/exbService";
 import Btn from "./Btn";
-import { useNavigate } from "react-router";
+
 
 const ConfirmDeleteModal = ({
   isVisible,
@@ -35,7 +34,7 @@ const ConfirmDeleteModal = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 modal">
-      <div className="flex flex-col items-center justify-center gap-4 bg-white p-8 h-96 rounded-lg shadow-lg  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      <div className="flex flex-col items-center justify-center gap-4 bg-white p-8  rounded-lg shadow-lg  absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
         <button
           className="absolute top-0 right-3 text-4xl modal-close"
           onClick={() => {
@@ -45,10 +44,10 @@ const ConfirmDeleteModal = ({
         >
           &times;
         </button>{" "}
-        <p>
+        <p className="mb-10">
           Are you sure you want to remove this artwork from your exhibition?
         </p>
-        <div className="flex gap-8">
+        <div className="flex gap-8 ">
           {/* close modal */}
           <Btn handleAction={() => onClose()} text={`cancel`} />
           <Btn handleAction={handleRemoveArtworkFromExb} text={`confirm`} />

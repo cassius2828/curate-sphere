@@ -1,13 +1,10 @@
-import { useEffect, useState } from "react";
-// import ArtGallery from "../ArtWorks/ArtGallery";
-// import { FilterActionBtns } from "../ArtWorks/ArtSearch";
+import { useEffect } from "react";
 import useExbContext from "../../context/exb/useExbContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import Masonry from "react-masonry-css";
-// import ArtGalleryCard from "../ArtWorks/ArtGalleryCard";
-import ExbArtworkCard from "./ExbArtworkCard";
 
+import ExbArtworkCard from "./ExbArtworkCard";
 
 const ExbDetail = () => {
   const { id } = useParams();
@@ -15,7 +12,6 @@ const ExbDetail = () => {
   const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } =
     useExbContext();
   const { user } = useGlobalContext();
-  const [objectidMap, setObjectidMap] = useState([]);
   const { formatDate } = useGlobalContext();
   ///////////////////////////
   // Masony Grid Data
@@ -33,8 +29,7 @@ const ExbDetail = () => {
   ///////////////////////////
   useEffect(() => {
     const getDetailData = async () => {
-      const data = await handleGetExbDetail(id);
-      // setFormData(data);
+      await handleGetExbDetail(id);
     };
     getDetailData();
   }, []);
@@ -44,20 +39,12 @@ const ExbDetail = () => {
   ///////////////////////////
   useEffect(() => {
     const fetchExbDetail = async () => {
-      const test = await handleGetExbDetail(id);
-      // console.log(test, ' <-- test')
+      await handleGetExbDetail(id);
     };
 
     fetchExbDetail();
   }, []);
-
-  ///////////////////////////
-  // Display objectidMap
-  ///////////////////////////
-  useEffect(() => {
-    console.log(showExb.userId, " <-- userId");
-    console.log(user.user.id, " <-- signed in user id");
-  }, []);
+  // conditional to tell who is owner of exb
   const isUsersExb = showExb.userId === user.user.id;
 
   ///////////////////////////
@@ -65,7 +52,7 @@ const ExbDetail = () => {
   ///////////////////////////
   const handleDeleteButton = async (e) => {
     try {
-      const data = await handleDeleteExb(id);
+      await handleDeleteExb(id);
       handleGetUserExbs();
       navigate("/exhibitions/dashboard");
     } catch (err) {
@@ -77,14 +64,20 @@ const ExbDetail = () => {
     <>
       <section>
         <div className="flex flex-col items-center text-center mx-auto mb-16 p-5 md:p-0 md:w-1/2">
+          {/* title */}
           <h1 className="text-6xl mb-5 font-marcellus">{showExb.title}</h1>
+          {/* location */}
           <p className="text-4xl font-cardo">Location: {showExb.location}</p>
+          {/* dates */}
           <p className="text-4xl mb-10 font-cardo">
             Dates: {formatDate(showExb.startDate)} -{" "}
             {formatDate(showExb.endDate)}
           </p>
-          <p className="text-3xl font-cardo text-start">{showExb.description}</p>
-
+          {/* description */}
+          <p className="text-3xl font-cardo text-start">
+            {showExb.description}
+          </p>
+          {/* exb actions */}
           {isUsersExb && (
             <div className="flex gap-4 text-2xl mt-8">
               <Link to={`/exhibitions/${id}/edit`}>
@@ -101,7 +94,7 @@ const ExbDetail = () => {
             </div>
           )}
         </div>
-
+        {/* artwork nums */}
         <div className="flex flex-col items-center mx-auto">
           <p className=" text-center text-2xl font-cardo">
             Contains{" "}
@@ -109,6 +102,7 @@ const ExbDetail = () => {
             artworks
           </p>
           <div className="w-3/4 mx-auto mt-8">
+            {/* grid of artworks */}
             <Masonry
               breakpointCols={breakpointColumnsObj}
               className="masonry-grid gap-6"

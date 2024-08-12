@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import GlobalContext from './GlobalContext';
 
-// Custom hook to use the GlobalContext
 const useGlobalContext = () => {
   const context = useContext(GlobalContext);
 

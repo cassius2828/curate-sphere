@@ -25,6 +25,7 @@ const Nav = () => {
       <Link to={`/`}>
         <h1 className="text-4xl md:text-6xl  ml-4 md:ml-12">Curate Sphere</h1>
       </Link>
+      {/* hamburger */}
       <div className="relative md:hidden mr-4">
         <button onClick={toggleMenu} className="text-5xl focus:outline-none">
           ☰
@@ -44,6 +45,8 @@ const Nav = () => {
             ) : (
               <>
                 <NavListItem
+                // controls mobile menu
+                  setIsMenuOpen={setIsMenuOpen}
                   listItemText={`Exhibitions`}
                   dropDownItems={[
                     {
@@ -62,6 +65,7 @@ const Nav = () => {
                 />
                 {/* if artworks have not loaded then the link will not activate */}
                 <Link
+                  onClick={() => setIsMenuOpen(false)}
                   className={isLoading ? `pointer-events-none` : ""}
                   to={`/artworks/search`}
                 >
@@ -72,6 +76,7 @@ const Nav = () => {
                     onClick={() => {
                       handleResetContextState();
                       handleSignout();
+                      setIsMenuOpen(false);
                     }}
                     className="p-3 text-2xl "
                   >
@@ -83,6 +88,8 @@ const Nav = () => {
           </ul>
         )}
       </div>
+
+      {/* desktop */}
       <ul className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center">
         {!user ? (
           <>
@@ -112,7 +119,6 @@ const Nav = () => {
                   path: "/exhibitions/dashboard",
                 },
               ]}
-              // isMobile={false}
             />
             <Link to={`/artworks/search`}>
               <li className="p-3 text-2xl ">Search Artworks</li>

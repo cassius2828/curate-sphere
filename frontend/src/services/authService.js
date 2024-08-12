@@ -1,5 +1,8 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
+///////////////////////////
+// Get User
+///////////////////////////
 const getUser = () => {
   const token = localStorage.getItem("token");
   if (!token) return null;
@@ -7,6 +10,9 @@ const getUser = () => {
   return user;
 };
 
+///////////////////////////
+// Register
+///////////////////////////
 const register = async (formData) => {
   // options
   const options = {
@@ -28,6 +34,9 @@ const register = async (formData) => {
   }
 };
 
+///////////////////////////
+// Login
+///////////////////////////
 const login = async (user) => {
   // options
   const options = {
@@ -35,7 +44,7 @@ const login = async (user) => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(user),
   };
-  
+
   try {
     const res = await fetch(`${BACKEND_URL}/auth/login`, options);
     const json = await res.json();
@@ -57,6 +66,9 @@ const login = async (user) => {
   }
 };
 
+///////////////////////////
+// Sign Out
+///////////////////////////
 const signout = () => {
   localStorage.removeItem("token");
 };

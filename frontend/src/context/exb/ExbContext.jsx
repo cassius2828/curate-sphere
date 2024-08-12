@@ -9,9 +9,14 @@ import {
 } from "../../services/exbService";
 import useGlobalContext from "../global/useGlobalContext";
 
-// Create a Context
+///////////////////////////
+// Context Creation
+///////////////////////////
 const ExbContext = createContext();
 
+///////////////////////////
+// Initial State
+///////////////////////////
 const initialState = {
   showExb: {},
   exploreExbs: [],
@@ -43,7 +48,9 @@ const reducer = (state, action) => {
       break;
   }
 };
-// Create a Provider component
+///////////////////////////
+// Provider
+///////////////////////////
 export const ExbProvider = ({ children }) => {
   const [{ showExb, exploreExbs, myExbs }, dispatch] = useReducer(
     reducer,

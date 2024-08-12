@@ -2,8 +2,11 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCoverImg } from "../../services/exbService";
 
-export const ExbCard = ({ title, date, location, id, img }) => {
+export const ExbCard = ({ title, date, location, id }) => {
   const [imgUrl, setImgUrl] = useState(null);
+  ///////////////////////////
+  // Get and Set Cover Img
+  ///////////////////////////
   const fetchExbCoverImg = async () => {
     try {
       const data = await getCoverImg(id);

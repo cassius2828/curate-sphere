@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import userecordContext from "../../context/artwork/useArtworkContext";
 import Loader from "../CommonComponents/Loader";
 import DisplayError from "../CommonComponents/DisplayError";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
@@ -27,7 +26,6 @@ const ArtListMobile = () => {
         </thead>
         {/* body */}
         <tbody>
-          {/* // ! sync these values with what we would get from the harvard api */}
           {records.map((record) => (
             <ArtListMobileRow
               img={record.primaryimageurl}
@@ -44,10 +42,11 @@ const ArtListMobile = () => {
 };
 export default ArtListMobile;
 
+///////////////////////////
+// List Mobile Row
+///////////////////////////
 export const ArtListMobileRow = ({
-  year,
   people,
-  division,
   title,
   img,
   id,
@@ -80,7 +79,6 @@ export const ArtListMobileRow = ({
       </td>{" "}
       {/* artist */}
       <td className="py-2 px-4 text-xl border-b text-center">
-        {" "}
 
         {people?.length > 0 ? people?.map((person) => (
           <span key={person.personid}>

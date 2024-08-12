@@ -1,6 +1,5 @@
 /* eslint-disable no-case-declarations */
 import { createContext, useEffect, useReducer } from "react";
-import artworkFilterData from "../../../data/artworkFilterData";
 import {
   getAllArtworks,
   getArtworkBySearch,
@@ -8,8 +7,14 @@ import {
   postNextPageOfArtworks,
 } from "../../services/artworkService";
 
-// Create a Context
+///////////////////////////
+// Context Creation
+///////////////////////////
 const ArtworkContext = createContext();
+
+///////////////////////////
+// Initial State
+///////////////////////////
 const initialArtworksState = {
   records: [],
   info: {
@@ -26,6 +31,7 @@ const initialArtworksState = {
   artFilter: {
     size: "12",
   },
+  searchQuery: "",
   century: {
     title: "Century",
     records: [],
@@ -71,6 +77,11 @@ const reducer = (state, action) => {
         records: action.payload.records,
         info: action.payload.info,
       };
+    case "updateSearchQuery/artworks":
+      return {
+        ...state,
+        searchQuery: action.payload,
+      };
     case "postNextPageOfArtworks/artworks":
       return {
         ...state,
@@ -88,7 +99,7 @@ const reducer = (state, action) => {
       return { ...state, isLoading: false };
     // Reset State
     case "resetAll/artworks":
-      return initialArtworksState ;
+      return initialArtworksState;
     // Filter Section
     case "filterArtworks/artworks":
       return {
@@ -197,11 +208,14 @@ const reducer = (state, action) => {
   }
 };
 
-// Create a Provider component
+///////////////////////////
+// Provider
+///////////////////////////
 export const ArtworkProvider = ({ children }) => {
   const [
     {
       artFilter,
+      searchQuery,
       century,
       classification,
       culture,
@@ -241,7 +255,7 @@ export const ArtworkProvider = ({ children }) => {
   ///////////////////////////
   // Get Artworks By Search
   ///////////////////////////
-  const handleSearchArtworksByTitle = async (query) => {
+  const handleSearchArtworksByTitle = async (query, filter) => {
     // begins search when query is at least 3 chars long
 
     if (query.length > 2) {
@@ -249,7 +263,7 @@ export const ArtworkProvider = ({ children }) => {
       dispatch({ type: "startLoading/artworks" });
       try {
         // fetch artworks by search
-        const data = await getArtworkBySearch(query);
+        const data = await getArtworkBySearch(query, filter);
         dispatch({ type: "getArworksBySearch/artworks", payload: data });
       } catch (err) {
         console.error(err);
@@ -416,7 +430,7 @@ export const ArtworkProvider = ({ children }) => {
       data.sort((a, b) => a.name.localeCompare(b.name));
 
       dispatch({ type: "getCultureObjs/artworks", payload: data.flat() });
-      return data
+      return data;
     } catch (err) {
       console.error(err);
       console.log(`Unable to fetch culture objs | context`);
@@ -537,9 +551,21 @@ export const ArtworkProvider = ({ children }) => {
       console.log(`Unable to fetch worktype objs | context`);
     }
   };
+  ///////////////////////////
+  // Handle Update Search Query
+  ///////////////////////////
+  const handleUpdateSearchQuery = (query) => {
+    dispatch({ type: "updateSearchQuery/artworks", payload: query });
+  };
 
+  // if the search query active then filter the results based on the current query
+  // otherwise base results of all available artworks, then apply filters
   useEffect(() => {
-    handleGetAllArtworks();
+    if (searchQuery.length > 3) {
+      handleSearchArtworksByTitle(searchQuery, artFilter);
+    } else {
+      handleGetAllArtworks();
+    }
   }, [artFilter]);
 
   ///////////////////////////
@@ -549,7 +575,7 @@ export const ArtworkProvider = ({ children }) => {
     dispatch({ type: "filtersStartLoading/artworks" });
     try {
       // Fetches and processes culture objects
-      await handleGetCultureObjs()
+      await handleGetCultureObjs();
       // Fetches and processes classification objects
       await handleGetClassificationObjs();
       // Fetches and processes work type objects
@@ -569,11 +595,12 @@ export const ArtworkProvider = ({ children }) => {
       dispatch({ type: "filtersStopLoading/artworks" });
     }
   };
+
   useEffect(() => {
     handleGetAllFilterObjs();
   }, []);
   const handleResetArtworkState = () => {
-    dispatch({ type: "resetAll/artworks" })
+    dispatch({ type: "resetAll/artworks" });
   };
   // all categories combined to one array
   const primaryCategories = [
@@ -597,9 +624,12 @@ export const ArtworkProvider = ({ children }) => {
         handleResetArtworkState,
         handleResetFilterState,
         handleSearchArtworksByTitle,
+        handleUpdateSearchQuery,
         handleSelectFilters,
-        handleToggleCheckbox,handleGetAllFilterObjs,
-        artworkFilterData,
+        handleToggleCheckbox,
+        handleGetAllFilterObjs,
+        artFilter,
+        searchQuery,
         century,
         classification,
         culture,

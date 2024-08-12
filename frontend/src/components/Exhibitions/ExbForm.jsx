@@ -20,11 +20,12 @@ const ExbForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  ///////////////////////////
+  // Form Actions
+  ///////////////////////////
   const handleChange = (e) => {
     const { value, name } = e.target;
-
     setFormData({ ...formData, [name]: value });
-    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
@@ -41,7 +42,9 @@ const ExbForm = () => {
       console.error(err);
     }
   };
-
+  ///////////////////////////
+  // Fetch Exb Details on load
+  ///////////////////////////
   useEffect(() => {
     if (id) {
       // eslint-disable-next-line no-inner-declarations
@@ -58,7 +61,6 @@ const ExbForm = () => {
     }
   }, [id]);
 
-
   useEffect(() => {
     if (id && showExb) {
       setFormData((prevFormData) => ({
@@ -69,15 +71,16 @@ const ExbForm = () => {
   }, [showExb, id]);
 
   return (
-    <section className="flex flex-col ml-10">
+    <section className="flex flex-col md:ml-10">
       <h1 className="text-6xl mb-20 text-center font-marcellus">
         {id ? "Edit" : "Create New"} Exhibition
       </h1>
       <form
-        className="border-black border-2 w-1/2 mx-auto p-11 font-cardo"
+        className="border-t-black border-2 md:border-black w-full md:w-1/2 mx-auto p-5 md:p-11 font-cardo"
         action=""
       >
-        <div className="flex gap-8 mb-5 items-center">
+        {/* title */}
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="title">
             Exhibition Title:{" "}
           </label>
@@ -91,7 +94,8 @@ const ExbForm = () => {
             required
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        {/* description */}
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="description">
             Description:{" "}
           </label>
@@ -104,7 +108,8 @@ const ExbForm = () => {
             name="description"
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        {/* location */}
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="location">
             Location:{" "}
           </label>
@@ -117,7 +122,8 @@ const ExbForm = () => {
             name="location"
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        {/* start date */}
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="startDate">
             Start Date:{" "}
           </label>
@@ -130,7 +136,8 @@ const ExbForm = () => {
             name="startDate"
           />
         </div>
-        <div className="flex gap-8 mb-5 items-center">
+        {/* end date */}
+        <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="endDate">
             End Date:{" "}
           </label>
@@ -148,6 +155,7 @@ const ExbForm = () => {
             onClick={handleSubmit}
             className="text-2xl border-black border px-6 py-2 mt-10"
           >
+            {/* update or create */}
             {id ? "Update" : "Create"} Exhibition
           </button>
         </div>
