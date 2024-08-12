@@ -18,6 +18,7 @@ import ExbDashboard from "./components/Exhibitions/ExbDashboard";
 import ExbForm from "./components/Exhibitions/ExbForm";
 import ExbDetail from "./components/Exhibitions/ExbDetail";
 import ExbExplore from "./components/Exhibitions/ExbExplore";
+import NotFoundPage from "./components/CommonComponents/Errors/NotFoundPage";
 
 function App() {
   // const user = true;
@@ -38,6 +39,7 @@ function App() {
             <Route path="/exhibition/:id" element={<ExbDetail />} />
             <Route path="/artwork/:id" element={<ArtDetail />} />
             <Route path="/exhibitions/explore" element={<ExbExplore />} />
+            <Route path="*" element={<NotFoundPage/>}/>
           </Routes>
         </>
       ) : (
@@ -46,6 +48,8 @@ function App() {
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/register" element={<RegisterForm />}></Route>
+            <Route path="*" element={<NotFoundPage/>}/>
+
           </Routes>
         </>
       )}

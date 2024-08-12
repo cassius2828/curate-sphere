@@ -7,26 +7,31 @@ import { BrowserRouter } from "react-router-dom";
 import { GlobalProvider } from "./context/global/GlobalContext.jsx";
 import { ExbProvider } from "./context/exb/ExbContext.jsx";
 import { ArtworkProvider } from "./context/artwork/ArtworkContext.jsx";
+import GeneralErrorBoundary from "./components/CommonComponents/Errors/GeneralErrorBoundary.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    {/* global provider */}
-    <GlobalProvider>
-      {/* artwork provider */}
-      <ArtworkProvider>
-        {/* exhibition provider */}
-        <ExbProvider>
-          {/* browser router */}
-          <BrowserRouter>
+    {/* error boundary */}
+    <GeneralErrorBoundary>
+      {/* global provider */}
+      <GlobalProvider>
+        {/* artwork provider */}
+        <ArtworkProvider>
+          {/* exhibition provider */}
+          <ExbProvider>
+            {/* browser router */}
+            <BrowserRouter>
+              {/*  */}
+              <App />
+            </BrowserRouter>
             {/*  */}
-            <App />
-          </BrowserRouter>
+          </ExbProvider>
           {/*  */}
-        </ExbProvider>
+        </ArtworkProvider>
         {/*  */}
-      </ArtworkProvider>
+      </GlobalProvider>
       {/*  */}
-    </GlobalProvider>
+    </GeneralErrorBoundary>
     {/*  */}
   </React.StrictMode>
 );
