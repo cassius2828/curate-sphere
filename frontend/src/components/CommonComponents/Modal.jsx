@@ -71,7 +71,7 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
         ) : (
           <p className="text-red-500">{message}</p>
         )}
-        <div className="relative flex flex-col justify-start">
+        <div className="relative flex flex-col justify-start w-3/4">
           {/* search input */}
           <input
             // value={query}
