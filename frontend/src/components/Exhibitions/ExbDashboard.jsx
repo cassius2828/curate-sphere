@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { getUserExhibitions } from "../../services/exbService";
 import Loader from "../CommonComponents/Loader";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
 
 const ExbDashboard = () => {
   // state
@@ -15,8 +16,8 @@ const ExbDashboard = () => {
   const [displayedExbs, setDisplayedExbs] = useState([]);
 
   // context
-  const { formatDate, user, isLoading } = useGlobalContext();
-  const { myExbs, handleSortExbs } = useExbContext();
+  const { formatDate, user } = useGlobalContext();
+  const { myExbs, handleSortExbs, dispatch, isLoading } = useExbContext();
 
   ///////////////////////////
   // Sort Exbs
@@ -53,14 +54,23 @@ const ExbDashboard = () => {
   ///////////////////////////
   useEffect(() => {
     const fetchUserExbs = async () => {
-      const data = await getUserExhibitions(user?.user.id);
-      if (!data.error) {
-        setDisplayedExbs(data);
+      dispatch({ type: "startLoading/exb" });
+
+      try {
+        const data = await getUserExhibitions(user?.user.id);
+        if (!data.error) {
+          setDisplayedExbs(data);
+        }
+      } catch (err) {
+        console.error(err);
+        console.log("Unable to fetch user exbs | exbDashboard");
+      } finally {
+        dispatch({ type: "stopLoading/exb" });
       }
     };
     fetchUserExbs();
   }, []);
-  // if(isLoading)return <Loader/>
+  if (isLoading) return <Loader />;
 
   return (
     <section className="flex flex-col mb-24 mx-24">

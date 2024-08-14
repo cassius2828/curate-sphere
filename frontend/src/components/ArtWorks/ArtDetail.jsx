@@ -9,7 +9,7 @@ import Loader from "../CommonComponents/Loader";
 const ArtDetail = () => {
   const [artDetails, setArtDetails] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
-  const {isLoading, dispatch} = useArtworkContext()
+  const { isLoading, dispatch } = useArtworkContext();
   const { myExbs } = useExbContext();
   const { id } = useParams();
 
@@ -37,7 +37,7 @@ const ArtDetail = () => {
   // Fetch Artwork Details by Id
   ///////////////////////////
   const fetchArtworkDetails = async () => {
-dispatch({type:'startLoading/artworks'})
+    dispatch({ type: "startLoading/artworks" });
     try {
       const data = await getArtworkDetail(id);
       setArtDetails(data);
@@ -46,15 +46,15 @@ dispatch({type:'startLoading/artworks'})
       console.log(
         `Unable to communicate with DB to aget artwork detail | ArtDetail.jsx`
       );
-    } finally{
-dispatch({type:'stopLoading/artworks'})
-
+    } finally {
+      dispatch({ type: "stopLoading/artworks" });
     }
   };
   useEffect(() => {
     fetchArtworkDetails();
   }, []);
-if(isLoading)return <Loader/>
+  
+  if (isLoading) return <Loader />;
   return (
     <section className="p-4">
       {/* title */}
