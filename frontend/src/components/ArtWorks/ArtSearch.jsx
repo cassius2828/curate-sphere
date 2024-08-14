@@ -5,12 +5,15 @@ import useArtworkContext from "../../context/artwork/useArtworkContext";
 import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
 import ArtListMobile from "./ArtListMobile";
 import ArtListDesktop from "./ArtListDesktop";
+import { useEffect } from "react";
+import useGlobalContext from "../../context/global/useGlobalContext";
 
 ///////////////////////////
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
   const { searchQuery, handleUpdateSearchQuery } = useArtworkContext();
+  const { scrollToTop } = useGlobalContext();
   const {
     displayView,
     records,
@@ -28,6 +31,11 @@ const ArtSearch = () => {
   };
   // find viewport width on load
   const isMobile = window.innerWidth;
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
   // if no records then return
   if (!records) return;
   return (
