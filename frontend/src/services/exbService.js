@@ -214,11 +214,13 @@ export const removeArtworkFromExb = async (exbId, objectid) => {
 ///////////////////////////
 
 export const getCoverImg = async (exbId) => {
+  console.log(exbId);
   try {
     const response = await fetch(
       `${BACKEND_URL}/exhibitions/${exbId}/cover-img`
     );
     const data = await response.json();
+
     return data;
   } catch (err) {
     console.error(err);

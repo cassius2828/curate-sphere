@@ -13,7 +13,7 @@ const ArtGalleryCard = ({
   ArtworkObjectid,
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);
-  const {  myExbs } = useExbContext();
+  const { myExbs } = useExbContext();
   ///////////////////////////
   // Modal Actions
   ///////////////////////////
@@ -23,7 +23,6 @@ const ArtGalleryCard = ({
   const hideModal = () => {
     setModalVisible(false);
   };
-
 
   return (
     <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto mx-auto font-cardo">

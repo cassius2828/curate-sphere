@@ -208,7 +208,10 @@ const getExbCoverImg = async (req, res) => {
       const data = await response.json();
 
       res.status(200).json(data.primaryimageurl);
-    }
+    } else
+      return res
+        .status(404)
+        .json({ error: `no exhibition was found with the id of ${id}` });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

@@ -5,6 +5,7 @@ import { ExbCard } from "./ExbCard";
 import { getAllExhibitions } from "../../services/exbService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import Loader from "../CommonComponents/Loader";
 
 const ExbExplore = () => {
   // state
@@ -14,7 +15,8 @@ const ExbExplore = () => {
 
   // context
   const { formatDate, user } = useGlobalContext();
-  const { handleGetAllExbs, handleSortExbs, exploreExbs } = useExbContext();
+  const { handleGetAllExbs, handleSortExbs, exploreExbs, dispatch, isLoading } =
+    useExbContext();
 
   ///////////////////////////
   // Sort Exbs
@@ -46,12 +48,21 @@ const ExbExplore = () => {
   };
 
   ///////////////////////////
-  // Fetch User Exbs
+  // Fetch All Exbs
   ///////////////////////////
   useEffect(() => {
     const fetchAllExbs = async () => {
-      const data = await getAllExhibitions(user?.user.id);
-      setDisplayedExbs(data);
+      dispatch({ type: "startLoading/exb" });
+
+      try {
+        const data = await getAllExhibitions(user?.user.id);
+        setDisplayedExbs(data);
+      } catch (err) {
+        console.error(err);
+        console.log("Unable to fetch all exbs | ExbExplore");
+      } finally {
+        dispatch({ type: "stopLoading/exb" });
+      }
     };
     fetchAllExbs();
   }, []);
@@ -62,6 +73,8 @@ const ExbExplore = () => {
   useEffect(() => {
     handleGetAllExbs();
   }, []);
+
+  if (isLoading) return <Loader />;
   return (
     <section className="m-24">
       <h1 className="text-6xl mb-32 mt-52 font-marcellus text-center">

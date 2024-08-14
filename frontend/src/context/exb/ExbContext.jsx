@@ -21,6 +21,7 @@ const initialState = {
   showExb: {},
   exploreExbs: [],
   myExbs: [],
+  isLoading: false,
 };
 
 const reducer = (state, action) => {
@@ -47,6 +48,11 @@ const reducer = (state, action) => {
           artworks: action.payload,
         },
       };
+    // loading state
+    case "startLoading/exb":
+      return { ...state, isLoading: true };
+    case "stopLoading/exb":
+      return { ...state, isLoading: false };
     // reset
     case "resetAll/exb":
       return initialState;
@@ -58,7 +64,7 @@ const reducer = (state, action) => {
 // Provider
 ///////////////////////////
 export const ExbProvider = ({ children }) => {
-  const [{ showExb, exploreExbs, myExbs }, dispatch] = useReducer(
+  const [{ showExb, exploreExbs, myExbs, isLoading }, dispatch] = useReducer(
     reducer,
     initialState
   );
@@ -195,6 +201,7 @@ export const ExbProvider = ({ children }) => {
         handleGetUserExbs,
         handleResetExbState,
         handleSortExbs,
+        isLoading,
         exploreExbs,
         myExbs,
         showExb,
