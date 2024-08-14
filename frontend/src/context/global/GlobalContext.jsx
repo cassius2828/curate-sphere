@@ -39,9 +39,16 @@ export const GlobalProvider = ({ children }) => {
     return `${year}-${month}-${day}`;
   };
 
+  ///////////////////////////
+  // Scroll to Top
+  ///////////////////////////
+  const scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <GlobalContext.Provider
-      value={{ user, setUser, handleSignout, formatDate, formatDateForEdit,}}
+      value={{ user, setUser, handleSignout, formatDate, formatDateForEdit,scrollToTop }}
     >
       {children}
     </GlobalContext.Provider>
