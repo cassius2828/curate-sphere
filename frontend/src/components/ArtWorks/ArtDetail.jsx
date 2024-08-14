@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import { getArtworkDetail } from "../../services/artworkService";
 import Modal from "../CommonComponents/Modal";
 import useExbContext from "../../context/exb/useExbContext";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
+import Loader from "../CommonComponents/Loader";
 
 const ArtDetail = () => {
   const [artDetails, setArtDetails] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
+  const {isLoading, dispatch} = useArtworkContext()
   const { myExbs } = useExbContext();
   const { id } = useParams();
 
@@ -34,6 +37,7 @@ const ArtDetail = () => {
   // Fetch Artwork Details by Id
   ///////////////////////////
   const fetchArtworkDetails = async () => {
+dispatch({type:'startLoading/artworks'})
     try {
       const data = await getArtworkDetail(id);
       setArtDetails(data);
@@ -42,12 +46,15 @@ const ArtDetail = () => {
       console.log(
         `Unable to communicate with DB to aget artwork detail | ArtDetail.jsx`
       );
+    } finally{
+dispatch({type:'stopLoading/artworks'})
+
     }
   };
   useEffect(() => {
     fetchArtworkDetails();
   }, []);
-
+if(isLoading)return <Loader/>
   return (
     <section className="p-4">
       {/* title */}
