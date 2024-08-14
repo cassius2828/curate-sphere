@@ -5,12 +5,19 @@ import useGlobalContext from "../../context/global/useGlobalContext";
 import Masonry from "react-masonry-css";
 
 import ExbArtworkCard from "./ExbArtworkCard";
+import Loader from "../CommonComponents/Loader";
 
 const ExbDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { handleGetExbDetail, showExb, handleDeleteExb, handleGetUserExbs } =
-    useExbContext();
+  const {
+    handleGetExbDetail,
+    showExb,
+    handleDeleteExb,
+    handleGetUserExbs,
+    dispatch,
+    isLoading,
+  } = useExbContext();
   const { user } = useGlobalContext();
   const { formatDate } = useGlobalContext();
   ///////////////////////////
@@ -39,7 +46,15 @@ const ExbDetail = () => {
   ///////////////////////////
   useEffect(() => {
     const fetchExbDetail = async () => {
-      await handleGetExbDetail(id);
+      dispatch({ type: "startLoading/exb" });
+      try {
+        await handleGetExbDetail(id);
+      } catch (err) {
+        console.error(err);
+        console.log("Unable to get exb detail | ExbDetail");
+      } finally {
+        dispatch({ type: "stopLoading/exb" });
+      }
     };
 
     fetchExbDetail();
@@ -47,6 +62,7 @@ const ExbDetail = () => {
   // conditional to tell who is owner of exb
   const isUsersExb = showExb.userId === user.user.id;
 
+  if (isLoading) return <Loader />;
   ///////////////////////////
   // ! Delete Btn
   ///////////////////////////
