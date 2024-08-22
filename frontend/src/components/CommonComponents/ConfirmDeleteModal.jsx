@@ -47,7 +47,7 @@ const ConfirmDeleteModal = ({
         <p className="mb-10">
           Are you sure you want to remove this artwork from your exhibition?
         </p>
-        <div className="flex gap-8 ">
+        <div className="flex gap-8 mt-12 sm:mt-0">
           {/* close modal */}
           <Btn handleAction={() => onClose()} text={`cancel`} />
           <Btn handleAction={handleRemoveArtworkFromExb} text={`confirm`} />

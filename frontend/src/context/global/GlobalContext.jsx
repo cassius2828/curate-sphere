@@ -11,7 +11,7 @@ const GlobalContext = createContext();
 ///////////////////////////
 export const GlobalProvider = ({ children }) => {
   const [user, setUser] = useState(getUser());
-
+  const [isLoading, setIsLoading] = useState(false);
   ///////////////////////////
   // Sign Out
   ///////////////////////////
@@ -48,7 +48,16 @@ export const GlobalProvider = ({ children }) => {
 
   return (
     <GlobalContext.Provider
-      value={{ user, setUser, handleSignout, formatDate, formatDateForEdit,scrollToTop }}
+      value={{
+        user,
+        setUser,
+        handleSignout,
+        formatDate,
+        formatDateForEdit,
+        scrollToTop,
+        isLoading,
+        setIsLoading,
+      }}
     >
       {children}
     </GlobalContext.Provider>

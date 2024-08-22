@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { postAddArtworkToExb } from "../../services/exbService";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,9 +10,6 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
   const [message, setMessage] = useState("");
   const [displayUserExbs, setDisplayUserExbs] = useState(exbs);
   const { user } = useGlobalContext();
-  if (!isVisible) {
-    return null;
-  }
 
   ///////////////////////////
   // Search Functions / Actions
@@ -49,6 +46,11 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
       console.log(`Cannot communicate with DB to add artwork to exb`);
     }
   };
+
+
+  if (!isVisible) {
+    return null;
+  }
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 modal">

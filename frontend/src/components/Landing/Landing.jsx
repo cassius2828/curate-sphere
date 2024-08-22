@@ -1,7 +1,37 @@
 import { Link } from "react-router-dom";
 import { LampContainer } from "../ui/lamp";
+import useArtworkContext from "../../context/artwork/useArtworkContext";
+import useGlobalContext from "../../context/global/useGlobalContext";
+import { useEffect } from "react";
 
 const Landing = () => {
+  const { setIsLoading } = useGlobalContext();
+  const { handleGetAllArtworks, handleGetAllFilterObjs, records } =
+    useArtworkContext();
+
+  const fetchAllData = async () => {
+    setIsLoading(true);
+    try {
+      // artworks
+      if (records.length === 0) {
+        await handleGetAllArtworks();
+        await handleGetAllFilterObjs();
+        console.log("fetched filters and artworks");
+      }
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to fetch all data | artworks, filter objs`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  ///////////////////////////
+  // useEffect to run all fetches
+  ///////////////////////////
+  useEffect(() => {
+    fetchAllData();
+  }, []);
   return (
     <LampContainer>
       <div className="relative z-50 min-h-screen flex flex-col items-center justify-center text-center gap-y-8 px-5">

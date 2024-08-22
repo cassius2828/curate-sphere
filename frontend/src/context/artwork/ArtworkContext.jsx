@@ -97,9 +97,6 @@ const reducer = (state, action) => {
       return { ...state, isLoading: true };
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
-    // Reset State
-    case "resetAll/artworks":
-      return initialArtworksState;
     // Filter Section
     case "filterArtworks/artworks":
       return {
@@ -600,9 +597,7 @@ export const ArtworkProvider = ({ children }) => {
   useEffect(() => {
     handleGetAllFilterObjs();
   }, []);
-  const handleResetArtworkState = () => {
-    dispatch({ type: "resetAll/artworks" });
-  };
+
   // all categories combined to one array
   const primaryCategories = [
     century,
@@ -622,7 +617,6 @@ export const ArtworkProvider = ({ children }) => {
         handleGetAllArtworks,
         handleGetNextPageOfArtworks,
         handleRemoveFilter,
-        handleResetArtworkState,
         handleResetFilterState,
         handleSearchArtworksByTitle,
         handleUpdateSearchQuery,

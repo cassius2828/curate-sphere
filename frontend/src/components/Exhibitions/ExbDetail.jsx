@@ -60,7 +60,7 @@ const ExbDetail = () => {
     fetchExbDetail();
   }, []);
   // conditional to tell who is owner of exb
-  const isUsersExb = showExb.userId === user.user.id;
+  const isUsersExb = showExb.userId === user?.user.id;
 
   if (isLoading) return <Loader />;
   ///////////////////////////

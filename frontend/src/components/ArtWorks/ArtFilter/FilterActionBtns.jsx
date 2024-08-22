@@ -7,8 +7,13 @@ import { faRotateBack } from "@fortawesome/free-solid-svg-icons";
 import ArtSearchFilter from "./ArtFilter";
 ///////////////////////////
 export const FilterActionBtns = () => {
-  const { info, records, handleSelectFilters, handleResetFilterState } =
-    useArtworkContext();
+  const {
+    info,
+    records,
+    handleSelectFilters,
+    handleResetFilterState,
+    artFilter,
+  } = useArtworkContext();
   return (
     <div className="flex flex-col md:flex-row w-3/4 justify-between items-center relative">
       {/* filter */}
@@ -27,6 +32,7 @@ export const FilterActionBtns = () => {
             onChange={(e) => handleSelectFilters(e.target.name, e.target.value)}
             name="size"
             id="size"
+            value={artFilter.size}
           >
             <option value="12">12</option>
             <option value="24">24</option>
