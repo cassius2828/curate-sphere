@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getArtworkDetail } from "../../services/artworkService";
 import Modal from "../CommonComponents/Modal";
 import useExbContext from "../../context/exb/useExbContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import Loader from "../CommonComponents/Loader";
+import LoaderRipple from "../CommonComponents/LoaderRipple";
 
 const ArtDetail = () => {
   const [artDetails, setArtDetails] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
   const { isLoading, dispatch } = useArtworkContext();
+  const [isLoadingImg, setIsLoadingImg] = useState(false);
+
   const { myExbs } = useExbContext();
   const { id } = useParams();
+  const navigate = useNavigate();
 
   //  art details contents
   const {
@@ -38,6 +42,7 @@ const ArtDetail = () => {
   ///////////////////////////
   const fetchArtworkDetails = async () => {
     dispatch({ type: "startLoading/artworks" });
+    setIsLoadingImg(true);
     try {
       const data = await getArtworkDetail(id);
       setArtDetails(data);
@@ -48,12 +53,13 @@ const ArtDetail = () => {
       );
     } finally {
       dispatch({ type: "stopLoading/artworks" });
+      setIsLoadingImg(false);
     }
   };
   useEffect(() => {
     fetchArtworkDetails();
   }, []);
-  
+
   if (isLoading) return <Loader />;
   return (
     <section className="p-4">
@@ -63,7 +69,26 @@ const ArtDetail = () => {
       </h1>
       {/* img */}
       <div className="flex flex-col md:flex-row justify-center items-center gap-10 my-20">
-        <img width="375" src={primaryimageurl} alt="sample image" />
+        {isLoadingImg ? (
+          <div className="w-full md:w-1/2 md:h-full flex flex-col items-center gap-8">
+            <LoaderRipple />
+            <span className="capitalize"> image is loading...</span>
+          </div>
+        ) : (
+          <img
+            className="w-full md:w-1/2 md:h-full object-cover"
+            src={
+              primaryimageurl
+                ? primaryimageurl
+                : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+            }
+            alt={title}
+          />
+        )}
+        {/* 
+       
+     
+       */}
         <div className="flex flex-col justify-center mx-10 items-start gap-6 md:gap-20 md:items-start md:mx-2 text-3xl font-cardo">
           {/* artists */}
           <ul>
@@ -80,12 +105,20 @@ const ArtDetail = () => {
           <p>Division: {division ? division : "N/A"}</p>
 
           {/* action btn */}
-          <button
-            onClick={showModal}
-            className="border border-black px-6 py-1 font-cardo md:w-1/2 mt-6 md:mt-auto mx-auto"
-          >
-            Add to Exhibition
-          </button>
+          <div className="flex items-center justify-center w-full md:w-3/4 mx-auto gap-12">
+            <button
+              onClick={() => navigate(-1)}
+              className="border border-black px-6 py-1 font-cardo md:w-1/2 mt-6 md:mt-auto mx-auto"
+            >
+              Back
+            </button>
+            <button
+              onClick={showModal}
+              className="border border-black px-6 py-1 font-cardo md:w-1/2 mt-6 md:mt-auto mx-auto"
+            >
+              Add to Exhibition
+            </button>
+          </div>
         </div>
       </div>
       {isModalVisible && (
