@@ -7,7 +7,7 @@ import { getUser } from "../../services/authService";
 import useExbContext from "../../context/exb/useExbContext";
 
 const Home = () => {
-  const { user, setUser } = useGlobalContext();
+  const { user, setUser, setIsLoading } = useGlobalContext();
   const { handleGetAllArtworks, handleGetAllFilterObjs, records } =
     useArtworkContext();
   const { handleGetUserExbs, myExbs } = useExbContext();
@@ -30,20 +30,31 @@ const Home = () => {
   //////////////////////////////////////////////////////
   // this prevents redundant fetch calls if necessary data already exists
   const fetchAllData = async () => {
-    // user
-    if (!user) {
-      fetchUser();
-      console.log("fetched user");
-    }
-    // artworks
-    if (records.length === 0) {
-      await handleGetAllArtworks();
-      await handleGetAllFilterObjs();
-      console.log("fetched filters and artworks");
-    }
-    // user exbs
-    if (myExbs.length === 0) {
-      await handleGetUserExbs();
+    setIsLoading(true);
+    try {
+      // user
+      if (!user) {
+        fetchUser();
+        console.log("fetched user");
+      }
+      // artworks
+      if (records.length === 0) {
+        await handleGetAllArtworks();
+        await handleGetAllFilterObjs();
+        console.log("fetched filters and artworks");
+      }
+      // user exbs
+      if (myExbs.length === 0) {
+        await handleGetUserExbs();
+        console.log("fetched user exbs");
+      }
+    } catch (err) {
+      console.error(err);
+      console.log(
+        `Unable to fetch all data | user, artworks, filter objs, user exbs`
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
