@@ -9,6 +9,7 @@ import { getUserExhibitions } from "../../services/exbService";
 import Loader from "../CommonComponents/Loader";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import PromptSignIn from "../CommonComponents/PromptSignIn";
+import Masonry from "react-masonry-css";
 
 const ExbDashboard = () => {
   // state
@@ -19,6 +20,13 @@ const ExbDashboard = () => {
   // context
   const { formatDate, user } = useGlobalContext();
   const { myExbs, handleSortExbs, dispatch, isLoading } = useExbContext();
+
+  const breakpointColumnsObj = {
+    default: 4,
+    1200: 3,
+    850: 2,
+    600: 1,
+  };
 
   if (!user) {
     return <PromptSignIn text={'view your exhibitions'}/>;
@@ -120,7 +128,11 @@ const ExbDashboard = () => {
           </select>
         </div>
       </div>
-      <ul className="flex flex-col gap-10 font-cardo">
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="masonry-grid gap-8"
+        columnClassName="masonry-grid_column"
+      >
         {displayedExbs?.map((exb) => {
           return (
             <ExbCard
@@ -133,7 +145,8 @@ const ExbDashboard = () => {
             />
           );
         })}
-      </ul>
+      </Masonry>
+        
     </section>
   );
 };

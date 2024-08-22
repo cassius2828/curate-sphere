@@ -30,7 +30,7 @@ export const ExbCard = ({ title, date, location, id }) => {
     console.log();
   }, []);
   return (
-    <li className="flex flex-col items-center w-full md:flex-row md:max-w-[40rem] lg:max-w-[40rem] overflow-hidden shadow-md font-cardo ">
+    <li className="flex flex-col items-center w-full mt-10 md:flex-row md:max-w-[40rem] lg:max-w-[40rem] overflow-hidden shadow-md font-cardo ">
       {isLoadingImg ? (
         <div className="w-full md:w-1/2 md:h-full flex flex-col items-center gap-8">
           <LoaderRipple />

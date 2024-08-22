@@ -6,6 +6,7 @@ import { getAllExhibitions } from "../../services/exbService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Loader from "../CommonComponents/Loader";
+import Masonry from "react-masonry-css";
 
 const ExbExplore = () => {
   // state
@@ -17,6 +18,13 @@ const ExbExplore = () => {
   const { formatDate, user } = useGlobalContext();
   const { handleGetAllExbs, handleSortExbs, exploreExbs, dispatch, isLoading } =
     useExbContext();
+
+  const breakpointColumnsObj = {
+    default: 4,
+    1200: 3,
+    850: 2,
+    600: 1,
+  };
 
   ///////////////////////////
   // Sort Exbs
@@ -110,19 +118,23 @@ const ExbExplore = () => {
           <option value="z-a">Z to A</option>
         </select>
       </div>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3  justify-items-center">
+      <Masonry
+        breakpointCols={breakpointColumnsObj}
+        className="masonry-grid gap-8"
+        columnClassName="masonry-grid_column"
+      >
         {displayedExbs?.map((exb) => {
-          return (
-            <ExbCard
-              key={exb.id}
-              id={exb.id}
-              title={exb.title}
-              date={`${formatDate(exb.startDate)} - ${formatDate(exb.endDate)}`}
-              location={exb.location}
-            />
-          );
-        })}
-      </div>
+        return (
+          <ExbCard
+            key={exb.id}
+            id={exb.id}
+            title={exb.title}
+            date={`${formatDate(exb.startDate)} - ${formatDate(exb.endDate)}`}
+            location={exb.location}
+          />
+        );
+      })}
+      </Masonry>
     </section>
   );
 };
