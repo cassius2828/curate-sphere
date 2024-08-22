@@ -8,6 +8,7 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { getUserExhibitions } from "../../services/exbService";
 import Loader from "../CommonComponents/Loader";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
+import PromptSignIn from "../CommonComponents/PromptSignIn";
 
 const ExbDashboard = () => {
   // state
@@ -18,6 +19,10 @@ const ExbDashboard = () => {
   // context
   const { formatDate, user } = useGlobalContext();
   const { myExbs, handleSortExbs, dispatch, isLoading } = useExbContext();
+
+  if (!user) {
+    return <PromptSignIn text={'view your exhibitions'}/>;
+  }
 
   ///////////////////////////
   // Sort Exbs
