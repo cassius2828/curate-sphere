@@ -11,15 +11,19 @@ const {
 ///////////////////////////
 const getAllExhibitions = async (req, res) => {
   const { userId } = req.params;
-
+let exhibitions = []
   try {
-    const exhibitions = await Exhibition.findAll({
+    if(userId === 'undefined'){
+      exhibitions = await Exhibition.findAll()
+    } else {
+      exhibitions = await Exhibition.findAll({
       where: {
         userId: {
           [Op.ne]: userId,
         },
       },
     });
+    }
     // Check if we found any exhibitions
     if (exhibitions.length === 0) {
       return res.status(400).json({ error: "No exhibitions were found" });

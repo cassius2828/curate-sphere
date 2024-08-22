@@ -3,6 +3,7 @@ import { createExb, editExb } from "../../services/exbService";
 import useExbContext from "../../context/exb/useExbContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import { useNavigate, useParams } from "react-router";
+import PromptSignIn from "../CommonComponents/PromptSignIn";
 
 const initialFormData = {
   title: "",
@@ -20,6 +21,9 @@ const ExbForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  if (!user) {
+    return <PromptSignIn />;
+  }
   ///////////////////////////
   // Form Actions
   ///////////////////////////

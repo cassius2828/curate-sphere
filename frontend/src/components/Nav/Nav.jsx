@@ -38,14 +38,14 @@ const Nav = () => {
                   <li className="p-3 text-2xl ">Login</li>
                 </Link>
 
-                <Link onClick={() => setIsMenuOpen(false)}  to={`/register`}>
+                <Link onClick={() => setIsMenuOpen(false)} to={`/register`}>
                   <li className="p-3 text-2xl ">Register</li>
                 </Link>
               </>
             ) : (
               <>
                 <NavListItem
-                // controls mobile menu
+                  // controls mobile menu
                   setIsMenuOpen={setIsMenuOpen}
                   listItemText={`Exhibitions`}
                   dropDownItems={[
@@ -91,39 +91,41 @@ const Nav = () => {
 
       {/* desktop */}
       <ul className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center">
+        <>
+          <NavListItem
+            setIsMenuOpen={setIsMenuOpen}
+            listItemText={`Exhibitions`}
+            dropDownItems={[
+              {
+                text: "explore exhibitions",
+                path: "/exhibitions/explore",
+              },
+              {
+                text: "create exhibition",
+                path: "/exhibitions/create",
+              },
+              {
+                text: "my exhibitions",
+                path: "/exhibitions/dashboard",
+              },
+            ]}
+          />
+          <Link to={`/artworks/search`}>
+            <li className="p-3 text-2xl ">Search Artworks</li>
+          </Link>
+        </>
         {!user ? (
           <>
-            <Link onClick={() => setIsMenuOpen(false)}  to={`/login`}>
+            <Link onClick={() => setIsMenuOpen(false)} to={`/login`}>
               <li className="p-3 text-2xl ">Login</li>
             </Link>
 
-            <Link onClick={() => setIsMenuOpen(false)}  to={`/register`}>
+            <Link onClick={() => setIsMenuOpen(false)} to={`/register`}>
               <li className="p-3 text-2xl ">Register</li>
             </Link>
           </>
         ) : (
           <>
-            <NavListItem
-            setIsMenuOpen={setIsMenuOpen}
-              listItemText={`Exhibitions`}
-              dropDownItems={[
-                {
-                  text: "explore exhibitions",
-                  path: "/exhibitions/explore",
-                },
-                {
-                  text: "create exhibition",
-                  path: "/exhibitions/create",
-                },
-                {
-                  text: "my exhibitions",
-                  path: "/exhibitions/dashboard",
-                },
-              ]}
-            />
-            <Link to={`/artworks/search`}>
-              <li className="p-3 text-2xl ">Search Artworks</li>
-            </Link>
             <Link to={`/`}>
               <li
                 onClick={() => {

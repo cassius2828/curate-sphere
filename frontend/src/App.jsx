@@ -39,17 +39,23 @@ function App() {
             <Route path="/exhibition/:id" element={<ExbDetail />} />
             <Route path="/artwork/:id" element={<ArtDetail />} />
             <Route path="/exhibitions/explore" element={<ExbExplore />} />
-            <Route path="*" element={<NotFoundPage/>}/>
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>
       ) : (
         <>
           <Routes>
             <Route path="/" element={<Landing />} />
+            <Route path="/artworks/search" element={<ArtSearch />} />
+            <Route path="/exhibitions/dashboard" element={<ExbDashboard />} />
+            <Route path="/exhibitions/create" element={<ExbForm />} />
+            <Route path="/exhibitions/:id/edit" element={<ExbForm />} />
+            <Route path="/exhibition/:id" element={<ExbDetail />} />
+            <Route path="/artwork/:id" element={<ArtDetail />} />
+            <Route path="/exhibitions/explore" element={<ExbExplore />} />
             <Route path="/login" element={<LoginForm />}></Route>
             <Route path="/register" element={<RegisterForm />}></Route>
-            <Route path="*" element={<NotFoundPage/>}/>
-
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>
       )}

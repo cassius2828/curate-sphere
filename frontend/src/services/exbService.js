@@ -4,16 +4,24 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // Get | Get All Exhibitions
 ///////////////////////////
 export const getAllExhibitions = async (userId) => {
+  let url = `${BACKEND_URL}/exhibitions/explore/${userId}`
+  // if(userId === undefined){
+  //   url = `${BACKEND_URL}/exhibitions/explore`
+  // } else {
+  //   url = `${BACKEND_URL}/exhibitions/explore/${userId}`
+  // }
   try {
     const response = await fetch(
-      `${BACKEND_URL}/exhibitions/explore/${userId}`
+      url
     );
     const data = await response.json();
+    console.log(data)
     if (response.ok) {
       return data;
     } else {
       throw new Error();
     }
+
   } catch (err) {
     console.error(err);
     console.log(`Unable to communicate with DB to get all exhibitions`);
