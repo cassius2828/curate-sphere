@@ -41,18 +41,17 @@ const ArtDetail = () => {
   // Fetch Artwork Details by Id
   ///////////////////////////
   const fetchArtworkDetails = async () => {
+    
     const storedArtworkDetails = sessionStorage.getItem(id);
-
     if (storedArtworkDetails) {
-      console.log("used cache from session storage for artowork id: ", id);
       return setArtDetails(JSON.parse(storedArtworkDetails));
     }
+
     dispatch({ type: "startLoading/artworks" });
     setIsLoadingImg(true);
     try {
       const data = await getArtworkDetail(id);
       sessionStorage.setItem(id, JSON.stringify(data));
-      console.log("stored artwork with id of ", id, " to session storage");
       setArtDetails(data);
     } catch (err) {
       console.error(err);

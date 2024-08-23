@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import {
   deleteExb,
   editExb,
@@ -68,7 +68,30 @@ export const ExbProvider = ({ children }) => {
     reducer,
     initialState
   );
+  const [cachedExbs, setCachedExbs] = useState(new Map());
   const { user } = useGlobalContext();
+
+  ///////////////////////////
+  // Caching Exbs
+  ///////////////////////////
+  // add exb to cache
+  const addExbToCache = (exbId, exbData) => {
+    setCachedExbs((prevMap) => {
+      const newMap = new Map(prevMap);
+      newMap.set(exbId, exbData);
+      return newMap;
+    });
+  };
+
+  // getExb from cache
+  const getExbFromCache = (exbId) => {
+    return cachedExbs.get(exbId);
+  };
+
+// Log the cache whenever it updates
+useEffect(() => {
+  console.log(cachedExbs, '<-- updated cached exbs');
+}, [cachedExbs]);
 
   ///////////////////////////
   //   GET | index
@@ -106,6 +129,10 @@ export const ExbProvider = ({ children }) => {
     try {
       const data = await getExbArtworks(exbId);
       dispatch({ type: "addArtworks/exb", payload: data });
+      console.log('showExb:', showExb);
+
+
+      console.log(cachedExbs, '<-- cached exbs')
       return data;
     } catch (err) {
       console.error(err);
@@ -118,10 +145,18 @@ export const ExbProvider = ({ children }) => {
   //   GET | show
   ///////////////////////////
   const handleGetExbDetail = async (exbId) => {
+    // checks for cached exb first , then go through fetching from our db, making thru table, fetching images from harvard api 
+    const cachedExb = getExbFromCache(exbId);
+    if(cachedExb) {
+      console.log('Used the map from cache')
+      return dispatch({type: 'getDetail/exb', payload: cachedExb})
+    } 
     try {
       const data = await getExbDetail(exbId);
       dispatch({ type: "getDetail/exb", payload: data });
-      const artworkData = await handleGetExbArtworks(exbId);
+      const exbData = await handleGetExbArtworks(exbId);
+      addExbToCache(exbId, {...data, artworks: exbData})
+
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);
@@ -192,7 +227,9 @@ export const ExbProvider = ({ children }) => {
   return (
     <ExbContext.Provider
       value={{
+        addExbToCache,
         dispatch,
+        getExbFromCache,
         handleDeleteExb,
         handleEditExb,
         handleGetAllExbs,

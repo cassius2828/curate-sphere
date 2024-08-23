@@ -16,7 +16,7 @@ const ExbDetail = () => {
     handleDeleteExb,
     handleGetUserExbs,
     dispatch,
-    isLoading,
+    isLoading,getExbFromCache, addExbToCache
   } = useExbContext();
   const { user } = useGlobalContext();
   const { formatDate } = useGlobalContext();
