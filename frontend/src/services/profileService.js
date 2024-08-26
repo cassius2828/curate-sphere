@@ -14,10 +14,10 @@ export const updateUserInfo = async (formData, userId) => {
       options
     );
     const data = await response.json();
-   if(data.token){
-    localStorage.setItem("token", data.token);
-
-   }
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
+    console.log(data, ' <-- update user info data')
     return data;
   } catch (err) {
     console.error(err);
@@ -48,5 +48,32 @@ export const updateUserPassword = async (formData, userId) => {
   } catch (err) {
     console.error(err);
     console.log(`Unable to communicate with backend to update user password`);
+  }
+};
+
+///////////////////////////
+// * PUT | Update User Profile Img | Profile Pic or Header
+///////////////////////////
+
+export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({imgUrl}),
+  };
+  try {
+    const response = await fetch(
+      `${PROFILES_BASE_URL}/update-imgs/${userId}?imgType=${imgType}`,
+      options
+    );
+    const data = await response.json();
+    // plan on returning message | succuess or fail
+    console.log(data, ' <-- data fromimg updates')
+    return data;
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with backend to update ${imgType}`);
   }
 };

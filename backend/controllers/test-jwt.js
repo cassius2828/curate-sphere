@@ -12,15 +12,9 @@ function verify(req, res) {
   res.json({ token });
 }
 
-const refresh = () => {
-  const user = req.user;
-  const newToken = jwt.sign({ user }, process.env.JWT_SECRET, {
-    expiresIn: "1h",
-  });
-  res.json({ token: newToken });
-};
+
 
 module.exports = {
   verify,
-  refresh,
+ 
 };

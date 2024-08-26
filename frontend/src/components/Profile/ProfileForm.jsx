@@ -10,24 +10,26 @@ export const ProfileForm = () => {
   const initialFormData = {
     username: user.user.username,
     email: user.user.email,
+    bio: user.user.bio,
     headerImg: "",
     profileImg: "",
   };
   const [formData, setFormData] = useState(initialFormData);
   const [message, setMessage] = useState("");
-  const { username, email, headerImg, profileImg } = formData;
+  const { username, email, bio, headerImg, profileImg } = formData;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const multiFormData = new FormData();
     multiFormData.append("username", username);
     multiFormData.append("email", email);
+    multiFormData.append("bio", bio);
     multiFormData.append("headerImg", headerImg);
     multiFormData.append("profileImg", profileImg);
     try {
       const data = await updateUserInfo(multiFormData, user.user.id);
       setMessage(data.message);
-        setUser(getUser());
+      setUser(getUser());
     } catch (err) {
       console.error(err);
       console.log(`Unable to submit formdata to backend to update user info`);
@@ -92,7 +94,25 @@ export const ProfileForm = () => {
             onChange={handleChange}
           />
         </div>
-
+      {/* bio */}
+      <div className="mb-5">
+          <label
+            htmlFor="bio"
+            className="block mb-2 text-xl font-medium text-gray-900"
+          >
+            Bio
+          </label>
+          <input
+            type="textarea"
+            id="bio"
+            name="bio"
+            maxLength={255}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            placeholder="Enter your bio"
+            value={formData.bio}
+            onChange={handleChange}
+          />
+        </div>
         {/* Header Image */}
         <div className="mb-5">
           <label

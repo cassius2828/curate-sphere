@@ -13,5 +13,5 @@ router.put(
   profileCtrl.putUpdateUserInfo
 );
 router.put("/update-password/:userId", profileCtrl.putUpdateUserPassword);
-
+router.put('/update-imgs/:userId', profileCtrl.putUpdateUserImgsByArtworkUrl)
 module.exports = router;
