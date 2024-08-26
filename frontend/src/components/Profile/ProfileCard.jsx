@@ -14,7 +14,7 @@ export const ProfileCard = () => {
 const {myExbs} = useExbContext()
   console.log(user);
   return (
-    <div className="rounded-md flex flex-col justify-center items-center  my-12 bg-neutral-200 w-full md:w-1/2 overflow-hidden ">
+    <div className="rounded-md flex flex-col justify-center items-center  md:my-12 bg-neutral-200 w-full md:w-1/2 overflow-hidden ">
       {/* header */}
       <div className="w-full h-1/3 relative overfl">
         <img
@@ -27,7 +27,7 @@ const {myExbs} = useExbContext()
           alt="Profile Header"
         />
         {/* img */}
-        <div className="rounded-full border-8 w-96 h-96 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="rounded-full border-8 w-72 h-72 md:w-96 md:h-96 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
             className="w-full "
             src={
