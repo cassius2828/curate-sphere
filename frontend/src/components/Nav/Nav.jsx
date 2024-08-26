@@ -3,7 +3,7 @@ import { NavListItem } from "./NavListItem";
 import useGlobalContext from "../../context/global/useGlobalContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import useExbContext from "../../context/exb/useExbContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import LoaderText from "../CommonComponents/LoaderText";
 
 const Nav = () => {
@@ -19,6 +19,10 @@ const Nav = () => {
     console.log("test");
     handleResetExbState();
   };
+
+  useEffect(() => {
+console.log(user?.user.id)
+  },[])
 
   return (
     <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between items-center bg-[#020617] text-gray-100 font-marcellus">
@@ -38,7 +42,7 @@ const Nav = () => {
               <>
                 {!user ? (
                   <>
-                                      <NavListItem
+                    <NavListItem
                       // controls mobile menu
                       setIsMenuOpen={setIsMenuOpen}
                       listItemText={`Exhibitions`}
@@ -101,6 +105,13 @@ const Nav = () => {
                       to={`/artworks/search`}
                     >
                       <li className="p-3 text-2xl ">Search Artworks</li>
+                    </Link>{" "}
+                    <Link
+                      onClick={() => setIsMenuOpen(false)}
+                      className={isLoading ? `pointer-events-none` : ""}
+                      to={`/profiles/${user.user.id}`}
+                    >
+                      <li className="p-3 text-2xl ">Profile</li>
                     </Link>
                     <Link to={`/`}>
                       <li
@@ -161,6 +172,13 @@ const Nav = () => {
               </>
             ) : (
               <>
+                <Link
+                  onClick={() => setIsMenuOpen(false)}
+                  className={isLoading ? `pointer-events-none` : ""}
+                  to={`/profiles/${user.user.id}`}
+                >
+                  <li className="p-3 text-2xl ">Profile</li>
+                </Link>
                 <Link to={`/`}>
                   <li
                     onClick={() => {

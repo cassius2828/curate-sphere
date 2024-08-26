@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import {
   deleteExb,
   editExb,
@@ -8,6 +8,10 @@ import {
   getUserExhibitions,
 } from "../../services/exbService";
 import useGlobalContext from "../global/useGlobalContext";
+import {
+  getItemIndexedDB,
+  setItemIndexedDB,
+} from "../../utils/indexedDB.config";
 
 ///////////////////////////
 // Context Creation
@@ -68,6 +72,7 @@ export const ExbProvider = ({ children }) => {
     reducer,
     initialState
   );
+
   const { user } = useGlobalContext();
 
   ///////////////////////////
@@ -106,6 +111,9 @@ export const ExbProvider = ({ children }) => {
     try {
       const data = await getExbArtworks(exbId);
       dispatch({ type: "addArtworks/exb", payload: data });
+      console.log("showExb:", showExb);
+
+      // console.log(cachedExbs, '<-- cached exbs')
       return data;
     } catch (err) {
       console.error(err);
@@ -118,10 +126,17 @@ export const ExbProvider = ({ children }) => {
   //   GET | show
   ///////////////////////////
   const handleGetExbDetail = async (exbId) => {
+    // checks for cached exb first , then go through fetching from our db, making thru table, fetching images from harvard api
+    const cachedExb = await getItemIndexedDB(exbId, "exb");
+    if (cachedExb) {
+      console.log("Used the map from cache");
+      return dispatch({ type: "getDetail/exb", payload: cachedExb });
+    }
     try {
       const data = await getExbDetail(exbId);
       dispatch({ type: "getDetail/exb", payload: data });
-      const artworkData = await handleGetExbArtworks(exbId);
+      const exbData = await handleGetExbArtworks(exbId);
+      await setItemIndexedDB(exbId, { ...data, artworks: exbData }, "exb");
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);
