@@ -1,22 +1,38 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Btn from "../CommonComponents/Btn";
-
-const initialFormData = {
-  username: "", // For the username input
-  email: "", // For the email input
-  headerImg: null, // For the file input (header image)
-  profileImage: null, // For the file input (profile image)
-  currentPassword: "",
-  newPassword: "", // For the password input
-  confirmPassword: "", // For the confirm password input
-};
+import useGlobalContext from "../../context/global/useGlobalContext";
+import { updateUserInfo } from "../../services/profileService";
 
 export const ProfileForm = () => {
-  const [formData, setFormData] = useState(initialFormData);
-  const handleSubmit = () => {
-    console.log("submit");
+  const { user } = useGlobalContext();
+  //   initalize formData state
+  const initialFormData = {
+    username: user.user.username,
+    email: user.user.email,
+    headerImg: null,
+    profileImg: null,
   };
-  const handleFileChange = (e) => {};
+  const [formData, setFormData] = useState(initialFormData);
+  const { username, email, headerImg, profileImg } = formData;
+
+  const multiFormData = new FormData();
+  multiFormData.append("username", username);
+  multiFormData.append("email", email);
+  multiFormData.append("headerImg", headerImg);
+  multiFormData.append("profileImg", profileImg);
+
+  const handleSubmit = async () => {
+    try {
+      await updateUserInfo(multiFormData, user.user.id);
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to submit formdata to backend to update user info`);
+    }
+  };
+  const handleFileChange = (e) => {
+    const { files, name } = e.target;
+    setFormData({ ...formData, [name]: files[0] });
+  };
   const handleCancel = () => {
     console.log("cancel");
   };
@@ -24,6 +40,10 @@ export const ProfileForm = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  useEffect(() => {
+    console.log(user);
+  }, []);
   return (
     <form className=" mx-auto  p-12 rounded-md w-full md:w-1/2">
       {/* Username */}
@@ -105,7 +125,7 @@ export const ProfileForm = () => {
       {/* Submit Button */}
       <div className="w-full flex justify-center items-center gap-12">
         <Btn handleAction={handleCancel} text="Cancel" />
-        <Btn handleAction={handleSubmit} text="Submit" />
+        <Btn handleAction={handleSubmit} text="Update" />
       </div>
     </form>
   );

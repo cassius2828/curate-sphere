@@ -80,7 +80,7 @@ export const ChangePasswordForm = () => {
       {/* Submit Button */}
       <div className="w-full flex justify-center items-center gap-12">
         <Btn handleAction={handleCancel} text="Cancel" />
-        <Btn handleAction={handleSubmit} text="Submit" />
+        <Btn handleAction={handleSubmit} text="Update Password" />
       </div>
     </form>
   );
