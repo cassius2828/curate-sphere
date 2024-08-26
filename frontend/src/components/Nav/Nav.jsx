@@ -21,7 +21,7 @@ const Nav = () => {
   };
 
   useEffect(() => {
-console.log(user.user.id)
+console.log(user?.user.id)
   },[])
 
   return (
