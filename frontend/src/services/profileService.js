@@ -6,10 +6,7 @@ const PROFILES_BASE_URL = import.meta.env.VITE_BACKEND_URL + "/profiles";
 export const updateUserInfo = async (formData, userId) => {
   const options = {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      body: JSON.stringify(formData),
-    },
+    body: formData,
   };
   try {
     const response = await fetch(
@@ -17,13 +14,16 @@ export const updateUserInfo = async (formData, userId) => {
       options
     );
     const data = await response.json();
-    if (data.message) {
-      return data.message;
-    }
+   if(data.token){
+    localStorage.setItem("token", data.token);
+
+   }
     return data;
   } catch (err) {
     console.error(err);
-    console.log(`Unable to communciate with backend to update user info`);
+    console.log(
+      `Unable to communciate with backend to update user info. Error: ${err}`
+    );
   }
 };
 
@@ -33,10 +33,7 @@ export const updateUserInfo = async (formData, userId) => {
 export const updateUserPassword = async (formData, userId) => {
   const options = {
     method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      body: JSON.stringify(formData),
-    },
+    body: formData,
   };
   try {
     const response = await fetch(

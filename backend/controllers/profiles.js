@@ -1,4 +1,10 @@
-const User = require("../models/user");
+const sequelize = require("../config/database");
+const jwt = require("jsonwebtoken");
+
+
+const {
+    models: { User },
+  } = sequelize;
 const bcrypt = require("bcrypt");
 
 ///////////////////////////
@@ -6,7 +12,8 @@ const bcrypt = require("bcrypt");
 ///////////////////////////
 const putUpdateUserInfo = async (req, res) => {
   const { username, email } = req.body;
-  const { profileImg, headerImg } = req.file;
+  console.log(req.body, ' <-- req.body')
+//   const { profileImg, headerImg } = req.file;
   const { userId } = req.params;
 
   try {
@@ -20,6 +27,7 @@ const putUpdateUserInfo = async (req, res) => {
     // if email exists from req.body
     if (email) {
       user.email = email;
+      // console.log(user, ' <-- updated user')
       await user.save();
     }
     // if username exists from req.body & username is different thatn original username
@@ -27,6 +35,11 @@ const putUpdateUserInfo = async (req, res) => {
       user.username = username;
       await user.save();
     }
+        // Generate a JWT token with the created user data
+        let token = jwt.sign({ user }, process.env.JWT_SECRET);
+
+        // Respond with the generated token
+        res.status(201).json({ token, message: 'Successfully updated user information' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unable to update user info" });
