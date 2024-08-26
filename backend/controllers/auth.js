@@ -8,7 +8,7 @@ const {
 
 // register route
 const registerUser = async (req, res) => {
-  const { password, username, profileImg } = req.body;
+  const { password, username, profileImg, email } = req.body;
   try {
     // ensure user makes a username and password
     if (!password || !username) {
@@ -23,6 +23,7 @@ const registerUser = async (req, res) => {
       where: { username },
       defaults: {
         username,
+        email,
         password: hashedPassword,
         profileImg,
       },
