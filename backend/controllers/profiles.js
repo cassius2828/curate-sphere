@@ -105,17 +105,29 @@ const putUpdateUserInfo = async (req, res) => {
 // * PUT | Update User Password
 ///////////////////////////
 const putUpdateUserPassword = async (req, res) => {
-  const { currentPassword, newPassword, confirmNewPassword } = req.body;
+  const { currentPassword, newPassword, confirmPassword } = req.body;
   const { userId } = req.params;
   try {
     const user = await User.findByPk(userId);
     if (!user) {
       return res
         .status(404)
-        .json({ message: `Cannot find user with id of ${userId}` });
+        .json({ error: `Cannot find user with id of ${userId}` });
+    }
+    if (currentPassword === newPassword) {
+      return res.status(400).json({
+        error:
+          "Please choose a different password than your current to update your password",
+      });
+    }
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({
+        error: "Passwords do not match",
+      });
     }
     const isPasswordValid = bcrypt.compareSync(currentPassword, user.password);
-    if (isPasswordValid && newPassword === confirmNewPassword) {
+
+    if (isPasswordValid && newPassword === confirmPassword) {
       const hashedPassword = bcrypt.hashSync(newPassword, 10);
       user.password = hashedPassword;
       await user.save();

@@ -104,6 +104,8 @@ export const ProfileForm = () => {
           </label>
           <input
             type="textarea"
+            rows="5"
+            cols="50"
             id="bio"
             name="bio"
             maxLength={255}

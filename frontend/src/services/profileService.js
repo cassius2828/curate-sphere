@@ -17,7 +17,7 @@ export const updateUserInfo = async (formData, userId) => {
     if (data.token) {
       localStorage.setItem("token", data.token);
     }
-    console.log(data, ' <-- update user info data')
+    console.log(data, " <-- update user info data");
     return data;
   } catch (err) {
     console.error(err);
@@ -30,10 +30,24 @@ export const updateUserInfo = async (formData, userId) => {
 ///////////////////////////
 // * PUT | Update User Password
 ///////////////////////////
-export const updateUserPassword = async (formData, userId) => {
+export const updateUserPassword = async (
+  currentPassword,
+  newPassword,
+  confirmPassword,
+  userId
+) => {
+  const params = {
+    currentPassword,
+    newPassword,
+    confirmPassword,
+  };
+
   const options = {
     method: "PUT",
-    body: formData,
+    headers: {
+      "Content-Type": "application/json", 
+    },
+    body: JSON.stringify(params),
   };
   try {
     const response = await fetch(
@@ -41,9 +55,7 @@ export const updateUserPassword = async (formData, userId) => {
       options
     );
     const data = await response.json();
-    if (data.message) {
-      return data.message;
-    }
+  
     return data;
   } catch (err) {
     console.error(err);
@@ -61,7 +73,7 @@ export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({imgUrl}),
+    body: JSON.stringify({ imgUrl }),
   };
   try {
     const response = await fetch(
@@ -70,7 +82,7 @@ export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
     );
     const data = await response.json();
     // plan on returning message | succuess or fail
-    console.log(data, ' <-- data fromimg updates')
+    console.log(data, " <-- data fromimg updates");
     return data;
   } catch (err) {
     console.error(err);

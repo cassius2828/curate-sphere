@@ -20,6 +20,7 @@ import ExbDetail from "./components/Exhibitions/ExbDetail";
 import ExbExplore from "./components/Exhibitions/ExbExplore";
 import NotFoundPage from "./components/CommonComponents/Errors/NotFoundPage";
 import Profile from "./components/Profile/Profile";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   // const user = true;
@@ -61,6 +62,7 @@ function App() {
           </Routes>
         </>
       )}
+      <Footer />
     </>
   );
 }
