@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import {
   getAllArtworks,
   getArtworkBySearch,

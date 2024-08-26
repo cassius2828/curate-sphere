@@ -6,11 +6,13 @@ import useExbContext from "../../context/exb/useExbContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import Loader from "../CommonComponents/Loader";
 import LoaderRipple from "../CommonComponents/LoaderRipple";
+import { getItemIndexedDB, setItemIndexedDB } from "../../utils/indexedDB.config";
 
 const ArtDetail = () => {
   const [artDetails, setArtDetails] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
-  const { isLoading, dispatch } = useArtworkContext();
+  const { isLoading, dispatch, getArtworkFromCache, addArtworkToCache } =
+    useArtworkContext();
   const [isLoadingImg, setIsLoadingImg] = useState(false);
 
   const { myExbs } = useExbContext();
@@ -41,18 +43,18 @@ const ArtDetail = () => {
   // Fetch Artwork Details by Id
   ///////////////////////////
   const fetchArtworkDetails = async () => {
-    
-    const storedArtworkDetails = sessionStorage.getItem(id);
-    if (storedArtworkDetails) {
-      return setArtDetails(JSON.parse(storedArtworkDetails));
+    const cachedArtwork = await getItemIndexedDB(id, 'artwork');
+    if (cachedArtwork) {
+      return  setArtDetails(cachedArtwork);
     }
-
     dispatch({ type: "startLoading/artworks" });
     setIsLoadingImg(true);
     try {
       const data = await getArtworkDetail(id);
-      sessionStorage.setItem(id, JSON.stringify(data));
+
       setArtDetails(data);
+      // cache artwork
+      await setItemIndexedDB(id, data, 'artwork');
     } catch (err) {
       console.error(err);
       console.log(
