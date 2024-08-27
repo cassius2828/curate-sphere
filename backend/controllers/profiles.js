@@ -1,5 +1,6 @@
 const sequelize = require("../config/database");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
 ///////////////////////////
 // AWS SDK and User Model
 ///////////////////////////
@@ -29,7 +30,7 @@ const putUpdateUserInfo = async (req, res) => {
   // Extracting the uploaded files from req.files safely
   const profileImgFile = req.files?.profileImg?.[0] || null;
   const headerImgFile = req.files?.headerImg?.[0] || null;
-
+  let confirmEmailMessage = "";
   try {
     // Fetch the user by their ID
     const user = await User.findByPk(userId);
@@ -72,7 +73,9 @@ const putUpdateUserInfo = async (req, res) => {
 
     // Update user details if req.body.type exists and is different than prev value
     if (email && email !== user.email) {
-      user.email = email;
+      // function to send email to user to confirm their email change
+      confirmEmailMessage = await confirmEmail(email, user);
+      // user.email = email;
     }
 
     if (username && username !== user.username) {
@@ -90,9 +93,11 @@ const putUpdateUserInfo = async (req, res) => {
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
     // Respond with the generated token and success message
-    res
-      .status(201)
-      .json({ token, message: "Successfully updated user information" });
+    res.status(201).json({
+      token,
+      message: "Successfully updated user information",
+      confirmEmailMessage,
+    });
   } catch (err) {
     console.error(err);
     res
@@ -138,7 +143,9 @@ const putUpdateUserPassword = async (req, res) => {
     res.status(500).json({ error: "Unable to update user password" });
   }
 };
-
+//////////////////////////////////////////////////////
+// * PUT | Update User Imgs By Artwork Url
+//////////////////////////////////////////////////////
 const putUpdateUserImgsByArtworkUrl = async (req, res) => {
   const { userId } = req.params;
   const { imgType } = req.query;
@@ -176,11 +183,44 @@ const putUpdateUserImgsByArtworkUrl = async (req, res) => {
       .json({ error: `Unable to update ${imgType} image  by artwork url` });
   }
 };
+///////////////////////////
+// * PUT | Confirm Email Change
+///////////////////////////
+const putConfirmEmailChange = async (req, res) => {
+  const { userId, email } = req.body;
+  try {
+    const user = await User.findByPk(userId);
+    const prevEmail = user.email;
+    if (!user) {
+      return res.status(404).json({ error: "Cannot find user" });
+    }
+    if (!email) {
+      return res.status(400).json({ error: "No email was sent along" });
+    }
+    if (email && email !== user.email) {
+      user.email = email;
+    }
+    await user.save();
+    // Generate a JWT token with the updated user data
+    const token = jwt.sign({ user }, process.env.JWT_SECRET);
+
+    res
+      .status(200)
+      .json({
+        token,
+        message: `Successfully confirmed email change from ${prevEmail} to ${email}`,
+      });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Unable to confirm email change" });
+  }
+};
 
 module.exports = {
   putUpdateUserInfo,
   putUpdateUserPassword,
   putUpdateUserImgsByArtworkUrl,
+  putConfirmEmailChange,
 };
 
 ///////////////////////////
@@ -190,4 +230,55 @@ module.exports = {
 const refreshToken = (user) => {
   const newToken = jwt.sign({ user }, process.env.JWT_SECRET);
   return newToken;
+};
+
+// Configure your email transport
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com", // Ensure this is the correct host for Gmail
+  port: 465, // Use port 465 for SSL/TLS
+  secure: true,
+  service: "Gmail",
+  auth: {
+    user: process.env.ADMIN_EMAIL,
+    pass: process.env.ADMIN_EMAIL_PASS,
+  },
+});
+// confirmEmail function to send the confirmation email
+const confirmEmail = async (email, user) => {
+  console.log(user, " <-- user");
+  try {
+    // Generate a JWT token with the updated user data
+    const token = jwt.sign({ user }, process.env.JWT_SECRET);
+    const confirmLink =
+      process.env.NODE_ENV === "production"
+        ? `https://${
+            process.env.NETLIFY_URL
+          }/confirm-email?token=${token}&userId=${
+            user.id
+          }&email=${encodeURIComponent(email)}`
+        : `http://localhost:5173/confirm-email?token=${token}&userId=${
+            user.id
+          }&email=${encodeURIComponent(email)}`;
+
+    const mailOptions = {
+      from: process.env.ADMIN_EMAIL,
+      to: email, // Recipient address
+      subject: "Email Confirmation",
+      html: `
+        <h1>Curate Sphere -- Confirm Your Email</h1>
+        <p>Please click the link below to confirm your email address. This will redirect you to a page where you can confirm and update your email in the applilcation:</p>
+        <a href="${confirmLink}">Confirm Email</a>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log(`Confirmation email sent to ${email}`);
+    return { message: `Email sent to ${email}` };
+  } catch (err) {
+    console.error(err);
+    console.log(
+      `Could not send email to ${email} to confirm their email address`
+    );
+    return { error: `Email could not be to ${email} to confirm email` };
+  }
 };

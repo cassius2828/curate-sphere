@@ -16,6 +16,7 @@ export const ProfileForm = () => {
   };
   const [formData, setFormData] = useState(initialFormData);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const { username, email, bio, headerImg, profileImg } = formData;
 
   const handleSubmit = async (e) => {
@@ -28,8 +29,18 @@ export const ProfileForm = () => {
     multiFormData.append("profileImg", profileImg);
     try {
       const data = await updateUserInfo(multiFormData, user.user.id);
-      setMessage(data.message);
-      setUser(getUser());
+
+      if (data.confirmEmailMessage.message) {
+        // if email is sent successfully
+        setMessage(data.confirmEmailMessage.message);
+      } else if (data.confirmEmailMessage.error) {
+        // email to confirm did not send successfully
+        setError(data.confirmEmailMessage.error);
+      } else if (data.message && !data.confirmEmailMessage.error) {
+        // no confirmation email was sent (user email was not updated)
+        setMessage(data.message);
+      }
+      
     } catch (err) {
       console.error(err);
       console.log(`Unable to submit formdata to backend to update user info`);
@@ -54,6 +65,9 @@ export const ProfileForm = () => {
     <>
       {message && (
         <span className="text-green-500 text-2xl text-center">{message}</span>
+      )}
+      {error && (
+        <span className="text-red-500 text-2xl text-center">{error}</span>
       )}
 
       <form className=" mx-auto  p-12 rounded-md w-full md:w-1/2">
@@ -94,8 +108,8 @@ export const ProfileForm = () => {
             onChange={handleChange}
           />
         </div>
-      {/* bio */}
-      <div className="mb-5">
+        {/* bio */}
+        <div className="mb-5">
           <label
             htmlFor="bio"
             className="block mb-2 text-xl font-medium text-gray-900"

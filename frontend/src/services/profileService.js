@@ -45,7 +45,7 @@ export const updateUserPassword = async (
   const options = {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json", 
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(params),
   };
@@ -55,7 +55,7 @@ export const updateUserPassword = async (
       options
     );
     const data = await response.json();
-  
+
     return data;
   } catch (err) {
     console.error(err);
@@ -87,5 +87,33 @@ export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
   } catch (err) {
     console.error(err);
     console.log(`Unable to communicate with backend to update ${imgType}`);
+  }
+};
+
+export const confirmEmailChange = async ( userId, email) => {
+  const params = {
+  
+    userId,
+    email,
+  };
+
+  const options = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  };
+  try {
+    const response = await fetch(`${PROFILES_BASE_URL}/confirm-email`, options);
+    const data = await response.json();
+    if (data.token) {
+      localStorage.setItem("token", data.token);
+    }
+    console.log(data)
+    return data;
+  } catch (err) {
+    console.error(err);
+    console.log(`Unable to communicate with backend to confirm email change`);
   }
 };
