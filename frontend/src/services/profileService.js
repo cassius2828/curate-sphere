@@ -8,6 +8,7 @@ export const updateUserInfo = async (formData, userId) => {
     method: "PUT",
     body: formData,
   };
+  console.log(formData, ' <-- form data ')
   try {
     const response = await fetch(
       PROFILES_BASE_URL + "/update-info/" + userId,
@@ -64,7 +65,7 @@ export const updateUserPassword = async (
 };
 
 ///////////////////////////
-// * PUT | Update User Profile Img | Profile Pic or Header
+// * PUT | Update User Profile Img | Profile Pic or Header | URL
 ///////////////////////////
 
 export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
@@ -90,6 +91,9 @@ export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
   }
 };
 
+///////////////////////////
+// * PUT | Confirm Email Change
+///////////////////////////
 export const confirmEmailChange = async ( userId, email) => {
   const params = {
   

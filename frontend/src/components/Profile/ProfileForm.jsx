@@ -40,6 +40,9 @@ export const ProfileForm = () => {
         // no confirmation email was sent (user email was not updated)
         setMessage(data.message);
       }
+      if(data.token){
+        setUser(getUser())
+      }
       
     } catch (err) {
       console.error(err);
@@ -49,6 +52,7 @@ export const ProfileForm = () => {
   const handleFileChange = (e) => {
     const { files, name } = e.target;
     setFormData({ ...formData, [name]: files[0] });
+    console.log(formData, ' <-- form data profile form')
   };
   const handleCancel = () => {
     console.log("cancel");
@@ -132,15 +136,15 @@ export const ProfileForm = () => {
         {/* Header Image */}
         <div className="mb-5">
           <label
-            htmlFor="headerImage"
+            htmlFor="headerImg"
             className="block mb-2 text-xl font-medium text-gray-900"
           >
             Header Image
           </label>
           <input
             type="file"
-            id="headerImage"
-            name="headerImage"
+            id="headerImg"
+            name="headerImg"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             onChange={handleFileChange}
           />
@@ -149,15 +153,15 @@ export const ProfileForm = () => {
         {/* Profile Image */}
         <div className="mb-5">
           <label
-            htmlFor="profileImage"
+            htmlFor="profileImg"
             className="block mb-2 text-xl font-medium text-gray-900"
           >
             Profile Image
           </label>
           <input
             type="file"
-            id="profileImage"
-            name="profileImage"
+            id="profileImg"
+            name="profileImg"
             className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             onChange={handleFileChange}
           />
