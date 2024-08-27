@@ -26,6 +26,8 @@ const {myExbs} = useExbContext()
           }
           alt="Profile Header"
         />
+
+        
         {/* img */}
         <div className="rounded-full border-8 w-72 h-72 md:w-96 md:h-96 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img

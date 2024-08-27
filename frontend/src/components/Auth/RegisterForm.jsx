@@ -36,7 +36,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <section className="flex flex-col items-center font-marcellus">
+    <section className="flex flex-col items-center font-marcellus min-h-screen">
       <h1 className="text-3xl text-neutral-700 mb-12">Register</h1>
       <form className="max-w-sm mx-auto border border-neutral-900 p-12 rounded-md">
         {/* username */}
