@@ -1,5 +1,9 @@
 import { useState } from "react";
 import Btn from "../CommonComponents/Btn";
+import { updateUserPassword } from "../../services/profileService";
+import useGlobalContext from "../../context/global/useGlobalContext";
+import MessageModal from "../CommonComponents/MessageModal";
+import { useNavigate } from "react-router";
 
 export const ChangePasswordForm = () => {
   const [formData, setFormData] = useState({
@@ -7,8 +11,46 @@ export const ChangePasswordForm = () => {
     newPassword: "",
     confirmPassword: "",
   });
-  const handleSubmit = () => {
-    console.log("suybiut");
+
+  const { currentPassword, newPassword, confirmPassword } = formData;
+  const { user } = useGlobalContext();
+  const [message, setMessage] = useState("");
+  const [success, setSuccuess] = useState(false);
+  const navigate = useNavigate();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // return alert('not ready to test on regular profiles')
+    if (currentPassword === newPassword) {
+      return alert(
+        "Please choose a different password than your current to update your password"
+      );
+    }
+    if (newPassword !== confirmPassword) {
+      return alert("Passwords do not match.");
+    }
+    try {
+      const fetchUpdateUserPassword = async () => {
+        const data = await updateUserPassword(
+          currentPassword,
+          newPassword,
+          confirmPassword,
+          user.user.id
+        );
+
+        if (data.message) {
+          setMessage(data.message);
+          setSuccuess(true);
+        }
+        if (data.error) {
+          setMessage(data.error);
+          setSuccuess(false);
+        }
+      };
+      fetchUpdateUserPassword();
+    } catch (err) {
+      console.error(err);
+      console.log(`Unable to use service file to update password`);
+    }
   };
   const handleCancel = () => {
     console.log("cancel");
@@ -80,8 +122,22 @@ export const ChangePasswordForm = () => {
       {/* Submit Button */}
       <div className="w-full flex justify-center items-center gap-12">
         <Btn handleAction={handleCancel} text="Cancel" />
-        <Btn handleAction={handleSubmit} text="Submit" />
+        <Btn handleAction={handleSubmit} text="Update Password" />
       </div>
+      {message && (
+        <MessageModal
+          message={message}
+          setMessage={setMessage}
+          success={success}
+          onClose={() =>
+            setFormData({
+              currentPassword: "",
+              newPassword: "",
+              confirmPassword: "",
+            })
+          }
+        />
+      )}
     </form>
   );
 };

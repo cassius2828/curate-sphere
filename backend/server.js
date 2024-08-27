@@ -14,7 +14,7 @@ const port = process.env.PORT ? process.env.PORT : "3000";
 const connectToDB = async () => {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: false }); 
+    await sequelize.sync({ force: false });
     console.log("Successfully connected to db ");
   } catch (err) {
     console.error("Unable to connect to the db", err);
@@ -33,15 +33,16 @@ app.use(express.json());
 ///////////////////////////
 const testJwtRouter = require("./routes/test-jwt");
 const authRouter = require("./routes/auth");
+const profileRouter = require("./routes/profiles");
 const exhRouter = require("./routes/exhibition");
 const artworkRouter = require("./routes/artwork");
-
 
 ///////////////////////////
 // Routes
 ///////////////////////////
 app.use("/test-jwt", testJwtRouter);
 app.use("/auth", authRouter);
+app.use("/profiles", profileRouter);
 app.use("/exhibitions", exhRouter);
 app.use("/artworks", artworkRouter);
 

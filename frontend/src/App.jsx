@@ -20,6 +20,8 @@ import ExbDetail from "./components/Exhibitions/ExbDetail";
 import ExbExplore from "./components/Exhibitions/ExbExplore";
 import NotFoundPage from "./components/CommonComponents/Errors/NotFoundPage";
 import Profile from "./components/Profile/Profile";
+import Footer from "./components/Footer/Footer";
+import ConfirmEmailChange from "./components/Profile/ConfirmEmailChange";
 
 function App() {
   // const user = true;
@@ -41,6 +43,7 @@ function App() {
             <Route path="/artwork/:id" element={<ArtDetail />} />
             <Route path="/exhibitions/explore" element={<ExbExplore />} />
             <Route path="/profiles/:id" element={<Profile />} />
+            <Route path="/confirm-email" element={<ConfirmEmailChange />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>
@@ -55,12 +58,15 @@ function App() {
             <Route path="/exhibition/:id" element={<ExbDetail />} />
             <Route path="/artwork/:id" element={<ArtDetail />} />
             <Route path="/exhibitions/explore" element={<ExbExplore />} />
-            <Route path="/login" element={<LoginForm />}></Route>
-            <Route path="/register" element={<RegisterForm />}></Route>
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/register" element={<RegisterForm />} />
+            <Route path="/confirm-email" element={<ConfirmEmailChange />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>
       )}
+      <Footer />
     </>
   );
 }

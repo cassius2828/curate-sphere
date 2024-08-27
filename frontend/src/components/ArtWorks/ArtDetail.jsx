@@ -6,15 +6,22 @@ import useExbContext from "../../context/exb/useExbContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import Loader from "../CommonComponents/Loader";
 import LoaderRipple from "../CommonComponents/LoaderRipple";
-import { getItemIndexedDB, setItemIndexedDB } from "../../utils/indexedDB.config";
+import {
+  getItemIndexedDB,
+  setItemIndexedDB,
+} from "../../utils/indexedDB.config";
+import { updateUserImgsByArtworkUrl } from "../../services/profileService";
+import useGlobalContext from "../../context/global/useGlobalContext";
+import { getUser } from "../../services/authService";
 
 const ArtDetail = () => {
   const [artDetails, setArtDetails] = useState({});
   const [isModalVisible, setModalVisible] = useState(false);
   const { isLoading, dispatch, getArtworkFromCache, addArtworkToCache } =
     useArtworkContext();
+  const { user, setUser } = useGlobalContext();
   const [isLoadingImg, setIsLoadingImg] = useState(false);
-
+  const [message, setMessage] = useState("");
   const { myExbs } = useExbContext();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -40,12 +47,37 @@ const ArtDetail = () => {
   };
 
   ///////////////////////////
+  // Handle Update Profile Img
+  ///////////////////////////
+  const handleUpdateUserImgByArtworkUrl = async (imgUrl, imgType) => {
+    try {
+      const data = await updateUserImgsByArtworkUrl(
+        imgUrl,
+        imgType,
+        user.user.id
+      );
+      // display message
+      if (data.message) {
+        setMessage(data.message);
+      }
+      // set token to the refreshed token
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        setUser(getUser());
+        console.log(user, )
+      }
+    } catch (err) {
+      console.error(err);
+      console.log(`Could not communicate with backend to update user image`);
+    }
+  };
+  ///////////////////////////
   // Fetch Artwork Details by Id
   ///////////////////////////
   const fetchArtworkDetails = async () => {
-    const cachedArtwork = await getItemIndexedDB(id, 'artwork');
+    const cachedArtwork = await getItemIndexedDB(id, "artwork");
     if (cachedArtwork) {
-      return  setArtDetails(cachedArtwork);
+      return setArtDetails(cachedArtwork);
     }
     dispatch({ type: "startLoading/artworks" });
     setIsLoadingImg(true);
@@ -54,7 +86,7 @@ const ArtDetail = () => {
 
       setArtDetails(data);
       // cache artwork
-      await setItemIndexedDB(id, data, 'artwork');
+      await setItemIndexedDB(id, data, "artwork");
     } catch (err) {
       console.error(err);
       console.log(
@@ -100,6 +132,9 @@ const ArtDetail = () => {
        */}
         <div className="flex flex-col justify-center mx-10 items-start gap-6 md:gap-20 md:items-start md:mx-2 text-3xl font-cardo">
           {/* artists */}
+          {message && (
+            <span className="text-green-500 text-3xl mx-auto">{message}</span>
+          )}
           <ul>
             {people?.map((person) => (
               <li className=" my-4" key={person.personid}>
@@ -120,6 +155,22 @@ const ArtDetail = () => {
               className="border border-black px-6 py-1 font-cardo md:w-1/2 mt-6 md:mt-auto mx-auto"
             >
               Back
+            </button>
+            <button
+              onClick={() =>
+                handleUpdateUserImgByArtworkUrl(primaryimageurl, "profile")
+              }
+              className="border border-black px-6 py-1 font-cardo md:w-1/2 mt-6 md:mt-auto mx-auto"
+            >
+              Make Profile Picture
+            </button>
+            <button
+              onClick={() =>
+                handleUpdateUserImgByArtworkUrl(primaryimageurl, "header")
+              }
+              className="border border-black px-6 py-1 font-cardo md:w-1/2 mt-6 md:mt-auto mx-auto"
+            >
+              Make Profile Header
             </button>
             <button
               onClick={showModal}
