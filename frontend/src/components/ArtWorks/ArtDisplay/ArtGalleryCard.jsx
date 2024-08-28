@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import Modal from "../CommonComponents/Modal";
+import Modal from "../../CommonComponents/Modals/Modal";
 import { useState } from "react";
 
-import useExbContext from "../../context/exb/useExbContext";
+import useExbContext from "../../../context/exb/useExbContext";
 
 const ArtGalleryCard = ({
   year,

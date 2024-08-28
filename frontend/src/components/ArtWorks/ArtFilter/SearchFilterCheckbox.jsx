@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
-export const SearchFilterCheckBox = ({
-  category,
-  primaryCategoryKey,
-}) => {
+export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
   // this will start as false, static value from prop
   const [isChecked, setIsChecked] = useState(category.isChecked);
   // this will start as 0. static value from prop
@@ -20,7 +17,6 @@ export const SearchFilterCheckBox = ({
     } else if (!isChecked && clickCount > 0) {
       handleRemoveFilter(primaryCategoryKey, category.id);
     }
-  
   }, [isChecked]);
 
   return (

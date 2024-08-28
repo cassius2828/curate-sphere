@@ -9,7 +9,7 @@ const Profile = () => {
     setUser(getUser());
   }, []);
   return (
-    <section className="w-screen min-h-screen flex flex-col items-center font-marcellus mt-20">
+    <section className="w-screen min-h-screen flex flex-col items-center font-marcellus mb-40">
       <ProfileCard />
     </section>
   );

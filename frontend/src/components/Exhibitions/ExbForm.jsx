@@ -1,10 +1,14 @@
+// React and hooks
 import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router";
+// Services and Context
 import { createExb, editExb } from "../../services/exbService";
 import useExbContext from "../../context/exb/useExbContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
-import { useNavigate, useParams } from "react-router";
-import PromptSignIn from "../CommonComponents/PromptSignIn";
+// Components
+import PromptSignIn from "../CommonComponents/Modals/PromptSignIn";
 
+// Initial form data state
 const initialFormData = {
   title: "",
   location: "",
@@ -14,6 +18,7 @@ const initialFormData = {
   userId: null,
 };
 
+// Exhibition Form Component
 const ExbForm = () => {
   const [formData, setFormData] = useState(initialFormData);
   const { handleGetExbDetail, showExb, handleGetUserExbs } = useExbContext();
@@ -21,17 +26,17 @@ const ExbForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  if (!user) {
-    return <PromptSignIn />;
-  }
   ///////////////////////////
   // Form Actions
   ///////////////////////////
+
+  // Handle input changes
   const handleChange = (e) => {
     const { value, name } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,25 +51,29 @@ const ExbForm = () => {
       console.error(err);
     }
   };
+
   ///////////////////////////
-  // Fetch Exb Details on load
+  // Fetch Exhibition Details on Load
   ///////////////////////////
+
   useEffect(() => {
     if (id) {
-      // eslint-disable-next-line no-inner-declarations
-      async function fetchExbDetails() {
+      // Fetch existing exhibition details for editing
+      const fetchExbDetails = async () => {
         try {
           await handleGetExbDetail(id);
         } catch (err) {
-          console.error(err, " <-- unable to fetch exb details");
+          console.error(err, " <-- unable to fetch exhibition details");
         }
-      }
+      };
       fetchExbDetails();
     } else {
+      // Initialize form for creating a new exhibition
       setFormData({ ...initialFormData, userId: user.user.id });
     }
   }, [id]);
 
+  // Update form data when exhibition details are fetched
   useEffect(() => {
     if (id && showExb) {
       setFormData((prevFormData) => ({
@@ -74,23 +83,28 @@ const ExbForm = () => {
     }
   }, [showExb, id]);
 
+  // Redirect to sign-in if the user is not logged in
+  if (!user) {
+    return <PromptSignIn />;
+  }
+
   return (
-    <section className="flex flex-col md:ml-10">
-      <h1 className="text-6xl mb-20 text-center font-marcellus">
+    <section className="flex flex-col md:ml-10 font-marcellus min-h-screen">
+      <h1 className="text-6xl mb-20 text-center ">
         {id ? "Edit" : "Create New"} Exhibition
       </h1>
       <form
         className="border-t-black border-2 md:border-black w-full md:w-1/2 mx-auto p-5 md:p-11 font-cardo"
-        action=""
+        onSubmit={handleSubmit}
       >
-        {/* title */}
+        {/* Exhibition Title */}
         <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="title">
             Exhibition Title:{" "}
           </label>
           <input
             value={formData.title}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="border-black border w-2/3 p-3 text-xl"
             type="text"
             id="title"
@@ -98,68 +112,71 @@ const ExbForm = () => {
             required
           />
         </div>
-        {/* description */}
+
+        {/* Description */}
         <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="description">
             Description:{" "}
           </label>
           <textarea
             value={formData.description}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="border-black border w-2/3 p-3 text-xl"
-            type="text"
             id="description"
             name="description"
           />
         </div>
-        {/* location */}
+
+        {/* Location */}
         <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="location">
             Location:{" "}
           </label>
           <input
             value={formData.location}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="border-black border w-2/3 p-3 text-xl"
             type="text"
             id="location"
             name="location"
           />
         </div>
-        {/* start date */}
+
+        {/* Start Date */}
         <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="startDate">
             Start Date:{" "}
           </label>
           <input
             value={formatDateForEdit(formData.startDate)}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="border-black border w-2/3 p-3 text-xl"
             type="date"
             id="startDate"
             name="startDate"
           />
         </div>
-        {/* end date */}
+
+        {/* End Date */}
         <div className="flex flex-col md:flex-row text-center md:text-start gap-8 mb-5 items-center">
           <label className="text-3xl w-48" htmlFor="endDate">
             End Date:{" "}
           </label>
           <input
             value={formatDateForEdit(formData.endDate)}
-            onChange={(e) => handleChange(e)}
+            onChange={handleChange}
             className="border-black border w-2/3 p-3 text-xl"
             type="date"
             id="endDate"
             name="endDate"
           />
         </div>
+
+        {/* Submit Button */}
         <div className="flex justify-center">
           <button
-            onClick={handleSubmit}
             className="text-2xl border-black border px-6 py-2 mt-10"
           >
-            {/* update or create */}
             {id ? "Update" : "Create"} Exhibition
           </button>
         </div>
@@ -167,4 +184,5 @@ const ExbForm = () => {
     </section>
   );
 };
+
 export default ExbForm;

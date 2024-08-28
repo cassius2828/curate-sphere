@@ -1,9 +1,10 @@
-import useArtworkContext from "../../context/artwork/useArtworkContext";
-import Loader from "../CommonComponents/Loader";
+import useArtworkContext from "../../../context/artwork/useArtworkContext";
+import Loader from "../../CommonComponents/Loaders/Loader";
 import ArtGalleryCard from "./ArtGalleryCard";
 import Masonry from "react-masonry-css";
 const ArtGallery = () => {
   const { records, isLoading } = useArtworkContext();
+  // masonry breakpoints
   const breakpointColumnsObj = {
     default: 4,
     1200: 3,

@@ -1,19 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ArtGallery from "./ArtGallery";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import useArtworkContext from "../../context/artwork/useArtworkContext";
-import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
-import ArtListMobile from "./ArtListMobile";
-import ArtListDesktop from "./ArtListDesktop";
+// React imports
 import { useEffect } from "react";
+// FontAwesome imports
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+// Context hooks
+import useArtworkContext from "../../context/artwork/useArtworkContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
+// Component imports
+import ArtGallery from "./ArtDisplay/ArtGallery";
+import { FilterActionBtns } from "./ArtFilter/FilterActionBtns";
+import ArtListMobile from "./ArtDisplay/ArtListMobile";
+import ArtListDesktop from "./ArtDisplay/ArtListDesktop";
 
 ///////////////////////////
 // ArtSearch
 ///////////////////////////
 const ArtSearch = () => {
+  // Extracting values and functions from artwork context
   const { searchQuery, handleUpdateSearchQuery } = useArtworkContext();
-  const { scrollToTop } = useGlobalContext();
   const {
     displayView,
     records,
@@ -23,21 +27,27 @@ const ArtSearch = () => {
     info,
   } = useArtworkContext();
 
-  // uses input value to filter results based on text search
+  // Extracting global context function
+  const { scrollToTop } = useGlobalContext();
+
+  // Handles search input changes and performs the artwork search
   const handleSearchQuery = async (e) => {
     const { value } = e.target;
     handleUpdateSearchQuery(value);
     await handleSearchArtworksByTitle(value, artFilter);
   };
-  // find viewport width on load
+
+  // Find viewport width to determine mobile or desktop view
   const isMobile = window.innerWidth;
 
+  // Scrolls to top on component mount
   useEffect(() => {
     scrollToTop();
   }, []);
 
-  // if no records then return
+  // If no records are available, return nothing
   if (!records) return;
+
   return (
     <section className="w-screen min-h-screen flex flex-col items-center">
       {/* title */}
@@ -47,25 +57,28 @@ const ArtSearch = () => {
         <input
           onChange={handleSearchQuery}
           value={searchQuery}
-          className=" border-4 border-neutral-900 p-2 mt-12 mb-6 w-full  text-2xl"
+          className="border-4 border-neutral-900 p-2 mt-12 mb-6 w-full text-2xl"
           type="text"
         />
         <FontAwesomeIcon
-          className="absolute top-1/2 right-5 text-2xl "
+          className="absolute top-1/2 right-5 text-2xl"
           icon={faSearch}
         />
       </div>
-      {/* filter and editgs */}
+      {/* filter and editing buttons */}
       <FilterActionBtns />
-      {/* results */}
+      {/* results display */}
       <div className="w-full">
         {displayView === "list" ? (
-          // renders mobile vs desktop based on viewport
-          <>{isMobile < 768 ? <ArtListMobile /> : <ArtListDesktop />}</>
+          <>
+            {/* Renders mobile or desktop based on viewport width */}
+            {isMobile < 768 ? <ArtListMobile /> : <ArtListDesktop />}
+          </>
         ) : (
           <ArtGallery />
         )}
       </div>
+      {/* Load more button if there are more pages */}
       {info.next && (
         <button
           onClick={handleGetNextPageOfArtworks}
@@ -77,4 +90,5 @@ const ArtSearch = () => {
     </section>
   );
 };
+
 export default ArtSearch;

@@ -1,10 +1,14 @@
-import { Link } from "react-router-dom";
-import Loader from "../CommonComponents/Loader";
-import DisplayError from "../CommonComponents/DisplayError";
-import useArtworkContext from "../../context/artwork/useArtworkContext";
+// React imports
 import { useState } from "react";
-import Modal from "../CommonComponents/Modal";
-import useExbContext from "../../context/exb/useExbContext";
+// React Router imports
+import { Link } from "react-router-dom";
+// Context hooks
+import useArtworkContext from "../../../context/artwork/useArtworkContext";
+import useExbContext from "../../../context/exb/useExbContext";
+// Component imports
+import Loader from "../../CommonComponents/Loaders/Loader";
+import DisplayError from "../../CommonComponents/Modals/DisplayError";
+import Modal from "../../CommonComponents/Modals/Modal";
 
 const ArtListDesktop = () => {
   const { records, isLoading, isError } = useArtworkContext();
@@ -29,7 +33,7 @@ const ArtListDesktop = () => {
         </thead>
         {/* body */}
         <tbody>
-       {/* rows */}
+          {/* rows */}
           {records.map((record) => (
             <ArtListDesktopRow
               img={record.primaryimageurl}
@@ -48,8 +52,6 @@ const ArtListDesktop = () => {
   );
 };
 export default ArtListDesktop;
-
-
 
 ///////////////////////////
 // List Desktop Row

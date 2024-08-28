@@ -1,8 +1,12 @@
+// React Router
 import { Link } from "react-router-dom";
-import { LampContainer } from "../ui/lamp";
+// React Hooks
+import { useEffect } from "react"
+// Custom Hooks and Contexts
 import useArtworkContext from "../../context/artwork/useArtworkContext";
 import useGlobalContext from "../../context/global/useGlobalContext";
-import { useEffect } from "react";
+// UI Components
+import { LampContainer } from "../ui/lamp";
 
 const Landing = () => {
   const { setIsLoading } = useGlobalContext();

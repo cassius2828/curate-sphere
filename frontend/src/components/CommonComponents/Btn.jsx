@@ -1,9 +1,4 @@
-const Btn = ({
-  handleAction,
-  bgColor = "neutral",
-  textColor = "white",
-  text,
-}) => {
+const Btn = ({ handleAction, text }) => {
   return (
     <button
       onClick={(e) => handleAction(e)}

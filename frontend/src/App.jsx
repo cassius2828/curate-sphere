@@ -12,7 +12,7 @@ import Home from "./components/Home/Home";
 import Landing from "./components/Landing/Landing";
 // ArtWorks Components
 import ArtSearch from "./components/ArtWorks/ArtSearch";
-import ArtDetail from "./components/ArtWorks/ArtDetail";
+import ArtDetail from "./components/ArtWorks/ArtDetails/ArtDetail";
 // Exhibitions Components
 import ExbDashboard from "./components/Exhibitions/ExbDashboard";
 import ExbForm from "./components/Exhibitions/ExbForm";
@@ -24,7 +24,6 @@ import Footer from "./components/Footer/Footer";
 import ConfirmEmailChange from "./components/Profile/ConfirmEmailChange";
 
 function App() {
-  // const user = true;
   const { user } = useGlobalContext();
 
   return (
@@ -61,7 +60,6 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/confirm-email" element={<ConfirmEmailChange />} />
-
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>

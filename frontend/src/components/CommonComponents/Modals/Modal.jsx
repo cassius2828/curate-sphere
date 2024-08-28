@@ -1,12 +1,22 @@
-import { useEffect, useState } from "react";
-import { postAddArtworkToExb } from "../../services/exbService";
+// Import React and Hooks
+import { useState } from "react";
+// Import Router components
 import { Link } from "react-router-dom";
+// Import FontAwesome for icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import useGlobalContext from "../../context/global/useGlobalContext";
+// Import Services
+import { postAddArtworkToExb } from "../../../services/exbService";
+// Import Context
+import useGlobalContext from "../../../context/global/useGlobalContext";
+// Import Components
 import PromptSignIn from "./PromptSignIn";
 
+///////////////////////////
+// Modal Component
+///////////////////////////
 const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
+  // State to manage messages and filtered exhibitions
   const [message, setMessage] = useState("");
   const [displayUserExbs, setDisplayUserExbs] = useState(exbs);
   const { user } = useGlobalContext();
@@ -20,34 +30,34 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
   };
 
   const filterdisplayUserExbsBySearch = (searchQuery) => {
-    // begins search when query is at least 3 chars long
-    if (searchQuery.length > 2)
+    // Begin search when query is at least 3 characters long
+    if (searchQuery.length > 2) {
       setDisplayUserExbs(
         displayUserExbs.filter((exb) =>
           exb.title.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
-    // resets results if user cleared search
-    if (searchQuery.length === 0) setDisplayUserExbs(exbs);
+    } else if (searchQuery.length === 0) {
+      // Reset results if user clears search
+      setDisplayUserExbs(exbs);
+    }
   };
 
   ///////////////////////////
-  // Add artwork to exb
+  // Add artwork to exhibition
   ///////////////////////////
   const handleAddArtworkToExb = async (exbId, objectid) => {
     try {
       const data = await postAddArtworkToExb(exbId, objectid);
-      console.log(data);
       if (data.message) {
         setMessage(data.message);
       }
     } catch (err) {
-      console.error(err);
-      console.log(`Cannot communicate with DB to add artwork to exb`);
+      console.error("Cannot communicate with DB to add artwork to exhibition");
     }
   };
 
-
+  // Return null if modal is not visible
   if (!isVisible) {
     return null;
   }
@@ -55,6 +65,7 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center z-50 modal">
       <div className="flex flex-col items-center justify-center gap-4 bg-white p-8 h-96 rounded-lg shadow-lg w-3/4 md:w-1/2 max-w-[50rem] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        {/* Conditional rendering based on user authentication */}
         {!user ? (
           <>
             <PromptSignIn text={"add artwork"} mt0 />
@@ -66,7 +77,7 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
               }}
             >
               &times;
-            </button>{" "}
+            </button>
           </>
         ) : (
           <>
@@ -78,8 +89,9 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
               }}
             >
               &times;
-            </button>{" "}
+            </button>
             <p className="text-center">Click Exhibition to Add Artwork</p>
+            {/* Link to create a new exhibition if none exist */}
             {exbs?.length < 1 && (
               <Link to={`/exhibitions/create`}>
                 <p className="capitalize text-lg mt-5 border-2 px-4 py-2">
@@ -87,25 +99,25 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
                 </p>
               </Link>
             )}
+            {/* Display success or error message */}
             {message === "success" ? (
               <p className="text-green-500">{message}</p>
             ) : (
               <p className="text-red-500">{message}</p>
             )}
+            {/* Search input and results */}
             <div className="relative flex flex-col justify-start w-3/4">
-              {/* search input */}
               <input
-                // value={query}
                 onChange={handleSearchQuery}
-                className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full "
+                className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full"
                 type="text"
               />
               <FontAwesomeIcon
-                className="absolute top-8 right-5  text-2xl "
+                className="absolute top-8 right-5 text-2xl"
                 icon={faSearch}
               />
             </div>
-            <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll ">
+            <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll">
               {displayUserExbs?.map((exb, idx) => (
                 <li
                   onClick={() => handleAddArtworkToExb(exb.id, ArtworkObjectid)}
