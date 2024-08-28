@@ -1,10 +1,15 @@
+// React Router
 import { Link } from "react-router-dom";
-import { LampContainer } from "../ui/lamp";
+// Custom Hooks and Contexts
 import useGlobalContext from "../../context/global/useGlobalContext";
 import useArtworkContext from "../../context/artwork/useArtworkContext";
-import { useEffect } from "react";
-import { getUser } from "../../services/authService";
 import useExbContext from "../../context/exb/useExbContext";
+// UI Components
+import { LampContainer } from "../ui/lamp";
+// Services
+import { getUser } from "../../services/authService";
+// React Hooks
+import { useEffect } from "react";
 
 const Home = () => {
   const { user, setUser, setIsLoading } = useGlobalContext();

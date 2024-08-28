@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import {
   deleteExb,
   editExb,
@@ -195,14 +195,19 @@ export const ExbProvider = ({ children }) => {
     }
   };
 
+  ///////////////////////////
+  // GET User exbs on mount
+  ///////////////////////////
   useEffect(() => {
     handleGetUserExbs();
   }, []);
 
+  ///////////////////////////
+  // Reset Exb State
+  ///////////////////////////
   const handleResetExbState = () => {
     dispatch({ type: "resetAll/exb" });
   };
-  // showing our exb | set exhibitions | set exhibition detail | create, delete, edit
 
   return (
     <ExbContext.Provider

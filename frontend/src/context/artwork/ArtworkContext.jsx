@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { createContext, useEffect, useReducer, useState } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import {
   getAllArtworks,
   getArtworkBySearch,
@@ -25,6 +25,7 @@ const initialArtworksState = {
     prev: "",
   },
   showArtwork: {},
+  showArtworkInfoLists: [],
   displayView: "",
   isLoading: false,
   isError: false,
@@ -90,6 +91,8 @@ const reducer = (state, action) => {
       };
     case "getArtworkDetail/artworks":
       return { ...state, showArtwork: action.payload };
+    case "setShowArtworkInfoLists/artworks":
+      return { ...state, showArtworkInfoLists: action.payload };
     case "displayView/artworks":
       return { ...state, displayView: action.payload };
     // Loading State
@@ -227,6 +230,7 @@ export const ArtworkProvider = ({ children }) => {
       showArtwork,
       technique,
       worktype,
+      showArtworkInfoLists,
     },
     dispatch,
   ] = useReducer(reducer, initialArtworksState);
@@ -608,6 +612,121 @@ export const ArtworkProvider = ({ children }) => {
     technique,
     worktype,
   ];
+  ///////////////////////////
+  // Show Artwork List Details
+  ///////////////////////////
+  const fetchArtworkListInfo = () => {
+    const idAndCreationList = [
+      { label: "Object ID", content: showArtwork?.id ? showArtwork.id : "N/A" },
+      {
+        label: "People",
+        content: showArtwork?.people ? showArtwork.people : "N/A",
+      },
+      {
+        label: "Title",
+        content: showArtwork?.title ? showArtwork.title : "N/A",
+      },
+      {
+        label: "Classification",
+        content: showArtwork?.classification
+          ? showArtwork.classification
+          : "N/A",
+      },
+      {
+        label: "Work Type",
+        content: showArtwork?.worktype ? showArtwork.worktype : "N/A",
+      },
+      {
+        label: "Date",
+        content: showArtwork?.dated ? showArtwork.dated : "N/A",
+      },
+      {
+        label: "Culture",
+        content: showArtwork?.culture ? showArtwork.culture : "N/A",
+      },
+      {
+        label: "Persistent Link",
+        content: showArtwork?.url ? showArtwork.url : "N/A",
+      },
+    ];
+
+    const physicalDescriptionList = [
+      {
+        label: "Medium",
+        content: showArtwork?.medium ? showArtwork.medium : "N/A",
+      },
+      {
+        label: "Dimensions",
+        content: showArtwork?.dimensions ? showArtwork.dimensions : "N/A",
+      },
+    ];
+
+    const provenanceList = [
+      {
+        label: "Recorded Ownership History",
+        content: showArtwork?.provenance ? showArtwork.provenance : "N/A",
+      },
+    ];
+
+    const acquisitionAndRightsList = [
+      {
+        label: "Credit Line",
+        content: showArtwork?.creditline ? showArtwork.creditline : "N/A",
+      },
+      {
+        label: "Copyright",
+        content: showArtwork?.copyright ? showArtwork.copyright : "N/A",
+      },
+      {
+        label: "Accession Year",
+        content: showArtwork?.accessionyear ? showArtwork.accessionyear : "N/A",
+      },
+      {
+        label: "Division",
+        content: showArtwork?.division ? showArtwork.division : "N/A",
+      },
+      {
+        label: "Contact",
+        content: showArtwork?.contact ? showArtwork.contact : "N/A",
+      },
+    ];
+
+    const descriptionsList = [
+      {
+        label: "Commentary",
+        content: showArtwork?.commentary ? showArtwork.commentary : "N/A",
+      },
+    ];
+    const allArtInfoLists = [
+      {
+        list: idAndCreationList,
+        listTitle: "Identification and Creation",
+      },
+      {
+        list: physicalDescriptionList,
+        listTitle: "Physical Description",
+      },
+      {
+        list: provenanceList,
+        listTitle: "Provenance",
+      },
+      {
+        list: acquisitionAndRightsList,
+        listTitle: "Acquisition and Rights",
+      },
+      {
+        list: descriptionsList,
+        listTitle: "Descriptions",
+      },
+    ];
+    console.log(allArtInfoLists, " all art info lists");
+    dispatch({
+      type: "setShowArtworkInfoLists/artworks",
+      payload: allArtInfoLists,
+    });
+
+    return allArtInfoLists;
+  };
 
   return (
     <ArtworkContext.Provider
@@ -623,6 +742,8 @@ export const ArtworkProvider = ({ children }) => {
         handleSelectFilters,
         handleToggleCheckbox,
         handleGetAllFilterObjs,
+        fetchArtworkListInfo,
+        showArtworkInfoLists,
         artFilter,
         searchQuery,
         century,

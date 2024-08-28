@@ -1,9 +1,5 @@
-
-import {
-  removeArtworkFromExb,
-} from "../../services/exbService";
-import Btn from "./Btn";
-
+import { removeArtworkFromExb } from "../../../services/exbService";
+import Btn from "../Btn";
 
 const ConfirmDeleteModal = ({
   isVisible,

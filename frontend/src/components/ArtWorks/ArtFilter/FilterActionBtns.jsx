@@ -1,11 +1,8 @@
-///////////////////////////
-// FilterActionBtns
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 import { faRotateBack } from "@fortawesome/free-solid-svg-icons";
 import ArtSearchFilter from "./ArtFilter";
-///////////////////////////
+
 export const FilterActionBtns = () => {
   const {
     info,
