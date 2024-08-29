@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // React Router
 import { Link } from "react-router-dom";
 
-
 const Footer = () => {
   const currentYear = new Date().getFullYear(); // Get the current year
 
@@ -26,43 +25,47 @@ const Footer = () => {
               {/* Cassius Links */}
               <div>
                 <h4 className="text-xl my-3">Cassius</h4>
-                <Link to={`https://github.com/cassius2828`}>
-                  <button
-                    className="bg-white shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
-                    type="button"
-                  >
-                    <FontAwesomeIcon className="text-4xl" icon={faGithub} />
-                  </button>
-                </Link>
-                <Link to={`https://www.linkedin.com/in/cassius-reynolds/`}>
-                  <button
-                    className="bg-white text-blue-600 shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
-                    type="button"
-                  >
-                    <FontAwesomeIcon className="text-4xl" icon={faLinkedin} />
-                  </button>
-                </Link>
+                <div className="flex">
+                  <Link to={`https://github.com/cassius2828`}>
+                    <button
+                      className="bg-white shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
+                      type="button"
+                    >
+                      <FontAwesomeIcon className="text-4xl" icon={faGithub} />
+                    </button>
+                  </Link>
+                  <Link to={`https://www.linkedin.com/in/cassius-reynolds/`}>
+                    <button
+                      className="bg-white text-blue-600 shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
+                      type="button"
+                    >
+                      <FontAwesomeIcon className="text-4xl" icon={faLinkedin} />
+                    </button>
+                  </Link>
+                </div>
               </div>
 
               {/* Mollie Links */}
               <div className="my-8">
                 <h4 className="text-xl my-3">Mollie</h4>
-                <Link to={`https://github.com/molliean`}>
-                  <button
-                    className="bg-white shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
-                    type="button"
-                  >
-                    <FontAwesomeIcon className="text-4xl" icon={faGithub} />
-                  </button>
-                </Link>
-                <Link to={`https://www.linkedin.com/in/mollie-anderson/`}>
-                  <button
-                    className="bg-white text-blue-600 shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
-                    type="button"
-                  >
-                    <FontAwesomeIcon className="text-4xl" icon={faLinkedin} />
-                  </button>
-                </Link>
+                <div className="flex">
+                  <Link to={`https://github.com/molliean`}>
+                    <button
+                      className="bg-white shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
+                      type="button"
+                    >
+                      <FontAwesomeIcon className="text-4xl" icon={faGithub} />
+                    </button>
+                  </Link>
+                  <Link to={`https://www.linkedin.com/in/mollie-anderson/`}>
+                    <button
+                      className="bg-white text-blue-600 shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
+                      type="button"
+                    >
+                      <FontAwesomeIcon className="text-4xl" icon={faLinkedin} />
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

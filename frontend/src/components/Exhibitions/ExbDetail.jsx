@@ -54,7 +54,7 @@ const ExbDetail = () => {
     };
 
     fetchExbDetail();
-  }, [id, dispatch, handleGetExbDetail]);
+  }, []);
 
   ///////////////////////////
   // Handle Delete Exhibition
