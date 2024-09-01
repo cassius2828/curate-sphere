@@ -122,4 +122,3 @@ export const postNextPageOfArtworks = async (altUrl) => {
     console.log(`Unable to communicate with DB to get next page of objects`);
   }
 };
-

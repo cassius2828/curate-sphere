@@ -150,7 +150,6 @@ const putUpdateUserImgsByArtworkUrl = async (req, res) => {
   const { userId } = req.params;
   const { imgType } = req.query;
   const { imgUrl } = req.body;
-
   try {
     const user = await User.findByPk(userId);
     if (!user) {
