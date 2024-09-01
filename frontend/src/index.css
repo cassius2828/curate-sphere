@@ -1,0 +1,164 @@
+@import url("./css/resets.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Styles for specific features below */
+
+section {
+  margin-top: 15rem;
+}
+
+/* //////////// */
+/* art gallery grid */
+/* //////////// */
+.masonry-grid {
+  display: flex;
+  width: 100%;
+}
+
+.masonry-grid_column {
+  background-clip: padding-box;
+}
+.masonry-grid_column > div {
+  margin-bottom: 16px;
+}
+
+/* //////////// */
+/* loader main */
+/* //////////// */
+.loader {
+  width: 150px;
+  height: 150px;
+  background-color: #170702;
+  border-radius: 50%;
+  position: relative;
+  box-shadow: 0 0 30px 4px rgba(0, 0, 0, 0.5) inset,
+    0 5px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 45%;
+  top: -40%;
+  background-color: #fff;
+  animation: wave 5s linear infinite;
+}
+.loader:before {
+  border-radius: 30%;
+  background: rgba(255, 255, 255, 0.4);
+  animation: wave 5s linear infinite;
+}
+@keyframes wave {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* //////////// */
+/* loader ripple */
+/* //////////// */
+.loaderRipple {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+  position: relative;
+}
+.loaderRipple::after,
+.loaderRipple::before {
+  content: "";
+  box-sizing: border-box;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  animation: animloaderRipple 2s linear infinite;
+}
+.loaderRipple::after {
+  animation-delay: 1s;
+}
+
+@keyframes animloaderRipple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+/* //////////// */
+/* loader text */
+/* //////////// */
+.loader-text {
+  color: #fff;
+  display: inline-block;
+  position: relative;
+
+  box-sizing: border-box;
+}
+.loader-text::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: currentColor;
+  position: absolute;
+  bottom: 5px;
+  right: -15px;
+  box-sizing: border-box;
+  animation: animloader 1s linear infinite;
+}
+@media (max-width: 768px) {
+  .loader-text::after {
+    right: 15px;
+    width: 2.5px;
+    height: 2.5px;
+  }
+}
+@keyframes animloader {
+  0% {
+    box-shadow: 10px 0 rgba(255, 255, 255, 0), 20px 0 rgba(255, 255, 255, 0);
+  }
+  50% {
+    box-shadow: 10px 0 white, 20px 0 rgba(255, 255, 255, 0);
+  }
+  100% {
+    box-shadow: 10px 0 white, 20px 0 white;
+  }
+}
+
+/* //////////// */
+/* modal styles */
+/* //////////// */
+.modal p,
+.modal button {
+  height: 3rem !important;
+}
+
+/* //////////// */
+/* tooltip styles */
+/* //////////// */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fadeIn 200ms ease-out forwards;
+}

@@ -1,0 +1,15 @@
+///////////////////////////
+TO Do
+///////////////////////////
+
+Add Artworks to Exb 
+- click add btn 
+- brings up modal with list of your exbs
+- click exb to add artwork in it 
+- confirm you want to add it 
+- keep on art page (close modal)
+
+
+
+Understand through table CRUD 
+- test through table in postman 
