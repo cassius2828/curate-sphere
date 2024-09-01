@@ -6,7 +6,7 @@ const PromptSignIn = ({ text = "make an exhibition", mt0 }) => {
       style={{ marginTop: mt0 ? "0" : "" }}
       className="flex flex-col md:ml-10"
     >
-      <h1 className=" text-4xl md:text-6xl mb-20 text-center font-marcellus">
+      <h1 data-cy="prompt-sign-in-modal" className=" text-4xl md:text-6xl mb-20 text-center font-marcellus">
         <Link to={"/login"} className="text-blue-600">
           Login
         </Link>{" "}

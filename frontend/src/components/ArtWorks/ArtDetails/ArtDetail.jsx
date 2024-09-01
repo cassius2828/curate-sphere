@@ -42,9 +42,11 @@ const ArtDetail = () => {
   const [isLoadingImg, setIsLoadingImg] = useState(false);
   const [copyState, setCopyState] = useState(initialCopyState);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   // Context hooks
-  const { isLoading, dispatch, showArtwork, fetchArtworkListInfo } = useArtworkContext();
+  const { isLoading, dispatch, showArtwork, fetchArtworkListInfo } =
+    useArtworkContext();
   const { user, setUser } = useGlobalContext();
   const { myExbs } = useExbContext();
   const { id } = useParams();
@@ -64,8 +66,13 @@ const ArtDetail = () => {
   ///////////////////////////
   const handleUpdateUserImgByArtworkUrl = async (imgUrl, imgType) => {
     try {
-      const data = await updateUserImgsByArtworkUrl(imgUrl, imgType, user.user.id);
+      const data = await updateUserImgsByArtworkUrl(
+        imgUrl,
+        imgType,
+        user.user.id
+      );
       if (data.message) setMessage(data.message);
+      if (data.error) setError(data.error);
       if (data.token) {
         localStorage.setItem("token", data.token);
         setUser(getUser());
@@ -93,7 +100,9 @@ const ArtDetail = () => {
       dispatch({ type: "getArtworkDetail/artworks", payload: data });
       await setItemIndexedDB(id, data, "artwork");
     } catch (err) {
-      console.error("Unable to communicate with DB to get artwork detail | ArtDetail.jsx");
+      console.error(
+        "Unable to communicate with DB to get artwork detail | ArtDetail.jsx"
+      );
     } finally {
       dispatch({ type: "stopLoading/artworks" });
       setIsLoadingImg(false);
@@ -153,7 +162,9 @@ const ArtDetail = () => {
           <h1 className="text-3xl md:text-4xl text-center">
             <span className="text-gray-500">{id}:</span> {title}
           </h1>
-          <span className="text-xl font-bold text-gray-500">{classification}</span>
+          <span className="text-xl font-bold text-gray-500">
+            {classification}
+          </span>
         </div>
         <div>
           <span
@@ -188,22 +199,34 @@ const ArtDetail = () => {
       {/* Action Buttons */}
       <div className="w-1/2 max-w-96 mx-auto">
         <ul className="flex items-center justify-around gap-3">
-          <ArtDetailActionBtn handleAction={showModal} icon={faPlus} tooltipText="Add to an Exhibition" />
+          <ArtDetailActionBtn
+            handleAction={showModal}
+            icon={faPlus}
+            tooltipText="Add to an Exhibition"
+          />
           {user && (
             <>
               <ArtDetailActionBtn
-                handleAction={() => handleUpdateUserImgByArtworkUrl(primaryimageurl, "profile")}
+                handleAction={() =>
+                  handleUpdateUserImgByArtworkUrl(primaryimageurl, "profile")
+                }
                 icon={faUser}
                 tooltipText="Make Profile Picture"
               />
               <ArtDetailActionBtn
-                handleAction={() => handleUpdateUserImgByArtworkUrl(primaryimageurl, "header")}
+                handleAction={() =>
+                  handleUpdateUserImgByArtworkUrl(primaryimageurl, "header")
+                }
                 icon={faMountain}
                 tooltipText="Make Header Picture"
               />
             </>
           )}
-          <ArtDetailActionBtn handleAction={handleCopyUrl} icon={faLink} tooltipText="Copy Url" />
+          <ArtDetailActionBtn
+            handleAction={handleCopyUrl}
+            icon={faLink}
+            tooltipText="Copy Url"
+          />
           <ArtDetailActionBtn
             icon={faAsterisk}
             tooltipText={
@@ -218,7 +241,11 @@ const ArtDetail = () => {
 
       {/* Artwork Info Sections */}
       {artListInfo.map((section, idx) => (
-        <ArtInfoSection key={idx} title={section.listTitle} list={section.list} />
+        <ArtInfoSection
+          key={idx}
+          title={section.listTitle}
+          list={section.list}
+        />
       ))}
 
       {/* Modals */}
@@ -229,8 +256,13 @@ const ArtDetail = () => {
           isVisible={isModalVisible}
           onClose={hideModal}
         >
-          <p className="mt-4 px-4 py-2 bg-black text-white">Add to Exhibition</p>
-          <button onClick={hideModal} className="mt-4 px-4 py-2 bg-black text-white">
+          <p className="mt-4 px-4 py-2 bg-black text-white">
+            Add to Exhibition
+          </p>
+          <button
+            onClick={hideModal}
+            className="mt-4 px-4 py-2 bg-black text-white"
+          >
             Close
           </button>
         </Modal>
@@ -238,9 +270,24 @@ const ArtDetail = () => {
 
       {copyState.showCopiedUrlModal && (
         <MessageModal
-          onClose={() => setCopyState((prevState) => ({ ...prevState, showCopiedUrlModal: false }))}
+          onClose={() =>
+            setCopyState((prevState) => ({
+              ...prevState,
+              showCopiedUrlModal: false,
+            }))
+          }
           message={copyState.copyUrlMessage}
           success={!copyState.copyError}
+        />
+      )}
+      {(message || error) && (
+        <MessageModal
+          onClose={() => {
+            setMessage("");
+            setError("");
+          }}
+          message={message || error}
+          success={!error}
         />
       )}
     </section>

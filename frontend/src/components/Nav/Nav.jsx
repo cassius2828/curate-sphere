@@ -31,17 +31,24 @@ const Nav = () => {
 
   return (
     <nav className="fixed z-50 top-0 left-0 w-full p-4 flex justify-between items-center bg-[#020617] text-gray-100 font-marcellus">
-      <Link to={`/`}>
+      <Link data-cy="home-link" to={`/`}>
         <h1 className="text-4xl md:text-6xl ml-4 md:ml-12">Curate Sphere</h1>
       </Link>
 
       {/* Hamburger menu for mobile */}
       <div className="relative md:hidden mr-4">
-        <button onClick={toggleMenu} className="text-5xl focus:outline-none">
+        <button
+          data-cy="hamburger-btn"
+          onClick={toggleMenu}
+          className="text-5xl focus:outline-none"
+        >
           ☰
         </button>
         {isMenuOpen && (
-          <ul className="absolute right-32 mt-2 bg-[#020617] text-gray-100 font-marcellus flex flex-col items-start p-4 space-y-4 rounded-lg shadow-lg">
+          <ul
+            data-cy="mobile-nav-ul"
+            className="absolute right-32 mt-2 bg-[#020617] text-gray-100 font-marcellus flex flex-col items-start p-4 space-y-4 rounded-lg shadow-lg"
+          >
             {isLoading ? (
               <LoaderText />
             ) : (
@@ -67,16 +74,25 @@ const Nav = () => {
                       ]}
                     />
                     <Link
+                      data-cy="mobile-nav-artwork-search"
                       onClick={() => setIsMenuOpen(false)}
                       className={isLoading ? `pointer-events-none` : ""}
                       to={`/artworks/search`}
                     >
                       <li className="p-3 text-2xl ">Search Artworks</li>
                     </Link>
-                    <Link onClick={() => setIsMenuOpen(false)} to={`/login`}>
+                    <Link
+                      data-cy="mobile-nav-login"
+                      onClick={() => setIsMenuOpen(false)}
+                      to={`/login`}
+                    >
                       <li className="p-3 text-2xl ">Login</li>
                     </Link>
-                    <Link onClick={() => setIsMenuOpen(false)} to={`/register`}>
+                    <Link
+                      data-cy="mobile-nav-register"
+                      onClick={() => setIsMenuOpen(false)}
+                      to={`/register`}
+                    >
                       <li className="p-3 text-2xl ">Register</li>
                     </Link>
                   </>
@@ -101,6 +117,7 @@ const Nav = () => {
                       ]}
                     />
                     <Link
+                      data-cy="mobile-nav-search-artworks"
                       onClick={() => setIsMenuOpen(false)}
                       className={isLoading ? `pointer-events-none` : ""}
                       to={`/artworks/search`}
@@ -135,7 +152,10 @@ const Nav = () => {
       </div>
 
       {/* Desktop menu */}
-      <ul className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center">
+      <ul
+        data-cy="desktop-nav-ul"
+        className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center"
+      >
         {isLoading ? (
           <LoaderText />
         ) : (
@@ -149,28 +169,37 @@ const Nav = () => {
                 { text: "my exhibitions", path: "/exhibitions/dashboard" },
               ]}
             />
-            <Link to={`/artworks/search`}>
+            <Link data-cy="desktop-nav-artwork-search" to={`/artworks/search`}>
               <li className="p-3 text-2xl">Search Artworks</li>
             </Link>
             {!user ? (
               <>
-                <Link onClick={() => setIsMenuOpen(false)} to={`/login`}>
+                <Link
+                  data-cy="desktop-nav-login"
+                  onClick={() => setIsMenuOpen(false)}
+                  to={`/login`}
+                >
                   <li className="p-3 text-2xl">Login</li>
                 </Link>
-                <Link onClick={() => setIsMenuOpen(false)} to={`/register`}>
+                <Link
+                  data-cy="desktop-nav-register"
+                  onClick={() => setIsMenuOpen(false)}
+                  to={`/register`}
+                >
                   <li className="p-3 text-2xl">Register</li>
                 </Link>
               </>
             ) : (
               <>
                 <Link
+                  data-cy="desktop-nav-profile"
                   onClick={() => setIsMenuOpen(false)}
                   className={isLoading ? `pointer-events-none` : ""}
                   to={`/profiles/${user.user.id}`}
                 >
                   <li className="p-3 text-2xl ">Profile</li>
                 </Link>
-                <Link to={`/`}>
+                <Link data-cy="desktop-nav-logout" to={`/`}>
                   <li
                     onClick={() => {
                       handleResetContextState();

@@ -15,7 +15,7 @@ const connectToDB = async () => {
   try {
     await sequelize.authenticate();
     await sequelize.sync({ force: false });
-    console.log("Successfully connected to db ");
+    console.log("Successfully connected to db ", process.env.DB_NAME);
   } catch (err) {
     console.error("Unable to connect to the db", err);
   }
@@ -36,6 +36,7 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profiles");
 const exhRouter = require("./routes/exhibition");
 const artworkRouter = require("./routes/artwork");
+const { seedTestDB } = require("./seeders/seedTestDB");
 
 ///////////////////////////
 // Routes
@@ -46,6 +47,8 @@ app.use("/profiles", profileRouter);
 app.use("/exhibitions", exhRouter);
 app.use("/artworks", artworkRouter);
 
+
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

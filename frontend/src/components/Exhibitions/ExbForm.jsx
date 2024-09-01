@@ -69,7 +69,7 @@ const ExbForm = () => {
       fetchExbDetails();
     } else {
       // Initialize form for creating a new exhibition
-      setFormData({ ...initialFormData, userId: user.user.id });
+      setFormData({ ...initialFormData, userId: user?.user.id });
     }
   }, [id]);
 
@@ -85,7 +85,11 @@ const ExbForm = () => {
 
   // Redirect to sign-in if the user is not logged in
   if (!user) {
-    return <PromptSignIn />;
+    return (
+      <div className="min-h-screen">
+        <PromptSignIn text={"view your exhibitions"} />;
+      </div>
+    );
   }
 
   return (
@@ -174,9 +178,7 @@ const ExbForm = () => {
 
         {/* Submit Button */}
         <div className="flex justify-center">
-          <button
-            className="text-2xl border-black border px-6 py-2 mt-10"
-          >
+          <button className="text-2xl border-black border px-6 py-2 mt-10">
             {id ? "Update" : "Create"} Exhibition
           </button>
         </div>

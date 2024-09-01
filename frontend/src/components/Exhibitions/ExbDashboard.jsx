@@ -84,7 +84,11 @@ const ExbDashboard = () => {
 
   // Prompt user to sign in if not authenticated
   if (!user) {
-    return <PromptSignIn text={"view your exhibitions"} />;
+    return (
+      <div className="min-h-screen">
+        <PromptSignIn text={"view your exhibitions"} />;
+      </div>
+    );
   }
 
   // Show loader while exhibitions are being fetched

@@ -1,5 +1,5 @@
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-
+import { getItemIndexedDB, setItemIndexedDB } from "../utils/indexedDB.config";
 // creates query string out of an object
 const getQueryString = (query) => {
   if (!query) return;
@@ -75,6 +75,11 @@ export const getArtworkDetail = async (objectid) => {
 //  Get | Get Filter Objs
 ///////////////////////////
 export const getFilterObjs = async (filter, page) => {
+  const indexedDBKey = `${filter}-page${page}`;
+  const cachedFilter = await getItemIndexedDB(indexedDBKey, "filter");
+  if (cachedFilter) {
+    return cachedFilter;
+  }
   try {
     const response = await fetch(
       `${BACKEND_URL}/artworks/filter?filter=${filter}&page=${page}`
@@ -86,6 +91,7 @@ export const getFilterObjs = async (filter, page) => {
         record.isChecked = false;
         record.clickCount = 0;
       });
+      await setItemIndexedDB(indexedDBKey, data, "filter");
       return data;
     } else {
       throw new Error();

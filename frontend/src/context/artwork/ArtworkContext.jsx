@@ -383,7 +383,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
-
+     
       dispatch({
         type: "getCenturyObjs/artworks",
         payload: data,

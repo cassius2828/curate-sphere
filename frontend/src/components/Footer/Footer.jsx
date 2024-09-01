@@ -26,7 +26,10 @@ const Footer = () => {
               <div>
                 <h4 className="text-xl my-3">Cassius</h4>
                 <div className="flex">
-                  <Link to={`https://github.com/cassius2828`}>
+                  <Link
+                    data-cy="github-cassius"
+                    to={`https://github.com/cassius2828`}
+                  >
                     <button
                       className="bg-white shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
                       type="button"
@@ -34,7 +37,10 @@ const Footer = () => {
                       <FontAwesomeIcon className="text-4xl" icon={faGithub} />
                     </button>
                   </Link>
-                  <Link to={`https://www.linkedin.com/in/cassius-reynolds/`}>
+                  <Link
+                    data-cy="linkedin-cassius"
+                    to={`https://www.linkedin.com/in/cassius-reynolds/`}
+                  >
                     <button
                       className="bg-white text-blue-600 shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
                       type="button"
@@ -49,7 +55,10 @@ const Footer = () => {
               <div className="my-8">
                 <h4 className="text-xl my-3">Mollie</h4>
                 <div className="flex">
-                  <Link to={`https://github.com/molliean`}>
+                  <Link
+                    data-cy="github-mollie"
+                    to={`https://github.com/molliean`}
+                  >
                     <button
                       className="bg-white shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
                       type="button"
@@ -57,7 +66,10 @@ const Footer = () => {
                       <FontAwesomeIcon className="text-4xl" icon={faGithub} />
                     </button>
                   </Link>
-                  <Link to={`https://www.linkedin.com/in/mollie-anderson/`}>
+                  <Link
+                    data-cy="linkedin-mollie"
+                    to={`https://www.linkedin.com/in/mollie-anderson/`}
+                  >
                     <button
                       className="bg-white text-blue-600 shadow-lg font-normal h-20 w-20 flex items-center justify-center rounded-full outline-none focus:outline-none mr-2"
                       type="button"
@@ -81,6 +93,7 @@ const Footer = () => {
                 <ul className="list-unstyled">
                   <li>
                     <Link
+                      data-cy="footer-about-page-link"
                       to={`/`}
                       className="text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-md md:text-xl my-4"
                     >
@@ -89,6 +102,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
+                      data-cy="footer-explore-exbs-link"
                       to={`/exhibitions/explore`}
                       className="text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-md md:text-xl my-4"
                     >
@@ -97,6 +111,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
+                      data-cy="footer-my-exbs-link"
                       to={`/exhibitions/dashboard`}
                       className="text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-md md:text-xl my-4"
                     >
@@ -105,6 +120,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
+                      data-cy="footer-search-artworks-link"
                       to={`/artworks/search`}
                       className="text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-md md:text-xl my-4"
                     >
@@ -122,6 +138,7 @@ const Footer = () => {
                 <ul className="list-unstyled">
                   <li>
                     <Link
+                      data-cy="footer-harvard-api-link"
                       to={`https://github.com/harvardartmuseums/api-docs`}
                       className="text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-md md:text-xl my-4"
                     >
@@ -130,6 +147,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
+                      data-cy="footer-contact-link"
                       to={`/contact`}
                       className="text-gray-600 hover:text-gray-800 font-semibold block pb-2 text-md md:text-xl my-4"
                     >
@@ -149,6 +167,7 @@ const Footer = () => {
             <div className="text-md md:text-xl my-4 text-gray-500 font-semibold py-1">
               Developed by{" "}
               <Link
+                data-cy="github-cassius-bottom"
                 className="text-blue-950"
                 to={`https://github.com/cassius2828`}
               >
@@ -156,6 +175,7 @@ const Footer = () => {
               </Link>{" "}
               and{" "}
               <Link
+                data-cy="github-mollie-bottom"
                 className="text-blue-950"
                 to={`https://github.com/molliean`}
               >
