@@ -54,10 +54,58 @@ describe("artwork flows", () => {
     //   artworks displayed
     cy.getById("displayed-artworks").should("have.text", "0");
     cy.getById("art-gallery-card").should("have.length", 0);
+    // compare that two filters yield more results than one filter
     cy.getById("subcategory-dropdown-ul")
-    .children()
-    .eq(1)
-    .find('[data-cy="subcategory-checkbox"]')
-    .click();
+      .children()
+      .eq(1)
+      .find('[data-cy="subcategory-checkbox"]')
+      .click();
+    //   store first value of artworks available
+    cy.getById("total-artworks-available")
+      .should("not.have.text", "0")
+      .invoke("text")
+      .as("totalArtworksWithOneFilter");
+    // add second filter
+    cy.getById("subcategory-dropdown-ul")
+      .children()
+      .eq(2)
+      .find('[data-cy="subcategory-checkbox"]')
+      .click();
+    // store second value of artworks available
+    // and compare values to each other
+    cy.get("@totalArtworksWithOneFilter").then((initialValue) => {
+      cy.getById("total-artworks-available")
+        .should("not.have.text", "633")
+        .invoke("text")
+        .then((newValue) => {
+          const initialNum = parseInt(initialValue, 10);
+          const newNum = parseInt(newValue, 10);
+          expect(newNum).to.be.greaterThan(initialNum);
+        });
+    });
+    cy.getById("total-artworks-available")
+    .should("exist")
+    .invoke("text").as('latestValueOfTotalArtworks').then(val => cy.log(val)) // 1256
+    // click the first checkbox again to remove that filter
+    cy.getById("subcategory-dropdown-ul")
+      .children()
+      .eq(1)
+      .find('[data-cy="subcategory-checkbox"]')
+      .click();
+    // ensure the result list is different than when only the first box was clicked
+    cy.get("@latestValueOfTotalArtworks")
+      .should("exist")
+      .then((initialValue) => {
+        cy.log(initialValue, ' <-- inital vbalue')
+        cy.getById("total-artworks-available")
+          .should("not.have.text", "633")
+          .and("not.have.text", "244696")
+          .invoke("text")
+          .then((newValue) => {
+            const initialNum = parseInt(initialValue, 10);
+            const newNum = parseInt(newValue, 10);
+            expect(newNum).to.not.equal(initialNum);
+          });
+      });
   });
 });
