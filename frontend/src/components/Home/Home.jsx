@@ -21,8 +21,10 @@ const Home = () => {
   // Fetches User
   ///////////////////////////
   const fetchUser = async () => {
+    if(!user.token) return
     try {
       const data = getUser();
+      console.log(data, ' this is the data from the get user function')
       setUser(data);
     } catch (err) {
       console.error(err);
@@ -38,10 +40,9 @@ const Home = () => {
     setIsLoading(true);
     try {
       // user
-      if (!user) {
-        fetchUser();
+        await fetchUser();
         console.log("fetched user");
-      }
+
       // artworks
       if (records.length === 0) {
         await handleGetAllArtworks();
@@ -68,6 +69,9 @@ const Home = () => {
   ///////////////////////////
   useEffect(() => {
     fetchAllData();
+    const token = localStorage.getItem('token')
+    console.log(user, ' <-- current instance of the user')
+    console.log(token, ' <-- current instance of the token')
   }, []);
   return (
     <LampContainer>

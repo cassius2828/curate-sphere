@@ -26,6 +26,7 @@ export const ProfileCard = () => {
       {/* Header Image */}
       <div className="w-full h-1/3 relative">
         <img
+        data-cy="header-img"
           className="w-full object-cover"
           src={
             headerImg
@@ -37,6 +38,7 @@ export const ProfileCard = () => {
         {/* Profile Image */}
         <div className="rounded-full border-8 w-72 h-72 md:w-96 md:h-96 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
+          data-cy="profile-img"
             className="w-full"
             src={
               profileImg
@@ -48,22 +50,22 @@ export const ProfileCard = () => {
         </div>
       </div>
       {/* User Name */}
-      <h2 className="text-4xl mt-20">{username}</h2>
+      <h2 data-cy="profile-username" className="text-4xl mt-20">{username}</h2>
       {/* Bio */}
-      <p className="py-4 px-20 text-2xl">
+      <p data-cy="profile-bio" className="py-4 px-20 text-2xl">
         {bio ? bio : "Feeling inspired?... create a bio to share a little about yourself!"}
       </p>
       {/* Exhibition Count and View Button */}
       <div className="flex items-center gap-12 mt-8">
-        <h3 className="text-3xl">Exhibitions: {myExbs.length}</h3>
+        <h3 data-cy="profile-exb-count" className="text-3xl">Exhibitions: {myExbs.length}</h3>
         <Link to={`/exhibitions/dashboard`}>
-          <button className="relative text-xl border-2 border-gray-800 text-gray-800 p-3">
+          <button data-cy="profile-user-exbs-btn" className="relative text-xl border-2 border-gray-800 text-gray-800 p-3">
             View Exhibitions
           </button>
         </Link>
       </div>
       {/* Edit Profile and Change Password Buttons */}
-      <div className="flex items-center gap-12 my-12">
+      <div data-cy="profile-action-btn-container" className="flex items-center gap-12 my-12">
         <Btn
           handleAction={() => {
             setShowChangePasswordForm(false);

@@ -125,6 +125,7 @@ const Nav = () => {
                       <li className="p-3 text-2xl ">Search Artworks</li>
                     </Link>
                     <Link
+                    data-cy="mobile-nav-profile-link"
                       onClick={() => setIsMenuOpen(false)}
                       className={isLoading ? `pointer-events-none` : ""}
                       to={`/profiles/${user.user.id}`}
@@ -195,7 +196,7 @@ const Nav = () => {
                   data-cy="desktop-nav-profile"
                   onClick={() => setIsMenuOpen(false)}
                   className={isLoading ? `pointer-events-none` : ""}
-                  to={`/profiles/${user.user.id}`}
+                  to={`/profiles/${user?.user?.id}`}
                 >
                   <li className="p-3 text-2xl ">Profile</li>
                 </Link>
