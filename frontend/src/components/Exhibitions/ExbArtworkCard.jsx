@@ -44,7 +44,7 @@ const ExbArtworkCard = ({ ArtworkObjectid, isUsersExb }) => {
   }, []); // Empty dependency array ensures this effect runs once after initial render
 
   return (
-    <div className="shadow-md rounded-md p-4 text-gray-900 w-full h-auto font-cardo">
+    <div data-cy="exb-artwork-card" className="shadow-md rounded-md p-4 text-gray-900 w-full h-auto font-cardo">
       {/* Link to artwork detail page */}
       <Link to={`/artwork/${objectid}`}>
         <img

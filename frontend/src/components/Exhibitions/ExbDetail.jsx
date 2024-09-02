@@ -95,6 +95,7 @@ const ExbDetail = () => {
               </button>
             </Link>
             <button
+            data-cy="delete-exb-btn"
               onClick={handleDeleteButton}
               className="border border-black px-6 py-1 font-cardo"
             >

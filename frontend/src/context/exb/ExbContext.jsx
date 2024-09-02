@@ -94,12 +94,14 @@ export const ExbProvider = ({ children }) => {
   ///////////////////////////
   const handleGetUserExbs = async () => {
     try {
-      if(user) {
+      if (user) {
         const data = await getUserExhibitions(user?.user.id);
-        console.log(data, ' <-- data from where we set myExbs')
-        if (!data.error ) {
+        console.log(data, " <-- data from where we set myExbs");
+        if (!data.error) {
           dispatch({ type: "userExbs/exb", payload: data });
         }
+      } else {
+        dispatch({ type: "userExbs/exb", payload: [] });
       }
     } catch (err) {
       console.error(err);
@@ -203,7 +205,7 @@ export const ExbProvider = ({ children }) => {
   ///////////////////////////
   useEffect(() => {
     handleGetUserExbs();
-  }, []);
+  }, [user]);
 
   ///////////////////////////
   // Reset Exb State
