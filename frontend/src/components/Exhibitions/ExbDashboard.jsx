@@ -68,7 +68,7 @@ const ExbDashboard = () => {
     const fetchUserExbs = async () => {
       dispatch({ type: "startLoading/exb" });
       try {
-        const data = await getUserExhibitions(user?.user.id);
+        const data = await getUserExhibitions(user?.user?.id);
         if (!data.error) {
           setDisplayedExbs(data);
         }
@@ -80,6 +80,8 @@ const ExbDashboard = () => {
       }
     };
     fetchUserExbs();
+    console.log(myExbs, ' <-- my exbs')
+    console.log(displayedExbs, ' <-- displayed exbs')
   }, [dispatch, user]);
 
   // Prompt user to sign in if not authenticated

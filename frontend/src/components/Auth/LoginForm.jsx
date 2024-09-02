@@ -26,7 +26,6 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       const user = await login(formData);
-      console.log("User logged in successfully");
       setUser(user);
       navigate("/"); // Navigate to the home page after login
     } catch (error) {
