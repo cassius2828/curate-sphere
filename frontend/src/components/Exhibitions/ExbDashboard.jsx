@@ -147,7 +147,7 @@ const ExbDashboard = () => {
         className="masonry-grid gap-8"
         columnClassName="masonry-grid_column"
       >
-        {myExbs.length > 0 ? displayedExbs.map((exb) => (
+        {myExbs?.length > 0  ? displayedExbs.map((exb) => (
           <ExbCard
             key={exb.id}
             id={exb.id}

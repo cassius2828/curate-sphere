@@ -81,6 +81,7 @@ const ArtSearch = () => {
       {/* Load more button if there are more pages */}
       {info.next && (
         <button
+        data-cy="load-more-btn"
           onClick={handleGetNextPageOfArtworks}
           className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize"
         >

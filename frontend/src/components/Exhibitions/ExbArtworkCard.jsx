@@ -88,7 +88,7 @@ const ExbArtworkCard = ({ ArtworkObjectid, isUsersExb }) => {
           ) : (
             location.pathname === `/exhibition/${id}` && (
               <>
-                <button className="text-red-500" onClick={showModal}>
+                <button data-cy="remove-artwork-from-exb" className="text-red-500" onClick={showModal}>
                   [x]
                 </button>
                 <ConfirmDeleteModal

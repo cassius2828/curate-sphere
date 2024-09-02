@@ -47,7 +47,7 @@ Cypress.Commands.add("loginUser", (username, password) => {
   cy.get("#password").type(password);
   cy.get('[type="submit"]').click();
   cy.getById("welcome-message").contains(`Welcome, ${username}`);
-  cy.getById("user-exb-btn").should("have.text", "My Exhibitions");
+  cy.getById("user-exbs-btn").should("have.text", "My Exhibitions");
 });
 
 Cypress.Commands.add("registerUser", (username, email, password) => {

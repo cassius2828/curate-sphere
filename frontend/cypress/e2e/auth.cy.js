@@ -96,9 +96,59 @@ describe("register a new user", () => {
     // check new exb details
     cy.location("pathname").should("eq", "/exhibitions/dashboard");
     cy.getById("exb-card").should("have.length", 2);
-    cy.getById("exb-card-title").first().should('have.text', 'Test Exb Title')
-    cy.getById("exb-card-date").first().should('have.text', 'Date: Sep 2, 2024 - Sep 13, 2024')
-    cy.getById("exb-card-location").first().should('have.text', 'San Mateo, CA')
+    cy.getById("exb-card-title").first().should("have.text", "Test Exb Title");
+    cy.getById("exb-card-date")
+      .first()
+      .should("have.text", "Date: Sep 2, 2024 - Sep 13, 2024");
+    cy.getById("exb-card-location")
+      .first()
+      .should("have.text", "Location: San Mateo, CA");
+    // ensure the default image is presented
+    cy.get('[data-cy="exb-card"] img')
+      .first()
+      .should("have.attr", "src")
+      .then((src) =>
+        expect(src).to.contain(
+          "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+        )
+      );
+    // look at details inside the newly created exb
+    cy.getById("exb-card-view-details-btn").first().click();
+    cy.getById("exb-detail-no-artworks-message").should("exist");
+    cy.getById("edit-exb-btn").click();
+    // edit exb 1
+    // cy.get('[data-cy="exb-form"] #title').clear();
+    // cy.get('[data-cy="exb-form"] #title').type("Updated | Test Exb Title");
+    // cy.get('[data-cy="exb-form"] #description').clear();
+    // cy.get('[data-cy="exb-form"] #description').type(
+    //   "Updated | Test description for a very cool and interesting exhibition"
+    // );
+    // cy.get('[data-cy="exb-form"] #location').clear();
+    // cy.get('[data-cy="exb-form"] #location').type("New York, NY");
+    // cy.get('[data-cy="exb-form"] #startDate').clear();
+    // cy.get('[data-cy="exb-form"] #startDate').type("2024-01-01");
+    // cy.get('[data-cy="exb-form"] #endDate').clear();
+    // cy.get('[data-cy="exb-form"] #endDate').type("2024-12-31");
+    // cy.get('[data-cy="exb-form"] button').should(
+    //   "have.text",
+    //   "Update Exhibition"
+    // );
+    // cy.get('[data-cy="exb-form"] button').click();
+    //  add artworks to exbs
+    cy.visit("/artworks/search");
+    cy.getById("add-artwork-plus").first().click();
+    cy.getById("default-modal").should("exist");
+    cy.getById("exb-search").type("Title 2");
+    cy.getById("exb-list").children().should("have.length", 1);
+    cy.get('[data-cy="exb-list"] li').first().click();
+    cy.getById("success-message").should("exist");
+    cy.get('[data-cy="exb-list"] li').first().click();
+    cy.getById("error-message").should("exist");
+    cy.getById("default-modal-close").click();
+    //  load more artworks
+    
+
+    // edit exb
   });
   // it("should have blank values for new profile sections", () => {
   // cy.visit("/artworks/search");

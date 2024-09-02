@@ -104,9 +104,9 @@ console.log(myExbs, ' <-- myexbhs')
             )}
             {/* Display success or error message */}
             {message === "success" ? (
-              <p className="text-green-500">{message}</p>
+              <p data-cy="success-message" className="text-green-500">{message}</p>
             ) : (
-              <p className="text-red-500">{message}</p>
+              <p data-cy="error-message" className="text-red-500">{message}</p>
             )}
             {/* Search input and results */}
             {exbs?.length > 0 && (
@@ -114,6 +114,7 @@ console.log(myExbs, ' <-- myexbhs')
                 {" "}
                 <div className="relative flex flex-col justify-start w-3/4">
                   <input
+                  data-cy="exb-search"
                     onChange={handleSearchQuery}
                     className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full"
                     type="text"
@@ -123,7 +124,7 @@ console.log(myExbs, ' <-- myexbhs')
                     icon={faSearch}
                   />
                 </div>
-                <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll">
+                <ul data-cy="exb-list" className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll">
                   {displayUserExbs?.map((exb, idx) => (
                     <li
                       onClick={() =>
