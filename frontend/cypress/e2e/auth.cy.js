@@ -46,23 +46,22 @@ describe("register a new user", () => {
   beforeEach(() => {
     cy.task("db:seed");
     cy.visit("/");
+    cy.registerUser("Jerry", "jerry@gmail.com", "123");
   });
-  it("should register a new user", () => {
-    cy.getById("desktop-nav-register").click();
-    cy.get("#username").type("Jerry");
-    cy.get("#password").type("123");
-    cy.get("#confirmPassword").type("123");
-    cy.get('[type="submit"]').click();
-    cy.location("pathname").should("eq", "/");
-    cy.getById("welcome-message").contains("Jerry");
+  // it("should register a new user", () => {
+
+  // });
+  it("should prompt user to create exhibitions", () => {
+    cy.getById("user-exbs-btn").click();
+    cy.getById("exb-card").should("not.exist");
+    cy.getById("exb-dashboard-add-new-exb-btn").click();
+    cy.location("pathname").should("eq", "/exhibitions/create");
   });
-  it("check to see if db is seeded before each test", () => {
-    cy.getById("desktop-nav-register").click();
-    cy.get("#username").type("Jerry");
-    cy.get("#password").type("123");
-    cy.get("#confirmPassword").type("123");
-    cy.get('[type="submit"]').click();
-    cy.location("pathname").should("eq", "/");
-    cy.getById("welcome-message").contains("Jerry");
-  });
+  // it("should have blank values for new profile sections", () => {
+
+  // });
+  // it("should be able to logout and log back in", () => {
+  //   cy.getById("desktop-nav-logout").click();
+  //   cy.loginUser("Jerry", "123");
+  // });
 });

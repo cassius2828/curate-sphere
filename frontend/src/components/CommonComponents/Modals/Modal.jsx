@@ -106,30 +106,37 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
               <p className="text-red-500">{message}</p>
             )}
             {/* Search input and results */}
-            <div className="relative flex flex-col justify-start w-3/4">
-              <input
-                onChange={handleSearchQuery}
-                className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full"
-                type="text"
-              />
-              <FontAwesomeIcon
-                className="absolute top-8 right-5 text-2xl"
-                icon={faSearch}
-              />
-            </div>
-            <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll">
-              {displayUserExbs?.map((exb, idx) => (
-                <li
-                  onClick={() => handleAddArtworkToExb(exb.id, ArtworkObjectid)}
-                  key={idx}
-                  className="p-3 hover:bg-neutral-200 cursor-pointer"
-                >
-                  {exb.title.length > 19
-                    ? exb.title.slice(0, 20) + "..."
-                    : exb.title}
-                </li>
-              ))}
-            </ul>
+            {exbs?.length > 0 && (
+              <>
+                {" "}
+                <div className="relative flex flex-col justify-start w-3/4">
+                  <input
+                    onChange={handleSearchQuery}
+                    className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full"
+                    type="text"
+                  />
+                  <FontAwesomeIcon
+                    className="absolute top-8 right-5 text-2xl"
+                    icon={faSearch}
+                  />
+                </div>
+                <ul className="bg-neutral-100 w-full md:w-1/2 mb-4 h-80 overflow-y-scroll">
+                  {displayUserExbs?.map((exb, idx) => (
+                    <li
+                      onClick={() =>
+                        handleAddArtworkToExb(exb.id, ArtworkObjectid)
+                      }
+                      key={idx}
+                      className="p-3 hover:bg-neutral-200 cursor-pointer"
+                    >
+                      {exb.title.length > 19
+                        ? exb.title.slice(0, 20) + "..."
+                        : exb.title}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </>
         )}
       </div>

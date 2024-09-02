@@ -80,7 +80,7 @@ const Home = () => {
           Welcome, {user?.user?.username}
         </h1>
         <Link to="/exhibitions/dashboard">
-          <button data-cy="user-exb-btn" className="relative text-3xl border-2 text-white p-6 m-6 font-marcellus">
+          <button data-cy="user-exbs-btn" className="relative text-3xl border-2 text-white p-6 m-6 font-marcellus">
             My Exhibitions
           </button>
         </Link>
