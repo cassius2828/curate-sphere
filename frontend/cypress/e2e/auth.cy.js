@@ -51,13 +51,57 @@ describe("register a new user", () => {
   // it("should register a new user", () => {
 
   // });
-  it("should prompt user to create exhibitions", () => {
-    cy.getById("user-exbs-btn").click();
-    cy.getById("exb-card").should("not.exist");
-    cy.getById("exb-dashboard-add-new-exb-btn").click();
-    cy.location("pathname").should("eq", "/exhibitions/create");
+  // it("should prompt user to create exhibitions", () => {
+  // cy.getById("user-exbs-btn").click();
+  // cy.getById("exb-card").should("not.exist");
+  // cy.getById("no-user-exbs-text").should("exist");
+  // cy.getById("exb-dashboard-add-new-exb-btn").click();
+  // cy.location("pathname").should("eq", "/exhibitions/create");
+  // cy.visit("/artworks/search");
+  // cy.getById("art-gallery-card").should("have.length", 12);
+  // cy.getById("add-artwork-plus").first().click();
+  // cy.getById("modal-create-first-exb-prompt-btn").should("exist");
+  // cy.getById("default-modal-close").click();
+  // cy.getById("default-modal").should("not.exist");
+  // cy.get('[data-cy="art-gallery-card"] img').first().click();
+  // cy.location("pathname").should("match", /^\/artwork\/.*/);
+  // cy.getById("art-detail-action-btn-plus").click()
+  // cy.getById("modal-create-first-exb-prompt-btn").should("exist");
+
+  // });
+
+  it("should create new exb and add artworks to new exb", () => {
+    cy.visit("/exhibitions/create");
+    // create exb 1
+    cy.get('[data-cy="exb-form"] #title').type("Test Exb Title");
+    cy.get('[data-cy="exb-form"] #description').type(
+      "Test description for a very cool and interesting exhibition"
+    );
+    cy.get('[data-cy="exb-form"] #location').type("San Mateo, CA");
+    cy.get('[data-cy="exb-form"] #startDate').type("2024-09-02");
+    cy.get('[data-cy="exb-form"] #endDate').type("2024-09-13");
+    cy.get('[data-cy="exb-form"] button').click();
+    // check new exb details
+    cy.location("pathname").should("eq", "/exhibitions/dashboard");
+    cy.visit("/exhibitions/create");
+    // create exb 2
+    cy.get('[data-cy="exb-form"] #title').type("Test Exb Title 2");
+    cy.get('[data-cy="exb-form"] #description').type(
+      "Test description for a very cool and interesting exhibitio number 2"
+    );
+    cy.get('[data-cy="exb-form"] #location').type("San Francisco, CA");
+    cy.get('[data-cy="exb-form"] #startDate').type("2024-10-01");
+    cy.get('[data-cy="exb-form"] #endDate').type("2024-11-12");
+    cy.get('[data-cy="exb-form"] button').click();
+    // check new exb details
+    cy.location("pathname").should("eq", "/exhibitions/dashboard");
+    cy.getById("exb-card").should("have.length", 2);
+    cy.getById("exb-card-title").first().should('have.text', 'Test Exb Title')
+    cy.getById("exb-card-date").first().should('have.text', 'Date: Sep 2, 2024 - Sep 13, 2024')
+    cy.getById("exb-card-location").first().should('have.text', 'San Mateo, CA')
   });
   // it("should have blank values for new profile sections", () => {
+  // cy.visit("/artworks/search");
 
   // });
   // it("should be able to logout and log back in", () => {

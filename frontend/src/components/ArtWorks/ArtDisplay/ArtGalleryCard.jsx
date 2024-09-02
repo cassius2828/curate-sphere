@@ -25,7 +25,7 @@ const ArtGalleryCard = ({
   };
 
   return (
-    <div className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto mx-auto font-cardo">
+    <div data-cy="art-gallery-card" className="shadow-md rounded-md p-4 text-gray-900 w-96 h-auto mx-auto font-cardo">
       <Link to={`/artwork/${ArtworkObjectid}`}>
         <img
           src={
@@ -57,6 +57,7 @@ const ArtGalleryCard = ({
 
           <>
             <button
+            data-cy="add-artwork-plus"
               onClick={() => {
                 showModal();
               }}

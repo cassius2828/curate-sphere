@@ -82,6 +82,9 @@ const ExbForm = () => {
       }));
     }
   }, [showExb, id]);
+  useEffect(() => {
+    console.log(formData)
+  },[formData])
 
   // Redirect to sign-in if the user is not logged in
   if (!user) {

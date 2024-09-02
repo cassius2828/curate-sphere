@@ -147,7 +147,7 @@ const ExbDashboard = () => {
         className="masonry-grid gap-8"
         columnClassName="masonry-grid_column"
       >
-        {displayedExbs.map((exb) => (
+        {myExbs.length > 0 ? displayedExbs.map((exb) => (
           <ExbCard
             key={exb.id}
             id={exb.id}
@@ -156,7 +156,7 @@ const ExbDashboard = () => {
             date={`${formatDate(exb.startDate)} - ${formatDate(exb.endDate)}`}
             location={exb.location}
           />
-        ))}
+        )) : <h1 data-cy="no-user-exbs-text" className="text-4xl w-full">You do not have any exhibitions yet. Create one now!</h1>}
       </Masonry>
     </section>
   );
