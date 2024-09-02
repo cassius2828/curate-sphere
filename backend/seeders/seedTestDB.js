@@ -223,6 +223,26 @@ async function seedTestDB() {
       { objectid: 47472 },
       { transaction }
     );
+    const artwork20 = await sequelize.models.Artwork.create(
+      { objectid: 165243 },
+      { transaction }
+    );
+    const artwork21 = await sequelize.models.Artwork.create(
+      { objectid: 141754 },
+      { transaction }
+    );
+    const artwork22 = await sequelize.models.Artwork.create(
+      { objectid: 168875 },
+      { transaction }
+    );
+    const artwork23 = await sequelize.models.Artwork.create(
+      { objectid: 169305 },
+      { transaction }
+    );
+    const artwork24 = await sequelize.models.Artwork.create(
+      { objectid: 169726 },
+      { transaction }
+    );
 
     console.log(
       "Artworks created:",
@@ -264,10 +284,10 @@ async function seedTestDB() {
     await exhibition5.addArtworks([artwork17, artwork18, artwork19], {
       transaction,
     });
-    await exhibition6.addArtworks([artwork1, artwork7, artwork14], {
+    await exhibition6.addArtworks([artwork20, artwork21, artwork22], {
       transaction,
     });
-    await exhibition7.addArtworks([artwork4, artwork10, artwork19], {
+    await exhibition7.addArtworks([artwork23, artwork24], {
       transaction,
     });
 

@@ -109,6 +109,13 @@ const reducer = (state, action) => {
           [action.payload.key]: action.payload.id,
         },
       };
+    // Filter Section
+    case "handleFilterObjectUpdate/artworks":
+      // const {primaryCategory,subcategoryKey, subcategoryValue} = action.payload;
+      return {
+        ...state,
+        artFilter: action.payload,
+      };
     case "toggleCheckbox/artworks":
       const { primaryCategoryKey, subCategoryId, name } = action.payload;
 
@@ -383,7 +390,7 @@ export const ArtworkProvider = ({ children }) => {
       data.push(data1.records);
       data = data.flat();
       data.sort((a, b) => a.name.localeCompare(b.name));
-     
+
       dispatch({
         type: "getCenturyObjs/artworks",
         payload: data,
@@ -558,6 +565,38 @@ export const ArtworkProvider = ({ children }) => {
   ///////////////////////////
   const handleUpdateSearchQuery = (query) => {
     dispatch({ type: "updateSearchQuery/artworks", payload: query });
+  };
+
+  ///////////////////////////
+  // Handle Filter Object
+  ///////////////////////////
+  const handleFilterObj = (
+    primaryCategory,
+    subcategoryKey,
+    subcategoryValue
+  ) => {
+    let updatedArtFilter = { ...artFilter };
+    // is medium not in artFilter?
+    if (!(primaryCategory in updatedArtFilter)) {
+      // then add medium: {oil:2345}
+      updatedArtFilter[primaryCategory] = {
+        [subcategoryKey]: subcategoryValue,
+      };
+    } else {
+      // medium is in artFilter? Check if the subCategory is already in medium
+      if (!(subcategoryKey in updatedArtFilter[primaryCategory])) {
+        // it is not in medium, so add it medium: {oil:2345, acrylic:555}
+        updatedArtFilter[primaryCategory][subcategoryKey] = subcategoryValue;
+      } else {
+        // else remove the subcategory since it already exists
+        delete updatedArtFilter[primaryCategory][subcategoryKey];
+      }
+    }
+    console.log(updatedArtFilter, ' <-- updatedArtFilter')
+    dispatch({
+      type: "handleFilterObjectUpdate/artworks",
+      payload: updatedArtFilter,
+    });
   };
 
   // if the search query active then filter the results based on the current query
@@ -744,7 +783,7 @@ export const ArtworkProvider = ({ children }) => {
         handleGetAllFilterObjs,
         fetchArtworkListInfo,
         showArtworkInfoLists,
-        artFilter,
+        artFilter,handleFilterObj,
         searchQuery,
         century,
         classification,

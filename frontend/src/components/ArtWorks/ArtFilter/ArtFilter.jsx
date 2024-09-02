@@ -46,6 +46,7 @@ const ArtFilter = () => {
     <div className="flex gap-4 font-cardo mt-12 md:mt-0">
       {/* Filter Button */}
       <button
+      data-cy="filter-btn"
         onClick={handleShowDropdown}
         className="text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4"
       >
@@ -69,7 +70,7 @@ const ArtFilter = () => {
 
       {/* Filter Dropdown */}
       {showFilterDropdown && (
-        <ul className="shadow-md w-3/4 md:w-96 min-w-96 absolute top-full">
+        <ul data-cy="filter-dropdown-ul" className="shadow-md w-3/4 md:w-96 min-w-96 absolute top-full">
           {primaryCategories.map((category, idx) => (
             <SearchCategoryDropdown
               primaryCategory={category.title}

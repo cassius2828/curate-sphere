@@ -22,7 +22,7 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
   const [displayUserExbs, setDisplayUserExbs] = useState(exbs);
   const { user } = useGlobalContext();
   const {myExbs} = useExbContext()
-console.log(myExbs, ' <-- myexbhs')
+
   ///////////////////////////
   // Search Functions / Actions
   ///////////////////////////

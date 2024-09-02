@@ -55,6 +55,7 @@ const ArtSearch = () => {
       {/* search input */}
       <div className="relative w-3/4">
         <input
+        data-cy="art-search-input"
           onChange={handleSearchQuery}
           value={searchQuery}
           className="border-4 border-neutral-900 p-2 mt-12 mb-6 w-full text-2xl"

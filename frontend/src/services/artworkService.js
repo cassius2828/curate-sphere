@@ -2,10 +2,19 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 import { getItemIndexedDB, setItemIndexedDB } from "../utils/indexedDB.config";
 // creates query string out of an object
 const getQueryString = (query) => {
+  let finalStr = `&size=${query?.size}`;
   if (!query) return;
-  return Object.keys(query)
-    .map((key) => `&${key}=${query[key]}`)
-    .join("");
+  // this logic looks for nested objects and converts them to a pipe str if there are more than 1 value associated with it
+  for (let primaryCategory in query) {
+    if (typeof query[primaryCategory] === "object") {
+      finalStr =
+        finalStr +
+        `&${primaryCategory}=` +
+        Object.values(query[primaryCategory]).join("|");
+    }
+  }
+
+  return finalStr;
 };
 
 //////////////////////////////////////////////////////

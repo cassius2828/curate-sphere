@@ -63,7 +63,7 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
                 icon={faSearch}
               />
               {/* subcategories */}
-              <ul className=" overflow-y-scroll h-72">
+              <ul data-cy="subcategory-dropdown-ul" className=" overflow-y-scroll h-72">
                 {displaySubCategories?.map((category, idx) => {
                   return (
                     <SearchFilterCheckBox

@@ -203,5 +203,13 @@ describe("exhibition flows", () => {
     cy.getById("exb-explore-sort-select").select("z-a");
     cy.getById("exb-card").last().contains("Beyond");
     cy.getById("exb-card").first().contains("Expo");
+    // try to add duplicate artwork in exb
+    cy.getById("exb-card-view-details-btn").first().click().wait(1000);
+    cy.getById("exb-artwork-card").first().find("img").click();
+    cy.getById("art-detail-action-btn-plus").click();
+    cy.getById("exb-list").find("li").first().click();
+    cy.getById("success-message").should("exist");
+    cy.getById("exb-list").find("li").first().click();
+    cy.getById("error-message").should("exist");
   });
 });
