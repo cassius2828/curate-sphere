@@ -22,12 +22,12 @@ export const ProfileCard = () => {
   const { headerImg, profileImg, username, bio } = user.user;
 
   return (
-    <div className="rounded-md flex flex-col justify-center items-center md:my-12 bg-neutral-100 w-full md:w-1/2 overflow-hidden">
+    <div className="rounded-md flex flex-col justify-center items-center md:my-12 bg-neutral-100 w-full md:w-1/3 overflow-hidden">
       {/* Header Image */}
-      <div className="w-full h-1/3 relative">
+      <div className="w-full relative">
         <img
         data-cy="header-img"
-          className="w-full object-cover"
+          className="w-full object-cover max-h-[40rem]"
           src={
             headerImg
               ? headerImg
@@ -36,7 +36,7 @@ export const ProfileCard = () => {
           alt="Profile Header"
         />
         {/* Profile Image */}
-        <div className="rounded-full border-8 w-72 h-72 md:w-96 md:h-96 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="rounded-full border-8 w-72 h-72 md:w-80 md:h-80 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
           data-cy="profile-img"
             className="w-full"
@@ -50,9 +50,9 @@ export const ProfileCard = () => {
         </div>
       </div>
       {/* User Name */}
-      <h2 data-cy="profile-username" className="text-4xl mt-20">{username}</h2>
+      <h2 data-cy="profile-username" className="text-4xl mt-20 ">{username}</h2>
       {/* Bio */}
-      <p data-cy="profile-bio" className="py-4 px-20 text-2xl">
+      <p data-cy="profile-bio" className="py-8 mx-20 text-2xl border-y border-gray-500 mt-5">
         {bio ? bio : "Feeling inspired?... create a bio to share a little about yourself!"}
       </p>
       {/* Exhibition Count and View Button */}
