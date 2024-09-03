@@ -201,12 +201,10 @@ const putConfirmEmailChange = async (req, res) => {
     // Generate a JWT token with the updated user data
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
 
-    res
-      .status(200)
-      .json({
-        token,
-        message: `Successfully confirmed email change from ${prevEmail} to ${email}`,
-      });
+    res.status(200).json({
+      token,
+      message: `Successfully confirmed email change from ${prevEmail} to ${email}`,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Unable to confirm email change" });
@@ -242,7 +240,6 @@ const transporter = nodemailer.createTransport({
 });
 // confirmEmail function to send the confirmation email
 const confirmEmail = async (email, user) => {
-  console.log(user, " <-- user");
   try {
     // Generate a JWT token with the updated user data
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
@@ -270,12 +267,14 @@ const confirmEmail = async (email, user) => {
 
     await transporter.sendMail(mailOptions);
     console.log(`Confirmation email sent to ${email}`);
-    return { message: `Email sent to ${email}` };
+    return {
+      message: `Confirmation email sent to ${email}. Your email will remain as ${user.email} until you confirm this change.`,
+    };
   } catch (err) {
     console.error(err);
     console.log(
       `Could not send email to ${email} to confirm their email address`
     );
-    return { error: `Email could not be to ${email} to confirm email` };
+    return { error: `Email could not be sent to ${email} to confirm email` };
   }
 };

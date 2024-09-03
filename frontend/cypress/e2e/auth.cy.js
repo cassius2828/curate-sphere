@@ -170,19 +170,36 @@ describe("register a new user", () => {
     cy.getById("profile-action-btn-container")
       .children()
       .should("have.length", 2);
-      // check initial form state
+    // check initial form state
     cy.getById("profile-action-btn-container")
       .children()
       .contains("Edit Profile")
       .should("be.visible")
       .click();
-      cy.get('form').children().should('have.length', 6);
-      cy.get('form #username').should('have.value', 'Jerry');
-      cy.get('form #email').should('have.value', 'jerry@gmail.com');
-      cy.get('form #bio').should('have.value', '');
-
-
-
+    cy.get("form").children().should("have.length", 6);
+    cy.get("form #currentPassword").should("not.exist");
+    cy.get("form #username").should("have.value", "Jerry");
+    cy.get("form #email").should("have.value", "jerry@gmail.com");
+    cy.get("form #bio").should("have.value", "");
+    cy.get("form #bio").type("this is a test bio for Jerry");
+    cy.get("form #headerImg").attachFile("test-header.png");
+    cy.get("form #profileImg").attachFile("test-profile.png");
+    cy.getById("profile-form-action-btns")
+      .children()
+      .contains("Update")
+      .click();
+    // check passwords
+    cy.getById("profile-action-btn-container")
+      .children()
+      .contains("Password")
+      .should("be.visible")
+      .click();
+    // ensure info form is not shown
+    cy.get("form #username").should("not.exist");
+    // check password form inputs
+    cy.get("form #currentPassword").should("have.value", "");
+    cy.get("form #newPassword").should("have.value", "");
+    cy.get("form #confirmPassword").should("have.value", "");
   });
 
   // it("should be able to logout and log back in", () => {
