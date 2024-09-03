@@ -43,23 +43,23 @@ export const ChangePasswordForm = () => {
   ///////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-
+console.log(formData)
     // Validate password inputs
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if (!currentPassword.input || !newPassword.input || !confirmPassword.input) {
       setMessage("Please fill in all fields");
       setSuccess(false);
       return;
     }
 
-    if (currentPassword === newPassword) {
+    if (currentPassword.input === newPassword.input) {
       setMessage(
         "Please choose a different password than your current one to update your password"
       );
       setSuccess(false);
       return;
     }
-    if (newPassword !== confirmPassword) {
-      setMessage("Passwords do not match.");
+    if (newPassword.input !== confirmPassword.input) {
+      setMessage("Passwords do not match");
       setSuccess(false);
       return;
     }
@@ -70,9 +70,9 @@ export const ChangePasswordForm = () => {
     const fetchUpdateUserPassword = async () => {
       try {
         const data = await updateUserPassword(
-          currentPassword,
-          newPassword,
-          confirmPassword,
+          currentPassword.input,
+          newPassword.input,
+          confirmPassword.input,
           user.user.id
         );
 
@@ -110,8 +110,6 @@ export const ChangePasswordForm = () => {
         return { ...formData, [name]: { ...prev[name], isValid: true } };
       });
     }
-    // setFormData({ ...formData, [name]: { ...[name], input: value } });
-    console.log(formData);
   };
 
   ///////////////////////////
@@ -134,7 +132,7 @@ export const ChangePasswordForm = () => {
     <>
       {message && success ? (
         <div className="flex items-center justify-center gap-12">
-          <span className="text-2xl text-green-500">{message}</span>
+          <span data-cy="success-message" className="text-2xl text-green-500">{message}</span>
           <button
             onClick={handleResetInputFields}
             data-cy="reset-password-fields"
@@ -145,7 +143,7 @@ export const ChangePasswordForm = () => {
         </div>
       ) : message && !success ? (
         <div className="flex items-center justify-center gap-12">
-          <span className="text-2xl text-red-500">{message}</span>
+          <span data-cy="error-message" className="text-2xl text-red-500">{message}</span>
           <button
             onClick={handleResetInputFields}
             data-cy="reset-password-fields"
@@ -234,7 +232,7 @@ export const ChangePasswordForm = () => {
         {/* Action Buttons */}
         <div className="w-full flex justify-center items-center gap-12">
           <Btn handleAction={handleCancel} text="Cancel" />
-          <Btn handleAction={handleSubmit} text="Update Password" />
+          <Btn handleAction={handleSubmit} text="Change Password" />
         </div>
 
         {/* Feedback Modal */}

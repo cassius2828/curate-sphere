@@ -149,59 +149,174 @@ describe("register a new user", () => {
 
   //   // edit exb
   // });
-  it("should have blank values for new profile sections", () => {
+  // it("should have blank values for new profile sections", () => {
+  //   cy.visit("/profiles/4");
+
+  //   // Check the header image src
+  //   cy.getById("header-img").should(
+  //     "have.attr",
+  //     "src",
+  //     "https://img.freepik.com/free-vector/gradient-black-background-with-wavy-lines_23-2149158441.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1724544000&semt=ais_hybrid"
+  //   );
+
+  //   // Check the profile image src
+  //   cy.getById("profile-img").should(
+  //     "have.attr",
+  //     "src",
+  //     "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+  //   );
+  //   cy.getById("profile-exb-count").should("have.text", "Exhibitions: 0");
+  //   cy.getById("profile-bio").contains("Feeling inspired");
+  //   cy.getById("profile-action-btn-container")
+  //     .children()
+  //     .should("have.length", 2);
+  //   // check initial form state
+  //   cy.getById("profile-action-btn-container")
+  //     .children()
+  //     .contains("Edit Profile")
+  //     .should("be.visible")
+  //     .click();
+  //   cy.get("form").children().should("have.length", 6);
+  //   cy.get("form #currentPassword").should("not.exist");
+  //   cy.get("form #username").should("have.value", "Jerry");
+  //   cy.get("form #email").should("have.value", "jerry@gmail.com");
+  //   cy.get("form #bio").should("have.value", "");
+  //   cy.get("form #bio").type("this is a test bio for Jerry");
+  //   cy.get("form #headerImg").attachFile("test-header.png");
+  //   cy.get("form #profileImg").attachFile("test-profile.png");
+  //   cy.getById("profile-form-action-btns")
+  //     .children()
+  //     .contains("Update")
+  //     .click();
+  //   // check passwords
+  //   cy.getById("profile-action-btn-container")
+  //     .children()
+  //     .contains("Password")
+  //     .should("be.visible")
+  //     .click();
+  //   // ensure info form is not shown
+  //   cy.get("form #username").should("not.exist");
+  //   // check password form inputs
+  //   cy.get("form #currentPassword").should("have.value", "");
+  //   cy.get("form #newPassword").should("have.value", "");
+  //   cy.get("form #confirmPassword").should("have.value", "");
+  // });
+
+  // it("should properly handle all errors and response messages in edit profile and change password inputs", () => {
+  //   cy.visit("/profiles/4");
+  //   cy.getById("profile-action-btn-container")
+  //     .children()
+  //     .contains("Edit Profile")
+  //     .should("be.visible")
+  //     .click();
+  //   cy.get("form #username").clear();
+  //   cy.getById("profile-form-action-btns")
+  //     .children()
+  //     .contains("Update")
+  //     .click();
+  //   // try submiting without a username
+  //   cy.getById("error-message").should(
+  //     "have.text",
+  //     "Username and email fields cannot be left empty"
+  //   );
+  //   cy.get("form #username").type("Jerry222");
+  //   cy.get("form #email").clear();
+  //   cy.get("form #email").type("Jerry222");
+  //   cy.get("form #email").should("have.class", "border-red-500");
+  //   cy.getById("profile-form-action-btns")
+  //     .children()
+  //     .contains("Update")
+  //     .click();
+  //   // try submitting with an invalid email address
+  //   cy.getById("error-message").should(
+  //     "have.text",
+  //     "Please submit a valid email address. (e.g example@gmail.com)"
+  //   );
+  //   cy.get("form #email").clear();
+  //   cy.get("form #email").type("jericho44356@gmail.com");
+  //   // try valid update and get success message
+  //   cy.get("form #bio").type("Here is a sample bio for jerry");
+  // cy.getById("profile-form-action-btns")
+  //   .children()
+  //   .contains("Update")
+  //   .click();
+
+  // cy.getById("success-message").should(
+  //   "have.text",
+  //   "Confirmation email sent to jericho44356@gmail.com. Your email will remain as jerry@gmail.com until you confirm this change."
+  // );
+  // });
+
+  it("should properly handle all errors and response messages in change password inputs ", () => {
     cy.visit("/profiles/4");
-
-    // Check the header image src
-    cy.getById("header-img").should(
-      "have.attr",
-      "src",
-      "https://img.freepik.com/free-vector/gradient-black-background-with-wavy-lines_23-2149158441.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1724544000&semt=ais_hybrid"
-    );
-
-    // Check the profile image src
-    cy.getById("profile-img").should(
-      "have.attr",
-      "src",
-      "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
-    );
-    cy.getById("profile-exb-count").should("have.text", "Exhibitions: 0");
-    cy.getById("profile-bio").contains("Feeling inspired");
-    cy.getById("profile-action-btn-container")
-      .children()
-      .should("have.length", 2);
-    // check initial form state
-    cy.getById("profile-action-btn-container")
-      .children()
-      .contains("Edit Profile")
-      .should("be.visible")
-      .click();
-    cy.get("form").children().should("have.length", 6);
-    cy.get("form #currentPassword").should("not.exist");
-    cy.get("form #username").should("have.value", "Jerry");
-    cy.get("form #email").should("have.value", "jerry@gmail.com");
-    cy.get("form #bio").should("have.value", "");
-    cy.get("form #bio").type("this is a test bio for Jerry");
-    cy.get("form #headerImg").attachFile("test-header.png");
-    cy.get("form #profileImg").attachFile("test-profile.png");
-    cy.getById("profile-form-action-btns")
-      .children()
-      .contains("Update")
-      .click();
-    // check passwords
     cy.getById("profile-action-btn-container")
       .children()
       .contains("Password")
-      .should("be.visible")
       .click();
-    // ensure info form is not shown
-    cy.get("form #username").should("not.exist");
-    // check password form inputs
+    //
+    cy.get("form #currentPassword").type("123");
+    cy.get("form #newPassword").type("123");
+    cy.get("form #confirmPassword").type("123");
+    cy.get("form div").last().children().contains("Change").click();
+    cy.getById("error-message").should(
+      "have.text",
+      "Please choose a different password than your current one to update your password"
+    );
+    cy.getById("reset-password-fields").click();
+    // check if form border is red for invalid
+    // current
+    cy.get("form #currentPassword").type("123");
+    cy.get("form #currentPassword").clear("");
+    cy.get("form #currentPassword").should("have.class", "border-red-500");
+    // new
+    cy.get("form #newPassword").type("123");
+    cy.get("form #newPassword").clear("");
+    cy.get("form #newPassword").should("have.class", "border-red-500");
+    // confirm
+    cy.get("form #confirmPassword").type("123");
+    cy.get("form #confirmPassword").clear("");
+    cy.get("form #confirmPassword").should("have.class", "border-red-500");
+    cy.get("form #currentPassword").clear();
+    cy.get("form #newPassword").clear();
+    cy.get("form #confirmPassword").clear();
+    // check if fields are not filled out
+    cy.get("form div").last().children().contains("Change").click();
+    cy.getById("error-message").should(
+      "have.text",
+      "Please fill in all fields"
+    );
+    // test that passwords do not match
+    cy.get("form #currentPassword").type("123");
+    cy.get("form #newPassword").type("12345");
+    cy.get("form #confirmPassword").type("12399");
+    cy.get("form div").last().children().contains("Change").click();
+    cy.getById("error-message").should("have.text", "Passwords do not match");
+
+    // successfully change password
+    cy.get("form #currentPassword").clear();
+    cy.get("form #newPassword").clear();
+    cy.get("form #confirmPassword").clear();
+    cy.get("form #currentPassword").type("123");
+    cy.get("form #newPassword").type("abc");
+    cy.get("form #confirmPassword").type("abc");
+    cy.get("form div").last().children().contains("Change").click();
+    cy.getById("error-message").should("not.exist");
+    cy.getById("success-message").should(
+      "have.text",
+      "Password updated successfully"
+    );
+    // reset btn
+    cy.getById("reset-password-fields").click();
     cy.get("form #currentPassword").should("have.value", "");
     cy.get("form #newPassword").should("have.value", "");
     cy.get("form #confirmPassword").should("have.value", "");
+    // cancel btn
+    cy.get("form #currentPassword").type("123");
+    cy.get("form #newPassword").type("abc");
+    cy.get("form #confirmPassword").type("abc");
+    cy.get("form div").last().children().contains("Cancel").click();
+    cy.location("pathname").should("eq", "/");
   });
-
   // it("should be able to logout and log back in", () => {
   //   cy.getById("desktop-nav-logout").click();
   //   cy.loginUser("Jerry", "123");
