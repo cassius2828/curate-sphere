@@ -198,7 +198,7 @@ const ArtDetail = () => {
       </div>
 
       {/* Action Buttons */}
-      <div className="w-1/2 max-w-96 mx-auto">
+      <div className="md:w-1/2 max-w-96 mx-auto">
         <ul data-cy="art-detail-action-btns-ul" className="flex items-center justify-around gap-3">
           <ArtDetailActionBtn
             handleAction={showModal}

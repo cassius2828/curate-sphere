@@ -62,6 +62,7 @@ const getFilterObjs = async (req, res) => {
       `${BASE_URL}/${filter}?apikey=${API_KEY}&size=100&page=${page}`
     );
     let data = await response.json();
+    console.log(data, ' f<-- filter object data | backend')
     data.info.next = swapApiKeyAndPlaceholder(data.info.next, "API_KEY");
     data.info.prev = "";
     res.status(200).json(data);

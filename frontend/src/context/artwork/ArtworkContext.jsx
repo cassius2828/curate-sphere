@@ -318,40 +318,6 @@ export const ArtworkProvider = ({ children }) => {
   };
 
   ///////////////////////////
-  // Add Filter to Query
-  ///////////////////////////
-  const handleSelectFilters = async (key, id) => {
-    key = key.toLowerCase();
-    if (key[0] === "w") {
-      key = key.split(" ").join("");
-    }
-
-    const obj = { key, id };
-    if (artFilter[key] === id) return;
-    dispatch({ type: "filterArtworks/artworks", payload: obj });
-  };
-
-  ///////////////////////////
-  // Remove Filter From Query
-  ///////////////////////////
-  const handleRemoveFilter = (key, id) => {
-    key = key.toLowerCase();
-    if (key[0] === "w") {
-      key = key.split(" ").join("");
-    }
-
-    if (artFilter[key] === id) {
-      // this first checks if the key value pair matches then it destructures the artFilter obj to
-      // not inlcude the key value pair specified, but keeps the rest of the state
-      const { [key]: _, ...removedFilterObj } = artFilter;
-      dispatch({
-        type: "removeFilterArtworks/artworks",
-        payload: removedFilterObj,
-      });
-    }
-  };
-
-  ///////////////////////////
   // Reset Filter State
   ///////////////////////////
   const handleResetFilterState = () => {
@@ -362,6 +328,7 @@ export const ArtworkProvider = ({ children }) => {
   ///////////////////////////
   const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
+    console.log(medium, ' <-- medium')
     dispatch({
       type: "toggleCheckbox/artworks",
       payload: { primaryCategoryKey, subCategoryId, name },
@@ -592,7 +559,7 @@ export const ArtworkProvider = ({ children }) => {
         delete updatedArtFilter[primaryCategory][subcategoryKey];
       }
     }
-    console.log(updatedArtFilter, ' <-- updatedArtFilter')
+    console.log(updatedArtFilter, " <-- updatedArtFilter");
     dispatch({
       type: "handleFilterObjectUpdate/artworks",
       payload: updatedArtFilter,
@@ -774,17 +741,14 @@ export const ArtworkProvider = ({ children }) => {
         handleDisplayView,
         handleGetAllArtworks,
         handleGetNextPageOfArtworks,
-        handleRemoveFilter,
         handleResetFilterState,
         handleSearchArtworksByTitle,
         handleUpdateSearchQuery,
-        handleSelectFilters,
         handleToggleCheckbox,
+        handleFilterObj,
         handleGetAllFilterObjs,
         fetchArtworkListInfo,
-        showArtworkInfoLists,
-        artFilter,handleFilterObj,
-        searchQuery,
+        artFilter,
         century,
         classification,
         culture,
@@ -796,7 +760,9 @@ export const ArtworkProvider = ({ children }) => {
         period,
         primaryCategories,
         records,
+        searchQuery,
         showArtwork,
+        showArtworkInfoLists,
         technique,
         worktype,
       }}

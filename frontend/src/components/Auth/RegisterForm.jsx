@@ -71,7 +71,7 @@ const RegisterForm = () => {
             value={formData.username}
             onChange={handleChange}
             required
-            pattern="{3,0}"
+            minLength={3}
           />
         </div>
 

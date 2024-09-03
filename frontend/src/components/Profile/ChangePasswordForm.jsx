@@ -43,9 +43,13 @@ export const ChangePasswordForm = () => {
   ///////////////////////////
   const handleSubmit = (e) => {
     e.preventDefault();
-console.log(formData)
+    console.log(formData);
     // Validate password inputs
-    if (!currentPassword.input || !newPassword.input || !confirmPassword.input) {
+    if (
+      !currentPassword.input ||
+      !newPassword.input ||
+      !confirmPassword.input
+    ) {
       setMessage("Please fill in all fields");
       setSuccess(false);
       return;
@@ -131,8 +135,10 @@ console.log(formData)
   return (
     <>
       {message && success ? (
-        <div className="flex items-center justify-center gap-12">
-          <span data-cy="success-message" className="text-2xl text-green-500">{message}</span>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 text-center">
+          <span data-cy="success-message" className="text-2xl text-green-500">
+            {message}
+          </span>
           <button
             onClick={handleResetInputFields}
             data-cy="reset-password-fields"
@@ -142,8 +148,10 @@ console.log(formData)
           </button>
         </div>
       ) : message && !success ? (
-        <div className="flex items-center justify-center gap-12">
-          <span data-cy="error-message" className="text-2xl text-red-500">{message}</span>
+        <div className="flex flex-col md:flex-row items-center justify-center gap-12 text-center">
+          <span data-cy="error-message" className="text-2xl text-red-500">
+            {message}
+          </span>
           <button
             onClick={handleResetInputFields}
             data-cy="reset-password-fields"

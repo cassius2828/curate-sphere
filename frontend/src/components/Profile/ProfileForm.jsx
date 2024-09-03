@@ -31,7 +31,7 @@ export const ProfileForm = () => {
 
   const [formData, setFormData] = useState(initialFormData);
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState();
   const { username, email, bio, headerImg, profileImg } = formData;
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   // Form submission handler
@@ -149,7 +149,7 @@ export const ProfileForm = () => {
             placeholder="Enter your username"
             value={username.input}
             onChange={handleChange}
-            pattern="{3,0}"
+            minLength={3}
           />
         </div>
 

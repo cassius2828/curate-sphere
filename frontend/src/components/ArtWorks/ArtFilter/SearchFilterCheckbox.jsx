@@ -26,7 +26,8 @@ const categoryNameStr = category.name
         onClick={() => {
           setIsChecked((prev) => !prev);
           setClickCount((prev) => prev + 1);
-          // handleToggleCheckbox(primaryCategoryKey, category.id, category.name);
+          console.log(category, ' <--category')
+          handleToggleCheckbox(primaryCategoryKey, category.id, category.name);
           // testing new query solution below
           handleFilterObj(primaryCategoryKey.toLowerCase(), category.name, category.id)
         }}

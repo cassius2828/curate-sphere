@@ -1,0 +1,28 @@
+///////////////////////////
+To Do's 
+///////////////////////////
+
+1. Email Removal
+- If a user submits a form without an email address, after previously having one ,
+a warning modal will show up informing the user that they will be removing their email if they submit the form 
+- allows for users to submit form without filling out an email field 
+
+2. Checkboxes
+- right now, checkboxes are not aligned with filter state. 
+- goal is to have checkboxes in sync with filter state and keep their state
+between renders of the filter ul component
+- ** Chnage data structure from using a records array to a records object
+so we can access keys directly instead of looping through an array for updates to checkboxes 
+. Furthermore, we will restrict the unecessary data 
+- Current efficiency is O(N) 
+- Updated datastructure will yield O(1)
+
+3. Finish testing 
+- finish e2e testing
+- create component tests if wanting any practice with that 
+
+4. Add more to landing page 
+- add an engageing and pleasant content to the landing page for viewers to understand the gist of the site 
+and also see beautiful engaging photos 
+
+5. Add form validation to login and register components 
