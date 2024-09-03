@@ -109,14 +109,14 @@ export const ArtListDesktopRow = ({
       <td className="py-2 px-4 text-2xl border-b text-center">{division}</td>
       <td className="py-2 px-4 text-2xl border-b text-center">
         <Link to={`/artwork/${id}`}>
-          <button className="border px-3 py-1 text-xl rounded-md border-gray-800 transition-colors duration-300 hover:bg-gray-800 hover:text-white">
+          <button data-cy="art-details-list-row-btn" className="border px-3 py-1 text-xl rounded-md border-gray-800 transition-colors duration-300 hover:bg-gray-800 hover:text-white">
             details
           </button>
         </Link>
       </td>
       {/* add to exb */}
       <td className="py-2 px-4 text-2xl border-b text-center">
-        <button
+        <button data-cy="add-artwork-list-row-btn"
           onClick={() => {
             showModal();
           }}

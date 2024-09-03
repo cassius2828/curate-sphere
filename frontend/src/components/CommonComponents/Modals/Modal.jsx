@@ -72,6 +72,7 @@ const Modal = ({ isVisible, onClose, exbs = [], ArtworkObjectid }) => {
           <>
             <PromptSignIn text={"add artwork"} mt0 />
             <button
+            data-cy="close-prompt-modal"
               className="absolute top-0 right-3 text-4xl modal-close"
               onClick={() => {
                 onClose();

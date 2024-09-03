@@ -60,3 +60,12 @@ Cypress.Commands.add("registerUser", (username, email, password) => {
   cy.location("pathname").should("eq", "/");
   cy.getById("welcome-message").contains(username);
 });
+
+Cypress.Commands.add("confirmToolTip", (btnName) => {
+  cy.getById(`art-detail-action-btn-${btnName}`)
+    .trigger("mouseover")
+    .parent()
+    .find("div p")
+    .should("not.be.empty")
+    .wait(500);
+});

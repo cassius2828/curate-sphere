@@ -156,7 +156,7 @@ const ArtDetail = () => {
   return (
     <section className="p-4 font-marcellus">
       {/* Header */}
-      <header className="shadow-md pb-1 flex items-center justify-between w-full">
+      <header data-cy="artwork-detail-header" className="shadow-md pb-1 flex items-center justify-between w-full">
         <span className="text-5xl ml-5">CS/</span>
         <div className="flex flex-col justify-end items-center gap-6 mb-6">
           <h1 className="text-3xl md:text-4xl text-center">
@@ -168,6 +168,7 @@ const ArtDetail = () => {
         </div>
         <div>
           <span
+          data-cy="art-detail-back-btn"
             onClick={() => navigate(-1)}
             className="text-2xl hover:border-gray-600 border-transparent border p-2 mr-5 transition-all duration-200 cursor-pointer"
           >
@@ -177,7 +178,7 @@ const ArtDetail = () => {
       </header>
 
       {/* Image Section */}
-      <div className="flex flex-col justify-center items-center gap-10 my-20">
+      <div data-cy="art-detail-img-section" className="flex flex-col justify-center items-center gap-10 my-20">
         {isLoadingImg ? (
           <div className="w-full md:w-1/2 md:h-full flex flex-col items-center gap-8">
             <LoaderRipple />
@@ -198,7 +199,7 @@ const ArtDetail = () => {
 
       {/* Action Buttons */}
       <div className="w-1/2 max-w-96 mx-auto">
-        <ul className="flex items-center justify-around gap-3">
+        <ul data-cy="art-detail-action-btns-ul" className="flex items-center justify-around gap-3">
           <ArtDetailActionBtn
             handleAction={showModal}
             icon={faPlus}

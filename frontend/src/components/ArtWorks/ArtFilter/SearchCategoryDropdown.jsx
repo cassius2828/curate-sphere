@@ -54,6 +54,7 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
             <div className="relative flex flex-col justify-start">
               {/* search input */}
               <input
+              data-cy="subcategory-search-input"
                 onChange={handleSearchQuery}
                 className=" border-4 border-neutral-900 p-2 mt-4 mb-6 w-full "
                 type="text"

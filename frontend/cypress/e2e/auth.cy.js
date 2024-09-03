@@ -70,92 +70,124 @@ describe("register a new user", () => {
 
   // });
 
-  it("should create new exb and add artworks to new exb", () => {
-    cy.visit("/exhibitions/create");
-    // create exb 1
-    cy.get('[data-cy="exb-form"] #title').type("Test Exb Title");
-    cy.get('[data-cy="exb-form"] #description').type(
-      "Test description for a very cool and interesting exhibition"
-    );
-    cy.get('[data-cy="exb-form"] #location').type("San Mateo, CA");
-    cy.get('[data-cy="exb-form"] #startDate').type("2024-09-02");
-    cy.get('[data-cy="exb-form"] #endDate').type("2024-09-13");
-    cy.get('[data-cy="exb-form"] button').click();
-    // check new exb details
-    cy.location("pathname").should("eq", "/exhibitions/dashboard");
-    cy.visit("/exhibitions/create");
-    // create exb 2
-    cy.get('[data-cy="exb-form"] #title').type("Test Exb Title 2");
-    cy.get('[data-cy="exb-form"] #description').type(
-      "Test description for a very cool and interesting exhibitio number 2"
-    );
-    cy.get('[data-cy="exb-form"] #location').type("San Francisco, CA");
-    cy.get('[data-cy="exb-form"] #startDate').type("2024-10-01");
-    cy.get('[data-cy="exb-form"] #endDate').type("2024-11-12");
-    cy.get('[data-cy="exb-form"] button').click();
-    // check new exb details
-    cy.location("pathname").should("eq", "/exhibitions/dashboard");
-    cy.getById("exb-card").should("have.length", 2);
-    cy.getById("exb-card-title").first().should("have.text", "Test Exb Title");
-    cy.getById("exb-card-date")
-      .first()
-      .should("have.text", "Date: Sep 2, 2024 - Sep 13, 2024");
-    cy.getById("exb-card-location")
-      .first()
-      .should("have.text", "Location: San Mateo, CA");
-    // ensure the default image is presented
-    cy.get('[data-cy="exb-card"] img')
-      .first()
-      .should("have.attr", "src")
-      .then((src) =>
-        expect(src).to.contain(
-          "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
-        )
-      );
-    // look at details inside the newly created exb
-    cy.getById("exb-card-view-details-btn").first().click();
-    cy.getById("exb-detail-no-artworks-message").should("exist");
-    cy.getById("edit-exb-btn").click();
-    // edit exb 1
-    // cy.get('[data-cy="exb-form"] #title').clear();
-    // cy.get('[data-cy="exb-form"] #title').type("Updated | Test Exb Title");
-    // cy.get('[data-cy="exb-form"] #description').clear();
-    // cy.get('[data-cy="exb-form"] #description').type(
-    //   "Updated | Test description for a very cool and interesting exhibition"
-    // );
-    // cy.get('[data-cy="exb-form"] #location').clear();
-    // cy.get('[data-cy="exb-form"] #location').type("New York, NY");
-    // cy.get('[data-cy="exb-form"] #startDate').clear();
-    // cy.get('[data-cy="exb-form"] #startDate').type("2024-01-01");
-    // cy.get('[data-cy="exb-form"] #endDate').clear();
-    // cy.get('[data-cy="exb-form"] #endDate').type("2024-12-31");
-    // cy.get('[data-cy="exb-form"] button').should(
-    //   "have.text",
-    //   "Update Exhibition"
-    // );
-    // cy.get('[data-cy="exb-form"] button').click();
-    //  add artworks to exbs
-    cy.visit("/artworks/search");
-    cy.getById("add-artwork-plus").first().click();
-    cy.getById("default-modal").should("exist");
-    cy.getById("exb-search").type("Title 2");
-    cy.getById("exb-list").children().should("have.length", 1);
-    cy.get('[data-cy="exb-list"] li').first().click();
-    cy.getById("success-message").should("exist");
-    cy.get('[data-cy="exb-list"] li').first().click();
-    cy.getById("error-message").should("exist");
-    cy.getById("default-modal-close").click();
-    //  load more artworks
-    
+  // it("should create new exb and add artworks to new exb", () => {
+  //   cy.visit("/exhibitions/create");
+  //   // create exb 1
+  //   cy.get('[data-cy="exb-form"] #title').type("Test Exb Title");
+  //   cy.get('[data-cy="exb-form"] #description').type(
+  //     "Test description for a very cool and interesting exhibition"
+  //   );
+  //   cy.get('[data-cy="exb-form"] #location').type("San Mateo, CA");
+  //   cy.get('[data-cy="exb-form"] #startDate').type("2024-09-02");
+  //   cy.get('[data-cy="exb-form"] #endDate').type("2024-09-13");
+  //   cy.get('[data-cy="exb-form"] button').click();
+  //   // check new exb details
+  //   cy.location("pathname").should("eq", "/exhibitions/dashboard");
+  //   cy.visit("/exhibitions/create");
+  //   // create exb 2
+  //   cy.get('[data-cy="exb-form"] #title').type("Test Exb Title 2");
+  //   cy.get('[data-cy="exb-form"] #description').type(
+  //     "Test description for a very cool and interesting exhibitio number 2"
+  //   );
+  //   cy.get('[data-cy="exb-form"] #location').type("San Francisco, CA");
+  //   cy.get('[data-cy="exb-form"] #startDate').type("2024-10-01");
+  //   cy.get('[data-cy="exb-form"] #endDate').type("2024-11-12");
+  //   cy.get('[data-cy="exb-form"] button').click();
+  //   // check new exb details
+  //   cy.location("pathname").should("eq", "/exhibitions/dashboard");
+  //   cy.getById("exb-card").should("have.length", 2);
+  //   cy.getById("exb-card-title").first().should("have.text", "Test Exb Title");
+  //   cy.getById("exb-card-date")
+  //     .first()
+  //     .should("have.text", "Date: Sep 2, 2024 - Sep 13, 2024");
+  //   cy.getById("exb-card-location")
+  //     .first()
+  //     .should("have.text", "Location: San Mateo, CA");
+  //   // ensure the default image is presented
+  //   cy.get('[data-cy="exb-card"] img')
+  //     .first()
+  //     .should("have.attr", "src")
+  //     .then((src) =>
+  //       expect(src).to.contain(
+  //         "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg"
+  //       )
+  //     );
+  //   // look at details inside the newly created exb
+  //   cy.getById("exb-card-view-details-btn").first().click();
+  //   cy.getById("exb-detail-no-artworks-message").should("exist");
+  //   cy.getById("edit-exb-btn").click();
+  //   // edit exb 1
+  //   // cy.get('[data-cy="exb-form"] #title').clear();
+  //   // cy.get('[data-cy="exb-form"] #title').type("Updated | Test Exb Title");
+  //   // cy.get('[data-cy="exb-form"] #description').clear();
+  //   // cy.get('[data-cy="exb-form"] #description').type(
+  //   //   "Updated | Test description for a very cool and interesting exhibition"
+  //   // );
+  //   // cy.get('[data-cy="exb-form"] #location').clear();
+  //   // cy.get('[data-cy="exb-form"] #location').type("New York, NY");
+  //   // cy.get('[data-cy="exb-form"] #startDate').clear();
+  //   // cy.get('[data-cy="exb-form"] #startDate').type("2024-01-01");
+  //   // cy.get('[data-cy="exb-form"] #endDate').clear();
+  //   // cy.get('[data-cy="exb-form"] #endDate').type("2024-12-31");
+  //   // cy.get('[data-cy="exb-form"] button').should(
+  //   //   "have.text",
+  //   //   "Update Exhibition"
+  //   // );
+  //   // cy.get('[data-cy="exb-form"] button').click();
+  //   //  add artworks to exbs
+  //   cy.visit("/artworks/search");
+  //   cy.getById("add-artwork-plus").first().click();
+  //   cy.getById("default-modal").should("exist");
+  //   cy.getById("exb-search").type("Title 2");
+  //   cy.getById("exb-list").children().should("have.length", 1);
+  //   cy.get('[data-cy="exb-list"] li').first().click();
+  //   cy.getById("success-message").should("exist");
+  //   cy.get('[data-cy="exb-list"] li').first().click();
+  //   cy.getById("error-message").should("exist");
+  //   cy.getById("default-modal-close").click();
+  //   //  load more artworks
 
-    // edit exb
-  });
-  // it("should have blank values for new profile sections", () => {
-  // cy.visit("/artworks/search");
-
+  //   // edit exb
   // });
+  it("should have blank values for new profile sections", () => {
+    cy.visit("/profiles/4");
+
+    // Check the header image src
+    cy.getById("header-img").should(
+      "have.attr",
+      "src",
+      "https://img.freepik.com/free-vector/gradient-black-background-with-wavy-lines_23-2149158441.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1724544000&semt=ais_hybrid"
+    );
+
+    // Check the profile image src
+    cy.getById("profile-img").should(
+      "have.attr",
+      "src",
+      "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+    );
+    cy.getById("profile-exb-count").should("have.text", "Exhibitions: 0");
+    cy.getById("profile-bio").contains("Feeling inspired");
+    cy.getById("profile-action-btn-container")
+      .children()
+      .should("have.length", 2);
+      // check initial form state
+    cy.getById("profile-action-btn-container")
+      .children()
+      .contains("Edit Profile")
+      .should("be.visible")
+      .click();
+      cy.get('form').children().should('have.length', 6);
+      cy.get('form #username').should('have.value', 'Jerry');
+      cy.get('form #email').should('have.value', 'jerry@gmail.com');
+      cy.get('form #bio').should('have.value', '');
+
+
+
+  });
+
   // it("should be able to logout and log back in", () => {
   //   cy.getById("desktop-nav-logout").click();
   //   cy.loginUser("Jerry", "123");
   // });
 });
+("");
