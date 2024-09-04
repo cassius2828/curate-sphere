@@ -16,7 +16,7 @@ const ExbDetail = () => {
   // Extracting necessary hooks and context values
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useGlobalContext();
+  const { user,scrollToTop } = useGlobalContext();
   const { formatDate } = useGlobalContext();
   const {
     handleGetExbDetail,
@@ -54,6 +54,7 @@ const ExbDetail = () => {
     };
 
     fetchExbDetail();
+    scrollToTop()
   }, []);
 
   ///////////////////////////

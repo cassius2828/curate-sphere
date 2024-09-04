@@ -48,7 +48,7 @@ const ArtDetail = () => {
   // Context hooks
   const { isLoading, dispatch, showArtwork, fetchArtworkListInfo } =
     useArtworkContext();
-  const { user, setUser } = useGlobalContext();
+  const { user, setUser,scrollToTop } = useGlobalContext();
   const { myExbs } = useExbContext();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -139,6 +139,7 @@ const ArtDetail = () => {
   // Fetch artwork details on component mount or when ID changes
   useEffect(() => {
     fetchArtworkDetails();
+    scrollToTop()
   }, [id]);
 
   // Update artwork info when showArtwork changes

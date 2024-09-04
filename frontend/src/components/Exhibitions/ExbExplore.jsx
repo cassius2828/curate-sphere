@@ -20,7 +20,7 @@ const ExbExplore = () => {
   const [displayedExbs, setDisplayedExbs] = useState([]);
 
   // context
-  const { formatDate, user } = useGlobalContext();
+  const { formatDate, user,scrollToTop } = useGlobalContext();
   const { handleGetAllExbs, handleSortExbs, exploreExbs, dispatch, isLoading } =
     useExbContext();
 
@@ -85,6 +85,7 @@ const ExbExplore = () => {
   ///////////////////////////
   useEffect(() => {
     handleGetAllExbs();
+    scrollToTop()
   }, []);
 
   if (isLoading) return <Loader />;
