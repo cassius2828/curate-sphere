@@ -7,13 +7,14 @@ import { SearchCategoryDropdown } from "./SearchCategoryDropdown";
 
 const ArtFilter = () => {
   // Local state for dropdown visibility
-  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
   // Destructuring context values
   const {
+    handleShowDropdown,
     handleDisplayView,
     displayView,
     primaryCategories,
+    showFilterDropdown,
     century,
     classification,
     culture,
@@ -24,30 +25,23 @@ const ArtFilter = () => {
   } = useArtworkContext();
 
   // Ensures all filters are loaded before displaying the dropdown
-  const allFiltersLoaded =
-    century?.records.length > 0 &&
-    classification?.records.length > 0 &&
-    culture?.records.length > 0 &&
-    medium?.records.length > 0 &&
-    period?.records.length > 0 &&
-    technique?.records.length > 0 &&
-    worktype?.records.length > 0;
 
-  // Toggle filter dropdown visibility
-  const handleShowDropdown = () => {
-    if (allFiltersLoaded) {
-      setShowFilterDropdown((prev) => !prev);
-    } else {
-      alert("Filters are still loading...");
-    }
-  };
+  const allFiltersLoaded =
+    Object.values(century?.records).length > 0 &&
+    Object.values(classification?.records).length > 0 &&
+    Object.values(culture?.records).length > 0 &&
+    Object.values(medium?.records).length > 0 &&
+    Object.values(period?.records).length > 0 &&
+    Object.values(technique?.records).length > 0 &&
+    Object.values(worktype?.records).length > 0;
+  ///////////////////////////
 
   return (
     <div className="flex gap-4 font-cardo mt-12 md:mt-0">
       {/* Filter Button */}
       <button
-      data-cy="filter-btn"
-        onClick={handleShowDropdown}
+        data-cy="filter-btn"
+        onClick={() => handleShowDropdown(allFiltersLoaded, false)}
         className="text-white bg-neutral-700 hover:bg-neutral-800 focus:ring-4 focus:outline-none focus:ring-neutral-300 font-medium rounded-lg text-xl w-full sm:w-auto px-8 py-4"
       >
         Filters
@@ -70,7 +64,10 @@ const ArtFilter = () => {
 
       {/* Filter Dropdown */}
       {showFilterDropdown && (
-        <ul data-cy="filter-dropdown-ul" className="shadow-md w-3/4 md:w-96 min-w-96 absolute top-full">
+        <ul
+          data-cy="filter-dropdown-ul"
+          className="shadow-md w-3/4 md:w-96 min-w-96 absolute top-full"
+        >
           {primaryCategories.map((category, idx) => (
             <SearchCategoryDropdown
               primaryCategory={category.title}

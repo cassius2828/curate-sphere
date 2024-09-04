@@ -20,7 +20,7 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
     // begins search when query is at least 3 chars long
     if (searchQuery.length > 2)
       setDisplaySubCategories(
-        subCategories.filter((category) =>
+        Object.values(subCategories).filter((category) =>
           category.name.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
@@ -65,12 +65,12 @@ export const SearchCategoryDropdown = ({ primaryCategory, subCategories }) => {
               />
               {/* subcategories */}
               <ul data-cy="subcategory-dropdown-ul" className=" overflow-y-scroll h-72">
-                {displaySubCategories?.map((category, idx) => {
+                {Object.values(displaySubCategories)?.map((category, idx) => {
                   return (
                     <SearchFilterCheckBox
                       primaryCategoryKey={primaryCategory}
                       category={category}
-                      key={category + idx}
+                      key={category.id}
                     />
                   );
                 })}

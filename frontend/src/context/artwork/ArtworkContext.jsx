@@ -1,5 +1,5 @@
 /* eslint-disable no-case-declarations */
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import {
   getAllArtworks,
   getArtworkBySearch,
@@ -35,31 +35,31 @@ const initialArtworksState = {
   searchQuery: "",
   century: {
     title: "Century",
-    records: [],
+    records: {},
   },
   classification: {
     title: "Classification",
-    records: [],
+    records: {},
   },
   culture: {
     title: "Culture",
-    records: [],
+    records: {},
   },
   medium: {
     title: "Medium",
-    records: [],
+    records: {},
   },
   period: {
     title: "Period",
-    records: [],
+    records: {},
   },
   technique: {
     title: "Technique",
-    records: [],
+    records: {},
   },
   worktype: {
     title: "Work Type",
-    records: [],
+    records: {},
   },
 };
 
@@ -117,7 +117,13 @@ const reducer = (state, action) => {
         artFilter: action.payload,
       };
     case "toggleCheckbox/artworks":
-      const { primaryCategoryKey, subCategoryId, name } = action.payload;
+      const {
+        primaryCategoryKey,
+        subCategoryId,
+        subcategoryKey,
+        updatedIsChecked,
+        updatedClickCount,
+      } = action.payload;
 
       return {
         ...state,
@@ -125,18 +131,14 @@ const reducer = (state, action) => {
           // spread the state of the category | keep title, update records
           ...state[primaryCategoryKey],
           // iterate thru records and find matching key-value from payload
-          records: state[primaryCategoryKey]?.records?.map((record) => {
-            if (record.id === subCategoryId && record.name === name) {
-              //  update the isChecked and clickCount to control the UI for filter boxes
-              return {
-                ...record,
-                isChecked: !record.isChecked,
-                clickCount: record.clickCount + 1,
-              };
-            } else {
-              return record;
-            }
-          }),
+          records: {
+            ...state[primaryCategoryKey].records,
+            [subcategoryKey]: {
+              ...state[primaryCategoryKey].records[subcategoryKey],
+              isChecked: updatedIsChecked,
+              clickCount: updatedClickCount,
+            },
+          },
         },
       };
     case "removeFilterArtworks/artworks":
@@ -149,6 +151,7 @@ const reducer = (state, action) => {
     case "resetFilterState/artworks":
       return {
         ...state,
+
         artFilter: {
           size: "12",
         },
@@ -220,27 +223,27 @@ const reducer = (state, action) => {
 // Provider
 ///////////////////////////
 export const ArtworkProvider = ({ children }) => {
-  const [
-    {
-      artFilter,
-      searchQuery,
-      century,
-      classification,
-      culture,
-      displayView,
-      info,
-      isError,
-      isLoading,
-      medium,
-      period,
-      records,
-      showArtwork,
-      technique,
-      worktype,
-      showArtworkInfoLists,
-    },
-    dispatch,
-  ] = useReducer(reducer, initialArtworksState);
+  const [state, dispatch] = useReducer(reducer, initialArtworksState);
+
+  const {
+    artFilter,
+    searchQuery,
+    century,
+    classification,
+    culture,
+    displayView,
+    info,
+    isError,
+    isLoading,
+    medium,
+    period,
+    records,
+    showArtwork,
+    technique,
+    worktype,
+    showArtworkInfoLists,
+  } = state;
+  const [showFilterDropdown, setShowFilterDropdown] = useState(false);
 
   ///////////////////////////
   // Get All Artworks
@@ -318,20 +321,99 @@ export const ArtworkProvider = ({ children }) => {
   };
 
   ///////////////////////////
+  // Toggle filter dropdown visibility || Filter
+  ///////////////////////////
+  const handleShowDropdown = (allFiltersLoaded, reset) => {
+    if (allFiltersLoaded && reset) {
+      setShowFilterDropdown(false);
+    }
+    if (allFiltersLoaded) {
+      return setShowFilterDropdown((prev) => !prev);
+    } else {
+      return alert("Filters are still loading...");
+    }
+  };
+
+  ///////////////////////////
   // Reset Filter State
   ///////////////////////////
   const handleResetFilterState = () => {
+    // any used filters must have thier clickcount and checkbox status reset
+    const checkboxesToReset = {};
+    for (let primaryCategory in artFilter) {
+      if (primaryCategory !== "size") {
+        checkboxesToReset[primaryCategory] = artFilter[primaryCategory];
+        // console.log(state[primaryCategory], " <-- primary category ");
+        // artFilter[primaryCategory] = {...artFilter[primaryCategory], }
+      }
+    }
+
+    const arrayOfCheckboxFilterValues = Object.entries(checkboxesToReset);
+    console.log(
+      arrayOfCheckboxFilterValues,
+      " <-- entries of checkbox filter to remove"
+    );
+    arrayOfCheckboxFilterValues.forEach((category) => {
+      const upperCasedTitle =
+        category[0].charAt(0).toUpperCase() + category[0].slice(1);
+      const categoryObjs = category[1];
+      // category[0] = title
+      // category[1] = subcategory objects
+      // console.log(category[1])
+
+      for (let obj in categoryObjs) {
+        const value = categoryObjs[obj];
+        const formattedKeyName = obj.toLowerCase().replace(/[\s.,]/g, ""); // Maintain the access point as the id
+        console.log(formattedKeyName, " <--formattedKeyName");
+        // const key = Object.keys(obj);
+        //// gets value of current indexed obj
+        // const value = obj[key];
+        // accesses the object in the records by the id (obj value)
+        state[category[0]].records[formattedKeyName] = {
+          ...state[category[0]].records[formattedKeyName],
+          isChecked: false,
+          clickCount: 0,
+        };
+
+        console.log(
+          state[category[0]].records[formattedKeyName],
+          " expect this to be the record i want to access"
+        );
+        // console.log(state[upperCasedTitle].records, ' <-- records')
+      }
+    });
+    handleShowDropdown("reset");
     dispatch({ type: "resetFilterState/artworks" });
   };
   ///////////////////////////
   // Toggle Checkbox State
   ///////////////////////////
-  const handleToggleCheckbox = (primaryCategoryKey, subCategoryId, name) => {
+  const handleToggleCheckbox = (
+    primaryCategoryKey,
+    subCategoryId,
+    subcategoryKey,
+    updatedIsChecked,
+    updatedClickCount
+  ) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
-    console.log(medium, ' <-- medium')
+    // console.log(medium, " <-- medium");
+
+    // i want to scan and retrieve primary key from filter object, then match the category name
+    console.log(primaryCategoryKey, " primary category key");
+    const formattedKeyName = subcategoryKey
+      .toLowerCase()
+      .replace(/[\s.,]/g, ""); // Maintain the access point as the id
+
+    console.log(medium);
     dispatch({
       type: "toggleCheckbox/artworks",
-      payload: { primaryCategoryKey, subCategoryId, name },
+      payload: {
+        primaryCategoryKey,
+        subCategoryId,
+        updatedIsChecked,
+        updatedClickCount,
+        subcategoryKey: formattedKeyName,
+      },
     });
   };
 
@@ -350,17 +432,29 @@ export const ArtworkProvider = ({ children }) => {
   // GET CENTURIES
   ///////////////////////////
   const handleGetCenturyObjs = async () => {
-    let data = [];
-
     try {
       const data1 = await getFilterObjs("century", 1);
-      data.push(data1.records);
-      data = data.flat();
-      data.sort((a, b) => a.name.localeCompare(b.name));
+      let data = {
+        ...data1.records,
+      };
 
+       // Sort data by name
+       const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
+
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
       dispatch({
         type: "getCenturyObjs/artworks",
-        payload: data,
+        payload: sortedData,
       });
     } catch (err) {
       console.error(err);
@@ -372,17 +466,29 @@ export const ArtworkProvider = ({ children }) => {
   // GET CLASSIFICATIONS
   ///////////////////////////
   const handleGetClassificationObjs = async () => {
-    let data = [];
-
     try {
       const data1 = await getFilterObjs("classification", 1);
 
-      data.push(data1.records);
-      data = data.flat();
-      data.sort((a, b) => a.name.localeCompare(b.name));
+      let data = {
+        ...data1.records,
+      };
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
+
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
       dispatch({
         type: "getClassificationObjs/artworks",
-        payload: data,
+        payload: sortedData,
       });
     } catch (err) {
       console.error(err);
@@ -394,19 +500,32 @@ export const ArtworkProvider = ({ children }) => {
   // GET CULTURES
   ///////////////////////////
   const handleGetCultureObjs = async () => {
-    let data = [];
-
     try {
       const data1 = await getFilterObjs("culture", 1);
       const data2 = await getFilterObjs("culture", 2);
       const data3 = await getFilterObjs("culture", 3);
-      data.push(data1.records, data2.records, data3.records);
-      data = data.flat();
+      let data = {
+        ...data1.records,
+        ...data2.records,
+        ...data3.records,
+      };
 
-      data.sort((a, b) => a.name.localeCompare(b.name));
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
 
-      dispatch({ type: "getCultureObjs/artworks", payload: data.flat() });
-      return data;
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
+      dispatch({ type: "getCultureObjs/artworks", payload: sortedData });
+      return sortedData;
     } catch (err) {
       console.error(err);
       console.log(`Unable to fetch culture objs | context`);
@@ -417,23 +536,49 @@ export const ArtworkProvider = ({ children }) => {
   // GET MEDIUMS
   ///////////////////////////
   const handleGetMediumObjs = async () => {
-    let data = [];
-
     try {
+      console.log("Starting to fetch medium objects...");
+
+      // Fetch data from API or backend service
       const data1 = await getFilterObjs("medium", 1);
+
       const data2 = await getFilterObjs("medium", 2);
+
       const data3 = await getFilterObjs("medium", 3);
+
       const data4 = await getFilterObjs("medium", 4);
 
-      data.push(data1.records, data2.records, data3.records, data4.records);
-      data = data.flat();
+      // Merge all data records into one object
+      let data = {
+        ...data1.records,
+        ...data2.records,
+        ...data3.records,
+        ...data4.records,
+      };
+  
 
-      data.sort((a, b) => a.name.localeCompare(b.name));
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
+
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
+
 
       dispatch({
         type: "getMediumObjs/artworks",
-        payload: data,
+        payload: sortedData,
       });
+
+      console.log("Medium objects fetched and sorted successfully.");
     } catch (err) {
       console.error(err);
       console.log(`Unable to fetch medium objs | context`);
@@ -444,22 +589,36 @@ export const ArtworkProvider = ({ children }) => {
   // GET PERIODS
   ///////////////////////////
   const handleGetPeriodObjs = async () => {
-    let data = [];
-
     try {
       const data1 = await getFilterObjs("period", 1);
       const data2 = await getFilterObjs("period", 2);
       const data3 = await getFilterObjs("period", 3);
       const data4 = await getFilterObjs("period", 4);
 
-      data.push(data1.records, data2.records, data3.records, data4.records);
-      data = data.flat();
+      let data = {
+        ...data1.records,
+        ...data2.records,
+        ...data3.records,
+        ...data4.records,
+      };
 
-      data.sort((a, b) => a.name.localeCompare(b.name));
-
+        // Sort data by name
+        const sortedArray = Object.values(data).sort((a, b) => {
+          console.log(`Comparing "${a.name}" with "${b.name}"`);
+          return a.name.localeCompare(b.name);
+        });
+  
+  
+        // Reconstruct the object using the sorted array
+        const sortedData = sortedArray.reduce((acc, item) => {
+          console.log(item.id, " int");
+          console.log(item.id.toString(), " string");
+          acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+          return acc;
+        }, {});
       dispatch({
         type: "getPeriodObjs/artworks",
-        payload: data,
+        payload: sortedData,
       });
     } catch (err) {
       console.error(err);
@@ -471,22 +630,36 @@ export const ArtworkProvider = ({ children }) => {
   // GET TECHNIQUES
   ///////////////////////////
   const handleGetTechniqueObjs = async () => {
-    let data = [];
-
     try {
       const data1 = await getFilterObjs("technique", 1);
       const data2 = await getFilterObjs("technique", 2);
       const data3 = await getFilterObjs("technique", 3);
       const data4 = await getFilterObjs("technique", 4);
 
-      data.push(data1.records, data2.records, data3.records, data4.records);
-      data = data.flat();
+      let data = {
+        ...data1.records,
+        ...data2.records,
+        ...data3.records,
+        ...data4.records,
+      };
 
-      data.sort((a, b) => a.name.localeCompare(b.name));
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
 
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
       dispatch({
         type: "getTechniqueObjs/artworks",
-        payload: data,
+        payload: sortedData,
       });
     } catch (err) {
       console.error(err);
@@ -498,8 +671,6 @@ export const ArtworkProvider = ({ children }) => {
   // GET WORKTYPES
   ///////////////////////////
   const handleGetWorktypeObjs = async () => {
-    let data = [];
-
     try {
       const data1 = await getFilterObjs("worktype", 1);
       const data2 = await getFilterObjs("worktype", 2);
@@ -507,20 +678,31 @@ export const ArtworkProvider = ({ children }) => {
       const data4 = await getFilterObjs("worktype", 4);
       const data5 = await getFilterObjs("worktype", 5);
 
-      data.push(
-        data1.records,
-        data2.records,
-        data3.records,
-        data4.records,
-        data5.records
-      );
-      data = data.flat();
+      let data = {
+        ...data1.records,
+        ...data2.records,
+        ...data3.records,
+        ...data4.records,
+        ...data5.records,
+      };
 
-      data.sort((a, b) => a.name.localeCompare(b.name));
+       // Sort data by name
+       const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
 
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
       dispatch({
         type: "getWorktypeObjs/artworks",
-        payload: data,
+        payload: sortedData,
       });
     } catch (err) {
       console.error(err);
@@ -557,9 +739,13 @@ export const ArtworkProvider = ({ children }) => {
       } else {
         // else remove the subcategory since it already exists
         delete updatedArtFilter[primaryCategory][subcategoryKey];
+        if (Object.keys(updatedArtFilter[primaryCategory]).length === 0) {
+          delete updatedArtFilter[primaryCategory];
+        }
       }
     }
-    console.log(updatedArtFilter, " <-- updatedArtFilter");
+    // console.log(updatedArtFilter, " <-- updatedArtFilter");
+    // console.log(medium, " <-- medium object");
     dispatch({
       type: "handleFilterObjectUpdate/artworks",
       payload: updatedArtFilter,
@@ -746,6 +932,7 @@ export const ArtworkProvider = ({ children }) => {
         handleUpdateSearchQuery,
         handleToggleCheckbox,
         handleFilterObj,
+        handleShowDropdown,
         handleGetAllFilterObjs,
         fetchArtworkListInfo,
         artFilter,
@@ -763,6 +950,7 @@ export const ArtworkProvider = ({ children }) => {
         searchQuery,
         showArtwork,
         showArtworkInfoLists,
+        showFilterDropdown,
         technique,
         worktype,
       }}

@@ -96,11 +96,8 @@ export const getFilterObjs = async (filter, page) => {
     const data = await response.json();
 
     if (response.ok) {
-      data.records.forEach((record) => {
-        record.isChecked = false;
-        record.clickCount = 0;
-      });
       await setItemIndexedDB(indexedDBKey, data, "filter");
+      console.log("set items in indexed DB");
       return data;
     } else {
       throw new Error();
