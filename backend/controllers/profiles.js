@@ -169,7 +169,7 @@ const putUpdateUserImgsByArtworkUrl = async (req, res) => {
     const token = refreshToken(user);
     res
       .status(200)
-      .json({ message: `${imgType} image succussfully updated`, token });
+      .json({ message: `${imgType} image successfully updated`, token });
   } catch (err) {
     console.error(err);
     console.log(

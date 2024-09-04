@@ -101,12 +101,12 @@ const reducer = (state, action) => {
     case "stopLoading/artworks":
       return { ...state, isLoading: false };
     // Filter Section
-    case "filterArtworks/artworks":
+    case "updateSizeFilter/artworks":
       return {
         ...state,
         artFilter: {
           ...state.artFilter,
-          [action.payload.key]: action.payload.id,
+          size: action.payload.value,
         },
       };
     // Filter Section
@@ -438,12 +438,11 @@ export const ArtworkProvider = ({ children }) => {
         ...data1.records,
       };
 
-       // Sort data by name
-       const sortedArray = Object.values(data).sort((a, b) => {
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
-
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
@@ -477,7 +476,6 @@ export const ArtworkProvider = ({ children }) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
-
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
@@ -515,7 +513,6 @@ export const ArtworkProvider = ({ children }) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
-
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
@@ -555,14 +552,12 @@ export const ArtworkProvider = ({ children }) => {
         ...data3.records,
         ...data4.records,
       };
-  
 
       // Sort data by name
       const sortedArray = Object.values(data).sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
-
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
@@ -571,7 +566,6 @@ export const ArtworkProvider = ({ children }) => {
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
         return acc;
       }, {});
-
 
       dispatch({
         type: "getMediumObjs/artworks",
@@ -602,20 +596,19 @@ export const ArtworkProvider = ({ children }) => {
         ...data4.records,
       };
 
-        // Sort data by name
-        const sortedArray = Object.values(data).sort((a, b) => {
-          console.log(`Comparing "${a.name}" with "${b.name}"`);
-          return a.name.localeCompare(b.name);
-        });
-  
-  
-        // Reconstruct the object using the sorted array
-        const sortedData = sortedArray.reduce((acc, item) => {
-          console.log(item.id, " int");
-          console.log(item.id.toString(), " string");
-          acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
-          return acc;
-        }, {});
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
+        console.log(`Comparing "${a.name}" with "${b.name}"`);
+        return a.name.localeCompare(b.name);
+      });
+
+      // Reconstruct the object using the sorted array
+      const sortedData = sortedArray.reduce((acc, item) => {
+        console.log(item.id, " int");
+        console.log(item.id.toString(), " string");
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        return acc;
+      }, {});
       dispatch({
         type: "getPeriodObjs/artworks",
         payload: sortedData,
@@ -648,7 +641,6 @@ export const ArtworkProvider = ({ children }) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
-
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
@@ -686,12 +678,11 @@ export const ArtworkProvider = ({ children }) => {
         ...data5.records,
       };
 
-       // Sort data by name
-       const sortedArray = Object.values(data).sort((a, b) => {
+      // Sort data by name
+      const sortedArray = Object.values(data).sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
-
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
@@ -750,6 +741,15 @@ export const ArtworkProvider = ({ children }) => {
       type: "handleFilterObjectUpdate/artworks",
       payload: updatedArtFilter,
     });
+  };
+
+  ///////////////////////////
+  // Handle Size Filter
+  ///////////////////////////
+  const handleSizeFilter = (name, value) => {
+    // namne = size
+    // value = select value (12,24,50,100)
+    dispatch({ type: "updateSizeFilter/artworks", payload: { name, value } });
   };
 
   // if the search query active then filter the results based on the current query
@@ -933,6 +933,7 @@ export const ArtworkProvider = ({ children }) => {
         handleToggleCheckbox,
         handleFilterObj,
         handleShowDropdown,
+        handleSizeFilter,
         handleGetAllFilterObjs,
         fetchArtworkListInfo,
         artFilter,

@@ -39,7 +39,7 @@ const categoryNameStr = category.name
           {isChecked ? "X" : ""}
         </span>
       </div>
-      <span className="capitalize">{category.name}</span>
+      <span data-cy="checkbox-category-name" className="capitalize">{category.name}</span>
     </li>
   );
 };

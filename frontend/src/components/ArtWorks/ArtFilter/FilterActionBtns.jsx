@@ -7,7 +7,7 @@ export const FilterActionBtns = () => {
   const {
     info,
     records,
-    handleSelectFilters,
+    handleSizeFilter,
     handleResetFilterState,
     artFilter,
   } = useArtworkContext();
@@ -27,7 +27,7 @@ export const FilterActionBtns = () => {
           <select
           data-cy="filter-size-select"
             className="border rounded-md w-20 p-1 text-xl"
-            onChange={(e) => handleSelectFilters(e.target.name, e.target.value)}
+            onChange={(e) => handleSizeFilter(e.target.name, e.target.value)}
             name="size"
             id="size"
             value={artFilter.size}
