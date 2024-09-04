@@ -22,11 +22,11 @@ export const ProfileCard = () => {
   const { headerImg, profileImg, username, bio } = user.user;
 
   return (
-    <div className="rounded-md flex flex-col justify-center items-center md:my-12 bg-neutral-100 w-full md:w-1/3 overflow-hidden">
+    <div className="rounded-md flex flex-col justify-center items-center md:my-12 bg-neutral-100 w-full md:w-1/2 xl:w-1/3 overflow-hidden">
       {/* Header Image */}
       <div className="w-full relative">
         <img
-        data-cy="header-img"
+          data-cy="header-img"
           className="w-full object-cover max-h-[40rem]"
           src={
             headerImg
@@ -36,10 +36,10 @@ export const ProfileCard = () => {
           alt="Profile Header"
         />
         {/* Profile Image */}
-        <div className="rounded-full border-8 w-72 h-72 md:w-80 md:h-80 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+        <div className="rounded-full border-8 w-60 h-60 md:w-52 md:h-52 xl:w-80 xl:h-80 overflow-hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
-          data-cy="profile-img"
-            className="w-full"
+            data-cy="profile-img"
+            className="w-full h-full "
             src={
               profileImg
                 ? profileImg
@@ -50,22 +50,37 @@ export const ProfileCard = () => {
         </div>
       </div>
       {/* User Name */}
-      <h2 data-cy="profile-username" className="text-4xl mt-20 ">{username}</h2>
+      <h2 data-cy="profile-username" className="text-4xl mt-20 ">
+        {username}
+      </h2>
       {/* Bio */}
-      <p data-cy="profile-bio" className="py-8 mx-20 text-2xl border-y border-gray-500 mt-5">
-        {bio ? bio : "Feeling inspired?... create a bio to share a little about yourself!"}
+      <p
+        data-cy="profile-bio"
+        className="py-8 mx-20 text-2xl border-y border-gray-500 mt-5"
+      >
+        {bio
+          ? bio
+          : "Feeling inspired?... create a bio to share a little about yourself!"}
       </p>
       {/* Exhibition Count and View Button */}
       <div className="flex items-center gap-12 mt-8">
-        <h3 data-cy="profile-exb-count" className="text-3xl">Exhibitions: {myExbs.length}</h3>
+        <h3 data-cy="profile-exb-count" className="text-3xl">
+          Exhibitions: {myExbs.length}
+        </h3>
         <Link to={`/exhibitions/dashboard`}>
-          <button data-cy="profile-user-exbs-btn" className="relative text-xl border-2 border-gray-800 text-gray-800 p-3">
+          <button
+            data-cy="profile-user-exbs-btn"
+            className="relative text-xl border-2 border-gray-800 text-gray-800 p-3"
+          >
             View Exhibitions
           </button>
         </Link>
       </div>
       {/* Edit Profile and Change Password Buttons */}
-      <div data-cy="profile-action-btn-container" className="flex items-center gap-12 my-12">
+      <div
+        data-cy="profile-action-btn-container"
+        className="flex items-center gap-12 my-12"
+      >
         <Btn
           handleAction={() => {
             setShowChangePasswordForm(false);

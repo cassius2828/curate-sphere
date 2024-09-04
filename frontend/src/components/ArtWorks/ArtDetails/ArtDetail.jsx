@@ -28,6 +28,7 @@ import {
   faPlus,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import Alert from "../../CommonComponents/Modals/Alert";
 
 const initialCopyState = {
   showCopiedUrlModal: false,
@@ -270,7 +271,7 @@ const ArtDetail = () => {
       )}
 
       {copyState.showCopiedUrlModal && (
-        <MessageModal
+        <Alert
           onClose={() =>
             setCopyState((prevState) => ({
               ...prevState,
@@ -282,7 +283,7 @@ const ArtDetail = () => {
         />
       )}
       {(message || error) && (
-        <MessageModal
+        <Alert
           onClose={() => {
             setMessage("");
             setError("");

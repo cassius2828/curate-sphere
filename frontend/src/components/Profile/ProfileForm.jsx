@@ -128,7 +128,7 @@ export const ProfileForm = () => {
         <span data-cy="error-message" className="text-red-500 text-2xl text-center px-12">{error}</span>
       )}
 
-      <form className="mx-auto p-12 rounded-md w-full md:w-1/2">
+      <form className="mx-auto p-12 rounded-md w-full md:w-3/4 ">
         {/* Username Input */}
         <div className="mb-5">
           <label
