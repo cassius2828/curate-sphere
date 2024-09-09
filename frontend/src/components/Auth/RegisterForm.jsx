@@ -20,6 +20,8 @@ const initialFormData = {
 ///////////////////////////
 const RegisterForm = () => {
   const [formData, setFormData] = useState(initialFormData);
+  const [message, setMessage] = useState("");
+
   const { setUser } = useGlobalContext();
   const navigate = useNavigate();
 
@@ -36,8 +38,9 @@ const RegisterForm = () => {
       console.log("User registered successfully");
       setUser(user);
       navigate("/"); // Navigate to the home page after registration
-    } catch (error) {
-      console.error("Registration error:", error);
+    } catch (err) {
+      console.error("Registration error:", err);
+      setMessage(err.message);
     }
   };
 
@@ -54,6 +57,13 @@ const RegisterForm = () => {
         onSubmit={handleSubmit}
         className="max-w-sm mx-auto border border-neutral-900 p-12 rounded-md"
       >
+        {message && (
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 text-center">
+            <span data-cy="error-message" className="text-2xl text-red-500">
+              {message}
+            </span>
+          </div>
+        )}
         {/* Username input field */}
         <div className="mb-5">
           <label
