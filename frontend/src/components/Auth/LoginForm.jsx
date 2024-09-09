@@ -48,7 +48,7 @@ const LoginForm = () => {
       <h1 className="text-3xl text-neutral-700 mb-12">Login</h1>
       <form
         onSubmit={handleSubmit}
-        className="max-w-sm mx-auto border border-neutral-900 p-12 rounded-md"
+        className="w-3/5 max-w-[30rem] mx-auto border border-neutral-900 p-12 rounded-md"
         >
         {message && (
           <div className="flex flex-col md:flex-row items-center justify-center gap-12 text-center">
