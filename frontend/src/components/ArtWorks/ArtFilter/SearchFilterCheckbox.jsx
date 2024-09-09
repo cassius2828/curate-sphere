@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
 export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
@@ -6,32 +6,29 @@ export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
   const [isChecked, setIsChecked] = useState(category.isChecked);
   // this will start as 0. static value from prop
   const [clickCount, setClickCount] = useState(category.clickCount);
-const categoryNameStr = category.name
-  const { handleSelectFilters, handleRemoveFilter, handleToggleCheckbox,handleFilterObj } =
-    useArtworkContext();
-
-  // useEffect(() => {
-  //   // function to filter results of artworks
-  //   if (isChecked) {
-  //     handleSelectFilters(primaryCategoryKey, category.id);
-  //   } else if (!isChecked && clickCount > 0) {
-  //     handleRemoveFilter(primaryCategoryKey, category.id);
-  //   }
-  // }, [isChecked]);
+  const { handleToggleCheckbox, handleFilterObj } = useArtworkContext();
 
   return (
     <li className="flex items-center gap-4 p-3 bg-gray-200 ">
       <div
-      data-cy="subcategory-checkbox"
+        data-cy="subcategory-checkbox"
         onClick={() => {
           setIsChecked((prev) => !prev);
           setClickCount((prev) => prev + 1);
-          console.log(clickCount, isChecked)
-          console.log(category, ' <--category')
-          handleToggleCheckbox(primaryCategoryKey, category.id,category.name, !isChecked, clickCount + 1);
-          // testing new query solution below
-          // console.log()
-          handleFilterObj(primaryCategoryKey.toLowerCase(), category.name, category.id)
+          console.log(clickCount, isChecked);
+          console.log(category, " <--category");
+          handleToggleCheckbox(
+            primaryCategoryKey,
+            category.id,
+            category.name,
+            !isChecked,
+            clickCount + 1
+          );
+          handleFilterObj(
+            primaryCategoryKey.toLowerCase(),
+            category.name,
+            category.id
+          );
         }}
         className="border-2 relative z-10 border-black p-3 cursor-pointer"
       >
@@ -39,7 +36,9 @@ const categoryNameStr = category.name
           {isChecked ? "X" : ""}
         </span>
       </div>
-      <span data-cy="checkbox-category-name" className="capitalize">{category.name}</span>
+      <span data-cy="checkbox-category-name" className="capitalize">
+        {category.name}
+      </span>
     </li>
   );
 };

@@ -119,7 +119,6 @@ const reducer = (state, action) => {
     case "toggleCheckbox/artworks":
       const {
         primaryCategoryKey,
-        subCategoryId,
         subcategoryKey,
         updatedIsChecked,
         updatedClickCount,
@@ -396,10 +395,7 @@ export const ArtworkProvider = ({ children }) => {
     updatedClickCount
   ) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
-    // console.log(medium, " <-- medium");
 
-    // i want to scan and retrieve primary key from filter object, then match the category name
-    console.log(primaryCategoryKey, " primary category key");
     const formattedKeyName = subcategoryKey
       .toLowerCase()
       .replace(/[\s.,]/g, ""); // Maintain the access point as the id
@@ -434,12 +430,9 @@ export const ArtworkProvider = ({ children }) => {
   const handleGetCenturyObjs = async () => {
     try {
       const data1 = await getFilterObjs("century", 1);
-      let data = {
-        ...data1.records,
-      };
-
+      let data = [...data1.records];
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -448,7 +441,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
       dispatch({
@@ -468,11 +465,9 @@ export const ArtworkProvider = ({ children }) => {
     try {
       const data1 = await getFilterObjs("classification", 1);
 
-      let data = {
-        ...data1.records,
-      };
+      let data = [...data1.records];
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -481,7 +476,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
       dispatch({
@@ -502,14 +501,9 @@ export const ArtworkProvider = ({ children }) => {
       const data1 = await getFilterObjs("culture", 1);
       const data2 = await getFilterObjs("culture", 2);
       const data3 = await getFilterObjs("culture", 3);
-      let data = {
-        ...data1.records,
-        ...data2.records,
-        ...data3.records,
-      };
-
+      let data = [...data1.records, ...data2.records, ...data3.records];
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -518,7 +512,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
       dispatch({ type: "getCultureObjs/artworks", payload: sortedData });
@@ -546,15 +544,15 @@ export const ArtworkProvider = ({ children }) => {
       const data4 = await getFilterObjs("medium", 4);
 
       // Merge all data records into one object
-      let data = {
+      let data = [
         ...data1.records,
         ...data2.records,
         ...data3.records,
         ...data4.records,
-      };
+      ];
 
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -563,7 +561,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
 
@@ -589,15 +591,15 @@ export const ArtworkProvider = ({ children }) => {
       const data3 = await getFilterObjs("period", 3);
       const data4 = await getFilterObjs("period", 4);
 
-      let data = {
+      let data = [
         ...data1.records,
         ...data2.records,
         ...data3.records,
         ...data4.records,
-      };
+      ];
 
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -606,7 +608,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
       dispatch({
@@ -629,15 +635,15 @@ export const ArtworkProvider = ({ children }) => {
       const data3 = await getFilterObjs("technique", 3);
       const data4 = await getFilterObjs("technique", 4);
 
-      let data = {
+      let data = [
         ...data1.records,
         ...data2.records,
         ...data3.records,
         ...data4.records,
-      };
+      ];
 
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -646,7 +652,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
       dispatch({
@@ -670,16 +680,16 @@ export const ArtworkProvider = ({ children }) => {
       const data4 = await getFilterObjs("worktype", 4);
       const data5 = await getFilterObjs("worktype", 5);
 
-      let data = {
+      let data = [
         ...data1.records,
         ...data2.records,
         ...data3.records,
         ...data4.records,
         ...data5.records,
-      };
+      ];
 
       // Sort data by name
-      const sortedArray = Object.values(data).sort((a, b) => {
+      const sortedArray = data.sort((a, b) => {
         console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
@@ -688,7 +698,11 @@ export const ArtworkProvider = ({ children }) => {
       const sortedData = sortedArray.reduce((acc, item) => {
         console.log(item.id, " int");
         console.log(item.id.toString(), " string");
-        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = item; // Maintain the access point as the id
+        acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
+          ...item,
+          isChecked: false,
+          clickCount: 0,
+        }; // Maintain the access point as the id
         return acc;
       }, {});
       dispatch({
