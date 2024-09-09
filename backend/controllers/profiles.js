@@ -41,6 +41,12 @@ const putUpdateUserInfo = async (req, res) => {
         .status(404)
         .json({ message: `Cannot find user with id of ${userId}` });
     }
+    if (user.email && !email) {
+      return res.status(400).json({
+        message:
+          "If you previously set an email, then you must have a valid email in the email input to continue",
+      });
+    }
 
     // Function to handle file upload to S3
     const uploadToS3 = async (file, folder) => {
@@ -86,6 +92,15 @@ const putUpdateUserInfo = async (req, res) => {
       user.bio = bio;
     }
 
+    if (
+      bio === user.bio &&
+      email === user.email &&
+      username === user.username &&
+      !headerImgFile &&
+      !profileImgFile
+    ) {
+      return res.status(200).json({ message: "No changes were made" });
+    }
     // Save user if any field was updated
     await user.save();
 
@@ -267,9 +282,15 @@ const confirmEmail = async (email, user) => {
 
     await transporter.sendMail(mailOptions);
     console.log(`Confirmation email sent to ${email}`);
-    return {
-      message: `Confirmation email sent to ${email}. Your email will remain as ${user.email} until you confirm this change.`,
-    };
+    if (user.email) {
+      return {
+        message: `Confirmation email sent to ${email}. Your email will remain as ${user.email} until you confirm this change.`,
+      };
+    } else {
+      return {
+        message: `Confirmation email sent to ${email}. You will not have an email adress in the system until you confirm this change.`,
+      };
+    }
   } catch (err) {
     console.error(err);
     console.log(

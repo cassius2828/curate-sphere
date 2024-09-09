@@ -32,7 +32,7 @@ async function seedTestDB() {
         password: bcrypt.hashSync("123", 10),
         profileImg: "",
         headerImg: "",
-        email: "janedoe@gmail.com",
+        email: "",
         bio: "I’m Jane, a passionate curator fascinated by modern art and its evolution. I love visiting museums and galleries to get inspired and find new ideas for my own exhibitions.",
       },
       { transaction }
