@@ -18,5 +18,11 @@ export default defineConfig({
         },
       });
     },
+    retries: {
+  
+      runMode: 2, // Retries twice in headless mode
+ 
+      openMode: 1, // Retries once in interactive mode
+    },
   },
 });
