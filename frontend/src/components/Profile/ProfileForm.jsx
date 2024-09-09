@@ -37,11 +37,11 @@ export const ProfileForm = () => {
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!username.input || !email.input) {
+    if (!username.input) {
       setMessage("");
-      return setError("Username and email fields cannot be left empty");
+      return setError("Username field cannot be left empty");
     }
-    if (!emailRegex.test(email.input)) {
+    if (!emailRegex.test(email.input) && email.length > 0) {
       setMessage("");
       return setError(
         "Please submit a valid email address. (e.g example@gmail.com)"
@@ -57,13 +57,14 @@ export const ProfileForm = () => {
     try {
       const data = await updateUserInfo(multiFormData, user.user.id);
       // Handle email confirmation message
-      if (data.confirmEmailMessage.message) {
+      console.log(data, " <-- data");
+      if (data.confirmEmailMessage?.message) {
         setMessage(data.confirmEmailMessage.message);
         setError("");
-      } else if (data.confirmEmailMessage.error) {
+      } else if (data.confirmEmailMessage?.error) {
         setMessage("");
-        setError(data.confirmEmailMessage.error);
-      } else if (data.message && !data.confirmEmailMessage.error) {
+        setError(data.confirmEmailMessage?.error);
+      } else if (data.message && !data.confirmEmailMessage?.error) {
         setMessage(data.message);
         setError("");
       }
@@ -120,12 +121,20 @@ export const ProfileForm = () => {
   return (
     <>
       {message && (
-        <span data-cy="success-message" className="text-green-500 text-2xl text-center px-12">
+        <span
+          data-cy="success-message"
+          className="text-green-500 text-2xl text-center px-12"
+        >
           {message}
         </span>
       )}
       {error && (
-        <span data-cy="error-message" className="text-red-500 text-2xl text-center px-12">{error}</span>
+        <span
+          data-cy="error-message"
+          className="text-red-500 text-2xl text-center px-12"
+        >
+          {error}
+        </span>
       )}
 
       <form className="mx-auto p-12 rounded-md w-full md:w-3/4 ">

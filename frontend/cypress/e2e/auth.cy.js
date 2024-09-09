@@ -23,7 +23,7 @@ describe("successful authentication flows", () => {
     cy.getById("exb-form").contains("Start Date");
     cy.getById("exb-form").contains("End Date");
   });
-// test 3
+  // test 3
   it("login and navigate to user profile", () => {
     cy.getById("desktop-nav-profile").click();
     cy.location("pathname").should("eq", "/profiles/1");
@@ -36,7 +36,7 @@ describe("successful authentication flows", () => {
       .children()
       .should("have.length", 2);
   });
-// test 4
+  // test 4
   it("should login and logout", () => {
     cy.getById("desktop-nav-logout").click();
     cy.getById("desktop-nav-login").should("exist");
@@ -51,7 +51,7 @@ describe("register a new user", () => {
     cy.visit("/");
     cy.registerUser("Jerry", "jerry@gmail.com", "123");
   });
-// test 1
+  // test 1
   it("should prompt user to create exhibitions", () => {
     cy.getById("user-exbs-btn").click();
     cy.getById("exb-card").should("not.exist");
@@ -69,7 +69,7 @@ describe("register a new user", () => {
     cy.getById("art-detail-action-btn-plus").click();
     cy.getById("modal-create-first-exb-prompt-btn").should("exist");
   });
-// test 2
+  // test 2
   it("should create new exb and add artworks to new exb", () => {
     cy.visit("/exhibitions/create");
     // create exb 1
@@ -202,7 +202,7 @@ describe("register a new user", () => {
     cy.get("form #newPassword").should("have.value", "");
     cy.get("form #confirmPassword").should("have.value", "");
   });
-// test 4
+  // test 4
   it("should properly handle all errors and response messages in edit profile and change password inputs", () => {
     cy.visit("/profiles/4");
     cy.getById("profile-action-btn-container")
@@ -218,7 +218,7 @@ describe("register a new user", () => {
     // try submiting without a username
     cy.getById("error-message").should(
       "have.text",
-      "Username and email fields cannot be left empty"
+      "Username field cannot be left empty"
     );
     cy.get("form #username").type("Jerry222");
     cy.get("form #email").clear();
@@ -246,8 +246,35 @@ describe("register a new user", () => {
       "have.text",
       "Confirmation email sent to jericho44356@gmail.com. Your email will remain as jerry@gmail.com until you confirm this change."
     );
+    // sign in as Jane (no email address)
+    cy.getById("desktop-nav-logout").click();
+    cy.loginUser("Jane", "123");
+    cy.visit("/profiles/2");
+    cy.getById("profile-action-btn-container")
+      .children()
+      .contains("Edit Profile")
+      .should("be.visible")
+      .click();
+    // update without making any changes
+    cy.getById("profile-form-action-btns")
+      .children()
+      .contains("Update")
+      .click();
+    // success message for no changes
+    cy.getById("success-message").should("have.text", "No changes were made");
+    // type and send email
+    cy.get("form #email").type("Jane123@gmail.com");
+    cy.getById("profile-form-action-btns")
+      .children()
+      .contains("Update")
+      .click();
+    // success message for changing email for first time
+    cy.getById("success-message").contains(
+      "You will not have an email adress in the system until you confirm this change."
+    );
   });
-// test 5
+
+  // test 5
   it("should properly handle all errors and response messages in change password inputs ", () => {
     cy.visit("/profiles/4");
     cy.getById("profile-action-btn-container")
