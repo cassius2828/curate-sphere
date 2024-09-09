@@ -59,6 +59,7 @@ const login = async (user) => {
       } catch (error) {
         throw new Error("Failed to decode token");
       }
+   
     }
   } catch (err) {
     console.log(err);

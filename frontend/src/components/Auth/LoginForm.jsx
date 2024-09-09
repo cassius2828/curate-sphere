@@ -18,8 +18,11 @@ const initialFormData = {
 ///////////////////////////
 const LoginForm = () => {
   const [formData, setFormData] = useState(initialFormData);
-  const { setUser } = useGlobalContext(); 
-  const navigate = useNavigate(); 
+  // State for feedback messages and success status
+  const [message, setMessage] = useState("");
+
+  const { setUser } = useGlobalContext();
+  const navigate = useNavigate();
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -28,24 +31,32 @@ const LoginForm = () => {
       const user = await login(formData);
       setUser(user);
       navigate("/"); // Navigate to the home page after login
-    } catch (error) {
-      console.error("Login error:", error); 
+    } catch (err) {
+      console.error("Login error:", err);
+      setMessage(err.message);
     }
   };
 
   // Handle input changes
   const handleChange = (e) => {
     const { value, name } = e.target;
-    setFormData({ ...formData, [name]: value }); 
+    setFormData({ ...formData, [name]: value });
   };
 
   return (
     <section className="flex flex-col items-center font-marcellus min-h-screen">
       <h1 className="text-3xl text-neutral-700 mb-12">Login</h1>
       <form
-        onSubmit={handleSubmit} 
+        onSubmit={handleSubmit}
         className="max-w-sm mx-auto border border-neutral-900 p-12 rounded-md"
-      >
+        >
+        {message && (
+          <div className="flex flex-col md:flex-row items-center justify-center gap-12 text-center">
+            <span data-cy="error-message" className="text-2xl text-red-500">
+              {message}
+            </span>
+          </div>
+        )}
         {/* Username input field */}
         <div className="mb-5">
           <label
