@@ -15,8 +15,6 @@ export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
         onClick={() => {
           setIsChecked((prev) => !prev);
           setClickCount((prev) => prev + 1);
-          console.log(clickCount, isChecked);
-          console.log(category, " <--category");
           handleToggleCheckbox(
             primaryCategoryKey,
             category.id,

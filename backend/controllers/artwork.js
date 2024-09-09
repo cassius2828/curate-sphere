@@ -20,7 +20,6 @@ const getArtworks = async (req, res) => {
     let data = await response.json();
 
     data.info.next = swapApiKeyAndPlaceholder(data.info.next, "API_KEY");
-    console.log(data.info.next, " <-- next");
 
     data.info.prev = "";
     res.status(200).json(data);
@@ -62,10 +61,9 @@ const getFilterObjs = async (req, res) => {
       `${BASE_URL}/${filter}?apikey=${API_KEY}&size=100&page=${page}`
     );
     let data = await response.json();
-    console.log(data, " f<-- filter object data | backend");
     data.info.next = swapApiKeyAndPlaceholder(data.info.next, "API_KEY");
     data.info.prev = "";
- 
+
     res.status(200).json(data);
   } catch (err) {
     console.error(err);
@@ -109,7 +107,6 @@ const postNextPageOfArtworks = async (req, res) => {
   const { altUrl } = req.body;
   // the frontend removes the api key and replaces it with a placeholder | API_KEY
   // we select the string before and after the place holder, then insert our key in place of it
-
   const fullUrl = swapApiKeyAndPlaceholder(altUrl, API_KEY);
 
   try {

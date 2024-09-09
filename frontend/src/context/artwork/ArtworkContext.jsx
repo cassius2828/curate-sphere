@@ -111,7 +111,6 @@ const reducer = (state, action) => {
       };
     // Filter Section
     case "handleFilterObjectUpdate/artworks":
-      // const {primaryCategory,subcategoryKey, subcategoryValue} = action.payload;
       return {
         ...state,
         artFilter: action.payload,
@@ -129,7 +128,7 @@ const reducer = (state, action) => {
         [primaryCategoryKey]: {
           // spread the state of the category | keep title, update records
           ...state[primaryCategoryKey],
-          // iterate thru records and find matching key-value from payload
+          //  find matching key-value from payload
           records: {
             ...state[primaryCategoryKey].records,
             [subcategoryKey]: {
@@ -342,43 +341,23 @@ export const ArtworkProvider = ({ children }) => {
     for (let primaryCategory in artFilter) {
       if (primaryCategory !== "size") {
         checkboxesToReset[primaryCategory] = artFilter[primaryCategory];
-        // console.log(state[primaryCategory], " <-- primary category ");
-        // artFilter[primaryCategory] = {...artFilter[primaryCategory], }
       }
     }
 
     const arrayOfCheckboxFilterValues = Object.entries(checkboxesToReset);
-    console.log(
-      arrayOfCheckboxFilterValues,
-      " <-- entries of checkbox filter to remove"
-    );
+
     arrayOfCheckboxFilterValues.forEach((category) => {
-      const upperCasedTitle =
-        category[0].charAt(0).toUpperCase() + category[0].slice(1);
       const categoryObjs = category[1];
-      // category[0] = title
-      // category[1] = subcategory objects
-      // console.log(category[1])
 
       for (let obj in categoryObjs) {
-        const value = categoryObjs[obj];
         const formattedKeyName = obj.toLowerCase().replace(/[\s.,]/g, ""); // Maintain the access point as the id
         console.log(formattedKeyName, " <--formattedKeyName");
-        // const key = Object.keys(obj);
-        //// gets value of current indexed obj
-        // const value = obj[key];
-        // accesses the object in the records by the id (obj value)
+
         state[category[0]].records[formattedKeyName] = {
           ...state[category[0]].records[formattedKeyName],
           isChecked: false,
           clickCount: 0,
         };
-
-        console.log(
-          state[category[0]].records[formattedKeyName],
-          " expect this to be the record i want to access"
-        );
-        // console.log(state[upperCasedTitle].records, ' <-- records')
       }
     });
     handleShowDropdown("reset");
@@ -433,14 +412,11 @@ export const ArtworkProvider = ({ children }) => {
       let data = [...data1.records];
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -468,14 +444,11 @@ export const ArtworkProvider = ({ children }) => {
       let data = [...data1.records];
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -504,14 +477,11 @@ export const ArtworkProvider = ({ children }) => {
       let data = [...data1.records, ...data2.records, ...data3.records];
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -553,14 +523,11 @@ export const ArtworkProvider = ({ children }) => {
 
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -600,14 +567,11 @@ export const ArtworkProvider = ({ children }) => {
 
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -644,14 +608,11 @@ export const ArtworkProvider = ({ children }) => {
 
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -690,14 +651,11 @@ export const ArtworkProvider = ({ children }) => {
 
       // Sort data by name
       const sortedArray = data.sort((a, b) => {
-        console.log(`Comparing "${a.name}" with "${b.name}"`);
         return a.name.localeCompare(b.name);
       });
 
       // Reconstruct the object using the sorted array
       const sortedData = sortedArray.reduce((acc, item) => {
-        console.log(item.id, " int");
-        console.log(item.id.toString(), " string");
         acc[item.name.toLowerCase().replace(/[\s.,]/g, "")] = {
           ...item,
           isChecked: false,
@@ -749,8 +707,6 @@ export const ArtworkProvider = ({ children }) => {
         }
       }
     }
-    // console.log(updatedArtFilter, " <-- updatedArtFilter");
-    // console.log(medium, " <-- medium object");
     dispatch({
       type: "handleFilterObjectUpdate/artworks",
       payload: updatedArtFilter,

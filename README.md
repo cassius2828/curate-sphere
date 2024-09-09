@@ -346,6 +346,12 @@ In the reducer, we update the isChecked and clickCount values in the state for t
 
 Each context is equipped with its own set of functions, initial state, and a reducer function, enabling us to dispatch actions and update the state in a controlled and predictable manner. This structure not only simplifies the handling of complex API data but also enhances the scalability of the application as new features are introduced.
 
+## IndexedDB Caching Strategy
+
+To improve performance and reduce unnecessary API calls, we use IndexedDB to cache data such as filters, artworks, and exhibitions. Before making an API request, we first check if the relevant data is already stored in IndexedDB. If the data exists, we retrieve it directly from there, eliminating the need for an API call. If the data is not found, we proceed with the API call, store the response in IndexedDB for future use, and then return the data.
+
+This strategy significantly improves performance, especially for filters, which are frequently reused across different sessions.
+
 ## Obscuring the API Key
 
 Although the Harvard API is free, we explored ways to obscure the API key as a precaution for potential future use with paid APIs. Here's our approach:
