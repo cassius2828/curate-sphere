@@ -13,25 +13,44 @@ export const ProfileForm = () => {
 
   // Initialize formData state with user info
   const initialFormData = {
-    username: user.user.username,
-    email: user.user.email,
-    bio: user.user.bio,
+    username: {
+      input: user.user.username,
+      isValid: true,
+    },
+    email: {
+      input: user.user.email,
+      isValid: true,
+    },
+    bio: {
+      input: user.user.bio,
+      isValid: true,
+    },
     headerImg: "",
     profileImg: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState();
   const { username, email, bio, headerImg, profileImg } = formData;
-
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   // Form submission handler
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!username.input || !email.input) {
+      setMessage("");
+      return setError("Username and email fields cannot be left empty");
+    }
+    if (!emailRegex.test(email.input)) {
+      setMessage("");
+      return setError(
+        "Please submit a valid email address. (e.g example@gmail.com)"
+      );
+    }
     const multiFormData = new FormData();
-    multiFormData.append("username", username);
-    multiFormData.append("email", email);
-    multiFormData.append("bio", bio);
+    multiFormData.append("username", username.input);
+    multiFormData.append("email", email.input);
+    multiFormData.append("bio", bio.input);
     multiFormData.append("headerImg", headerImg);
     multiFormData.append("profileImg", profileImg);
 
@@ -40,10 +59,13 @@ export const ProfileForm = () => {
       // Handle email confirmation message
       if (data.confirmEmailMessage.message) {
         setMessage(data.confirmEmailMessage.message);
+        setError("");
       } else if (data.confirmEmailMessage.error) {
+        setMessage("");
         setError(data.confirmEmailMessage.error);
       } else if (data.message && !data.confirmEmailMessage.error) {
         setMessage(data.message);
+        setError("");
       }
       // Update user token if available
       if (data.token) {
@@ -57,33 +79,56 @@ export const ProfileForm = () => {
     }
   };
 
+  ///////////////////////////
   // Handle file input changes for images
+  ///////////////////////////
   const handleFileChange = (e) => {
     const { files, name } = e.target;
     setFormData({ ...formData, [name]: files[0] });
   };
 
-  // Handle text input changes
+  ///////////////////////////
+  // Handle text field changes
+  ///////////////////////////
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    // validates email
+    if (name === "email") {
+      const isEmailValid = emailRegex.test(value);
+      setFormData((prev) => {
+        return { ...formData, [name]: { isValid: isEmailValid, input: value } };
+      });
+    } else {
+      // validates username
+      setFormData((prev) => {
+        return { ...formData, [name]: { ...prev[name], input: value } };
+      });
+      if (value.length === 0) {
+        setFormData((prev) => {
+          return { ...formData, [name]: { ...prev[name], isValid: false } };
+        });
+        // if the value is more than one and isValid was previously false then change to true
+        // otherwise do not bother running function
+      } else if (value.length > 0 && formData[name].isValid === false) {
+        setFormData((prev) => {
+          return { ...formData, [name]: { ...prev[name], isValid: true } };
+        });
+      }
+    }
   };
-
-  // Debugging useEffect to check user state
-  useEffect(() => {
-    console.log(user);
-  }, []);
 
   return (
     <>
       {message && (
-        <span className="text-green-500 text-2xl text-center">{message}</span>
+        <span data-cy="success-message" className="text-green-500 text-2xl text-center px-12">
+          {message}
+        </span>
       )}
       {error && (
-        <span className="text-red-500 text-2xl text-center">{error}</span>
+        <span data-cy="error-message" className="text-red-500 text-2xl text-center px-12">{error}</span>
       )}
 
-      <form className="mx-auto p-12 rounded-md w-full md:w-1/2">
+      <form className="mx-auto p-12 rounded-md w-full md:w-3/4 ">
         {/* Username Input */}
         <div className="mb-5">
           <label
@@ -96,10 +141,15 @@ export const ProfileForm = () => {
             type="text"
             id="username"
             name="username"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className={`${
+              username.isValid
+                ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                : "border-red-500 focus:ring-red-500 focus:border-red-500"
+            }bg-gray-50 border  text-gray-900 text-xl rounded-lg block w-full p-2.5`}
             placeholder="Enter your username"
-            value={username}
+            value={username.input}
             onChange={handleChange}
+            minLength={3}
           />
         </div>
 
@@ -115,10 +165,16 @@ export const ProfileForm = () => {
             type="email"
             id="email"
             name="email"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className={`${
+              email.isValid
+                ? "border-gray-300 focus:ring-blue-500 focus:border-blue-500"
+                : "border-red-500 focus:ring-red-500 focus:border-red-500"
+            }bg-gray-50 border  text-gray-900 text-xl rounded-lg block w-full p-2.5`}
             placeholder="name@example.com"
-            value={email}
+            value={email.input}
             onChange={handleChange}
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            title="Please enter a valid email address (e.g., user@example.com)."
           />
         </div>
 
@@ -135,9 +191,11 @@ export const ProfileForm = () => {
             id="bio"
             name="bio"
             maxLength={255}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className={`
+            border-gray-300 focus:ring-blue-500 focus:border-blue-500
+            bg-gray-50 border  text-gray-900 text-xl rounded-lg block w-full p-2.5`}
             placeholder="Enter your bio"
-            value={bio}
+            value={bio.input}
             onChange={handleChange}
           />
         </div>
@@ -154,7 +212,8 @@ export const ProfileForm = () => {
             type="file"
             id="headerImg"
             name="headerImg"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className={`"border-gray-300 focus:ring-blue-500 focus:border-blue-500
+            bg-gray-50 border  text-gray-900 text-xl rounded-lg block w-full p-2.5`}
             onChange={handleFileChange}
           />
         </div>
@@ -171,13 +230,18 @@ export const ProfileForm = () => {
             type="file"
             id="profileImg"
             name="profileImg"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-xl rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            className={`
+                border-gray-300 focus:ring-blue-500 focus:border-blue-500
+          bg-gray-50 border  text-gray-900 text-xl rounded-lg block w-full p-2.5`}
             onChange={handleFileChange}
           />
         </div>
 
         {/* Form Buttons */}
-        <div className="w-full flex justify-center items-center gap-12">
+        <div
+          data-cy="profile-form-action-btns"
+          className="w-full flex justify-center items-center gap-12"
+        >
           <Btn
             handleAction={() => setFormData(initialFormData)}
             text="Cancel"

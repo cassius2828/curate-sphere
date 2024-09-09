@@ -16,7 +16,7 @@ const ExbDetail = () => {
   // Extracting necessary hooks and context values
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useGlobalContext();
+  const { user,scrollToTop } = useGlobalContext();
   const { formatDate } = useGlobalContext();
   const {
     handleGetExbDetail,
@@ -54,6 +54,7 @@ const ExbDetail = () => {
     };
 
     fetchExbDetail();
+    scrollToTop()
   }, []);
 
   ///////////////////////////
@@ -90,11 +91,12 @@ const ExbDetail = () => {
         {isUsersExb && (
           <div className="flex gap-4 text-2xl mt-8">
             <Link to={`/exhibitions/${id}/edit`}>
-              <button className="border border-black px-6 py-1 font-cardo">
+              <button data-cy="edit-exb-btn" className="border border-black px-6 py-1 font-cardo">
                 Edit exhibition details
               </button>
             </Link>
             <button
+            data-cy="delete-exb-btn"
               onClick={handleDeleteButton}
               className="border border-black px-6 py-1 font-cardo"
             >
@@ -106,9 +108,18 @@ const ExbDetail = () => {
 
       {/* Artworks count and grid display */}
       <div className="flex flex-col items-center mx-auto">
-        <p className="text-center text-2xl font-cardo">
-          Contains <span className="text-red-400">{showExb?.artworks?.length}</span> artworks
-        </p>
+        {showExb?.artworks?.length > 0 ? (
+          <p className="text-center text-2xl font-cardo">
+            Contains{" "}
+            <span className="text-red-400">{showExb.artworks.length}</span>{" "}
+            artworks
+          </p>
+        ) : (
+          <p data-cy="exb-detail-no-artworks-message" className="text-center text-2xl font-cardo">
+            No artworks found in this exhibition
+          </p>
+        )}
+
         <div className="w-3/4 mx-auto mt-8">
           <Masonry
             breakpointCols={breakpointColumnsObj}

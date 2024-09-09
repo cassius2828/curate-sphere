@@ -7,7 +7,7 @@ export const FilterActionBtns = () => {
   const {
     info,
     records,
-    handleSelectFilters,
+    handleSizeFilter,
     handleResetFilterState,
     artFilter,
   } = useArtworkContext();
@@ -17,16 +17,17 @@ export const FilterActionBtns = () => {
       <ArtSearchFilter />
       {/* display num of objets */}
       <p className=" text-center mx-auto w-full  absolute top-0  md:w-auto md:top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-2xl font-cardo">
-        Showing <span className="text-red-400">{records.length}</span> of{" "}
-        <span className="text-red-400">{info?.totalrecords}</span> objects
+        Showing <span data-cy="displayed-artworks" className="text-red-400">{records.length}</span> of{" "}
+        <span data-cy="total-artworks-available" className="text-red-400">{info?.totalrecords}</span> objects
       </p>
       {/* load amount and btns */}
       <div className="flex gap-3 items-center mt-12 md:mt-0">
         <div className="flex flex-col gap-3 items-center md:mr-16">
           <span className="text-xl font-cardo">load amount</span>
           <select
+          data-cy="filter-size-select"
             className="border rounded-md w-20 p-1 text-xl"
-            onChange={(e) => handleSelectFilters(e.target.name, e.target.value)}
+            onChange={(e) => handleSizeFilter(e.target.name, e.target.value)}
             name="size"
             id="size"
             value={artFilter.size}
@@ -39,6 +40,7 @@ export const FilterActionBtns = () => {
         </div>
         <button className="border p-3 bg-neutral-400">
           <FontAwesomeIcon
+          data-cy="reset-filter-btn"
             onClick={handleResetFilterState}
             className="text-2xl text-gray-100"
             icon={faRotateBack}

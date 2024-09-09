@@ -62,9 +62,17 @@ const getFilterObjs = async (req, res) => {
       `${BASE_URL}/${filter}?apikey=${API_KEY}&size=100&page=${page}`
     );
     let data = await response.json();
+    console.log(data, " f<-- filter object data | backend");
     data.info.next = swapApiKeyAndPlaceholder(data.info.next, "API_KEY");
     data.info.prev = "";
-    res.status(200).json(data);
+    const transformRecordsToObjOfObjs = {
+      ...data,
+      records: data.records.reduce((acc, record) => {
+        acc[record.id] = { ...record, clickCount: 0, isChecked: false };
+        return acc;
+      }, {}),
+    };
+    res.status(200).json(transformRecordsToObjOfObjs);
   } catch (err) {
     console.error(err);
     res

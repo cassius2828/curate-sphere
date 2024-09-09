@@ -68,7 +68,7 @@ const ExbDashboard = () => {
     const fetchUserExbs = async () => {
       dispatch({ type: "startLoading/exb" });
       try {
-        const data = await getUserExhibitions(user?.user.id);
+        const data = await getUserExhibitions(user?.user?.id);
         if (!data.error) {
           setDisplayedExbs(data);
         }
@@ -80,6 +80,8 @@ const ExbDashboard = () => {
       }
     };
     fetchUserExbs();
+    console.log(myExbs, ' <-- my exbs')
+    console.log(displayedExbs, ' <-- displayed exbs')
   }, [dispatch, user]);
 
   // Prompt user to sign in if not authenticated
@@ -99,9 +101,9 @@ const ExbDashboard = () => {
       <div className="flex flex-col md:flex-row gap-28 mb-20 items-center">
         {/* Header and add new exhibition button */}
         <div className="flex flex-col md:flex-row text-center md:text-start items-center gap-8">
-          <h1 className="text-6xl font-marcellus">My Exhibitions</h1>
+          <h1 data-cy="exb-dashboard-title" className="text-6xl font-marcellus">My Exhibitions</h1>
           <Link to="/exhibitions/create">
-            <button className="text-2xl border-black border px-6 py-1 font-cardo">
+            <button data-cy="exb-dashboard-add-new-exb-btn" className="text-2xl border-black border px-6 py-1 font-cardo">
               Add New Exhibition
             </button>
           </Link>
@@ -111,6 +113,7 @@ const ExbDashboard = () => {
         <div className="flex flex-col md:flex-row items-center justify-center w-full md:w-1/2 gap-8 mb-20 mx-auto">
           <div className="relative w-full max-w-[40rem]">
             <input
+            data-cy="exb-dashboard-search-exb-input"
               onChange={handleSearchInputChange}
               value={query}
               className="border-4 border-neutral-900 p-2 w-full text-2xl"
@@ -122,6 +125,7 @@ const ExbDashboard = () => {
             />
           </div>
           <select
+          data-cy="exb-dashboard-sort-select"
             value={sortInput}
             onChange={handleSortExhibitions}
             className="border-black border-2 px-4 py-2"
@@ -145,7 +149,7 @@ const ExbDashboard = () => {
         className="masonry-grid gap-8"
         columnClassName="masonry-grid_column"
       >
-        {displayedExbs.map((exb) => (
+        {myExbs?.length > 0  ? displayedExbs.map((exb) => (
           <ExbCard
             key={exb.id}
             id={exb.id}
@@ -154,7 +158,7 @@ const ExbDashboard = () => {
             date={`${formatDate(exb.startDate)} - ${formatDate(exb.endDate)}`}
             location={exb.location}
           />
-        ))}
+        )) : <h1 data-cy="no-user-exbs-text" className="text-4xl w-full">You do not have any exhibitions yet. Create one now!</h1>}
       </Masonry>
     </section>
   );

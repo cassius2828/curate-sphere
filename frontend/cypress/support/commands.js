@@ -23,20 +23,50 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import 'cypress-file-upload';
 
-Cypress.Commands.addQuery('getById', (id) => {
-    const getFn = cy.now('get', `[data-cy=${id}]`);
-    return () => {
-        return getFn();
-    };
+Cypress.Commands.addQuery("getById", (id) => {
+  const getFn = cy.now("get", `[data-cy=${id}]`);
+  return () => {
+    return getFn();
+  };
 });
 
-Cypress.Commands.add('checkToken', (token) => {
-    if (token) {
-      // Check if the token is present and matches the expected value
-      cy.window().its('localStorage.token').should('eq', token);
-    } else {
-      // Check if the token is absent from localStorage
-      cy.window().its('localStorage.token').should('not.exist');
-    }
-  });
+Cypress.Commands.add("checkToken", (token) => {
+  if (token) {
+    // Check if the token is present and matches the expected value
+    cy.window().its("localStorage.token").should("eq", token);
+  } else {
+    // Check if the token is absent from localStorage
+    cy.window().its("localStorage.token").should("not.exist");
+  }
+});
+
+Cypress.Commands.add("loginUser", (username, password) => {
+  cy.getById("desktop-nav-login").click();
+  cy.get("#username").type(username);
+  cy.get("#password").type(password);
+  cy.get('[type="submit"]').click();
+  cy.getById("welcome-message").contains(`Welcome, ${username}`);
+  cy.getById("user-exbs-btn").should("have.text", "My Exhibitions");
+});
+
+Cypress.Commands.add("registerUser", (username, email, password) => {
+  cy.getById("desktop-nav-register").click();
+  cy.get("#username").type(username);
+  cy.get("#email").type(email);
+  cy.get("#password").type(password);
+  cy.get("#confirmPassword").type(password);
+  cy.get('[type="submit"]').click();
+  cy.location("pathname").should("eq", "/");
+  cy.getById("welcome-message").contains(username);
+});
+
+Cypress.Commands.add("confirmToolTip", (btnName) => {
+  cy.getById(`art-detail-action-btn-${btnName}`)
+    .trigger("mouseover")
+    .parent()
+    .find("div p")
+    .should("not.be.empty")
+    .wait(500);
+});

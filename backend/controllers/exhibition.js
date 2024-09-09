@@ -62,6 +62,7 @@ const getUserExhibitions = async (req, res) => {
 // ? POST | Create exhibition
 ///////////////////////////
 const createExhibition = async (req, res) => {
+  console.log(req.body, ' <-- req.body')
   try {
     const newExhibition = await Exhibition.create(req.body);
     res.status(201).json(newExhibition);

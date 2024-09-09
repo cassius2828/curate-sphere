@@ -20,7 +20,7 @@ const ArtGallery = () => {
         className="masonry-grid"
         columnClassName="masonry-grid_column"
       >
-        {records.map((record) => {
+        {records.map((record, idx) => {
           return (
             <ArtGalleryCard
               ArtworkObjectid={record.objectid}
@@ -29,7 +29,7 @@ const ArtGallery = () => {
               title={record.title}
               year={record.dated}
               details={record.description}
-              key={record.id}
+              key={record.id + idx}
               people={record.people}
             />
           );

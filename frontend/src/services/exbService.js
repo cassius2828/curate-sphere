@@ -4,24 +4,21 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 // Get | Get All Exhibitions
 ///////////////////////////
 export const getAllExhibitions = async (userId) => {
-  let url = `${BACKEND_URL}/exhibitions/explore/${userId}`
+  let url = `${BACKEND_URL}/exhibitions/explore/${userId}`;
   // if(userId === undefined){
   //   url = `${BACKEND_URL}/exhibitions/explore`
   // } else {
   //   url = `${BACKEND_URL}/exhibitions/explore/${userId}`
   // }
   try {
-    const response = await fetch(
-      url
-    );
+    const response = await fetch(url);
     const data = await response.json();
-    console.log(data)
+    console.log(data);
     if (response.ok) {
       return data;
     } else {
       throw new Error();
     }
-
   } catch (err) {
     console.error(err);
     console.log(`Unable to communicate with DB to get all exhibitions`);
@@ -117,6 +114,16 @@ export const deleteExb = async (exbId) => {
 // ? POST | create Exhibition
 ///////////////////////////
 export const createExb = async (formData) => {
+  console.log(formData, " <formdata");
+  // Function to add one day to a given date string
+  function addOneDay(dateString) {
+    const date = new Date(dateString); // Parse the string into a Date object
+    date.setDate(date.getDate() + 1); // Increment the date by 1 day
+    return date.toISOString().split("T")[0]; // Convert back to string in YYYY-MM-DD format
+  }
+  formData.startDate = addOneDay(formData.startDate);
+  formData.endDate = addOneDay(formData.endDate);
+
   const options = {
     method: "POST",
     headers: { "Content-Type": "application/json" },

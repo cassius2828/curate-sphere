@@ -32,6 +32,7 @@ app.use(express.json());
 // Routers
 ///////////////////////////
 const testJwtRouter = require("./routes/test-jwt");
+const testRouter = require("./routes/test");
 const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profiles");
 const exhRouter = require("./routes/exhibition");
@@ -42,13 +43,13 @@ const { seedTestDB } = require("./seeders/seedTestDB");
 // Routes
 ///////////////////////////
 app.use("/test-jwt", testJwtRouter);
+app.use("/test", testRouter);
 app.use("/auth", authRouter);
 app.use("/profiles", profileRouter);
 app.use("/exhibitions", exhRouter);
 app.use("/artworks", artworkRouter);
 
-
-console.log(`NODE_ENV: ${process.env.NODE_ENV}`)
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

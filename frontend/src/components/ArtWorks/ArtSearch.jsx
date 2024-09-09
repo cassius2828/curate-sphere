@@ -55,6 +55,7 @@ const ArtSearch = () => {
       {/* search input */}
       <div className="relative w-3/4">
         <input
+        data-cy="art-search-input"
           onChange={handleSearchQuery}
           value={searchQuery}
           className="border-4 border-neutral-900 p-2 mt-12 mb-6 w-full text-2xl"
@@ -81,6 +82,7 @@ const ArtSearch = () => {
       {/* Load more button if there are more pages */}
       {info.next && (
         <button
+        data-cy="load-more-btn"
           onClick={handleGetNextPageOfArtworks}
           className="my-20 border rounded-md bg-neutral-900 text-gray-100 px-8 py-4 text-2xl capitalize"
         >

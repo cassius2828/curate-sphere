@@ -20,7 +20,7 @@ const ExbExplore = () => {
   const [displayedExbs, setDisplayedExbs] = useState([]);
 
   // context
-  const { formatDate, user } = useGlobalContext();
+  const { formatDate, user,scrollToTop } = useGlobalContext();
   const { handleGetAllExbs, handleSortExbs, exploreExbs, dispatch, isLoading } =
     useExbContext();
 
@@ -85,6 +85,7 @@ const ExbExplore = () => {
   ///////////////////////////
   useEffect(() => {
     handleGetAllExbs();
+    scrollToTop()
   }, []);
 
   if (isLoading) return <Loader />;
@@ -97,6 +98,7 @@ const ExbExplore = () => {
       <div className=" flex flex-col md:flex-row  items-center justify-center w-full md:w-1/2 gap-8 mb-20 mx-auto">
         <div className="relative w-full max-w-[40rem]">
           <input
+          data-cy="exb-explore-search-exb-input"
             onChange={handleSearchInputChange}
             value={query}
             className=" border-4 border-neutral-900 p-2 w-full  text-2xl"
@@ -109,6 +111,7 @@ const ExbExplore = () => {
         </div>
         {/* sort */}
         <select
+        data-cy="exb-explore-sort-select"
           value={sortInput}
           onChange={handleSortExhibitions}
           className="border-black border-2 px-4 py-2"

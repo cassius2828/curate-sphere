@@ -6,7 +6,7 @@ describe("landing page", () => {
     cy.visit("/");
     cy.checkToken("");
   });
-  // ui check for guest page
+  // test 1
   it("ensures the guest ui for the landing page displays as expected", () => {
     cy.getById("home-link").should("exist");
     cy.getById("loader-text").should("exist");
@@ -24,7 +24,7 @@ describe("landing page", () => {
     cy.getById("landing-explore-exbs-btn").should("exist");
     cy.getById("landing-search-artworks-btn").should("exist");
   });
-
+  // test 2
   it("check navigation from landing page to areas that do not require auth", () => {
     // explore exbs | main btn
     cy.getById("landing-explore-exbs-btn").click();
@@ -60,7 +60,7 @@ describe("landing page", () => {
     cy.getById("home-link").click();
     cy.location("pathname").should("eq", "/");
   });
-
+  // test 3
   it("should be able to navigate successfully from footer", () => {
     // explore exbs | footer link
     cy.getById("footer-explore-exbs-link").click();
