@@ -50,7 +50,23 @@ const Nav = () => {
             className="absolute right-32 mt-2 bg-[#020617] text-gray-100 font-marcellus flex flex-col items-start p-4 space-y-4 rounded-lg shadow-lg"
           >
             {isLoading ? (
-              <LoaderText />
+              <>
+                <LoaderText />
+                <Link
+                  data-cy="mobile-nav-login"
+                  onClick={() => setIsMenuOpen(false)}
+                  to={`/login`}
+                >
+                  <li className="p-3 text-2xl ">Login</li>
+                </Link>
+                <Link
+                  data-cy="mobile-nav-register"
+                  onClick={() => setIsMenuOpen(false)}
+                  to={`/register`}
+                >
+                  <li className="p-3 text-2xl ">Register</li>
+                </Link>
+              </>
             ) : (
               <>
                 {!user ? (
@@ -125,7 +141,7 @@ const Nav = () => {
                       <li className="p-3 text-2xl ">Search Artworks</li>
                     </Link>
                     <Link
-                    data-cy="mobile-nav-profile-link"
+                      data-cy="mobile-nav-profile-link"
                       onClick={() => setIsMenuOpen(false)}
                       className={isLoading ? `pointer-events-none` : ""}
                       to={`/profiles/${user.user.id}`}
@@ -158,7 +174,23 @@ const Nav = () => {
         className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center"
       >
         {isLoading ? (
-          <LoaderText />
+          <>
+            <LoaderText />
+            <Link
+              data-cy="desktop-nav-login"
+              onClick={() => setIsMenuOpen(false)}
+              to={`/login`}
+            >
+              <li className="p-3 text-2xl ">Login</li>
+            </Link>
+            <Link
+              data-cy="desktop-nav-register"
+              onClick={() => setIsMenuOpen(false)}
+              to={`/register`}
+            >
+              <li className="p-3 text-2xl ">Register</li>
+            </Link>
+          </>
         ) : (
           <>
             <NavListItem
