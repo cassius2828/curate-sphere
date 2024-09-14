@@ -26,3 +26,5 @@ so we can access keys directly instead of looping through an array for updates t
 and also see beautiful engaging photos 
 
 5. Add form validation to login and register components 
+
+TEST NOTE
