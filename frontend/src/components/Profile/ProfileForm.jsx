@@ -41,7 +41,7 @@ export const ProfileForm = () => {
       setMessage("");
       return setError("Username field cannot be left empty");
     }
-    if (!emailRegex.test(email.input) && email.length > 0) {
+    if (!emailRegex.test(email.input) && email.input.length > 0) {
       setMessage("");
       return setError(
         "Please submit a valid email address. (e.g example@gmail.com)"
