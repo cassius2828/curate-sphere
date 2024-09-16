@@ -1,3 +1,5 @@
+import { deleteItemIndexedDB } from "../utils/indexedDB.config";
+
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 
 ///////////////////////////
@@ -174,6 +176,8 @@ export const editExb = async (formData, exbId) => {
 // ? POST | add artwork to Exhibition
 ///////////////////////////
 export const postAddArtworkToExb = async (exbId, objectid) => {
+  // ensures the cache is cleared when we add a newartwork so we fetch the updated exb artworks
+  await deleteItemIndexedDB(exbId, "exb");
   const params = {
     exbId,
     objectid,

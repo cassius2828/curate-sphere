@@ -132,7 +132,7 @@ export const ExbProvider = ({ children }) => {
   ///////////////////////////
   const handleGetExbDetail = async (exbId) => {
     // checks for cached exb first , then go through fetching from our db, making thru table, fetching images from harvard api
-    const cachedExb = await getItemIndexedDB(exbId, "exb");
+    const cachedExb = await getItemIndexedDB(exbId, "exhibitions");
     if (cachedExb) {
       console.log("Used the map from cache");
       return dispatch({ type: "getDetail/exb", payload: cachedExb });
@@ -141,7 +141,7 @@ export const ExbProvider = ({ children }) => {
       const data = await getExbDetail(exbId);
       dispatch({ type: "getDetail/exb", payload: data });
       const exbData = await handleGetExbArtworks(exbId);
-      await setItemIndexedDB(exbId, { ...data, artworks: exbData }, "exb");
+      await setItemIndexedDB(exbId, { ...data, artworks: exbData }, "exhibitions");
     } catch (err) {
       console.error(err);
       console.log(`Unable to communicate with db to get exb detail | context`);

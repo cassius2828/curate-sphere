@@ -85,7 +85,7 @@ export const getArtworkDetail = async (objectid) => {
 ///////////////////////////
 export const getFilterObjs = async (filter, page) => {
   const indexedDBKey = `${filter}-page${page}`;
-  const cachedFilter = await getItemIndexedDB(indexedDBKey, "filter");
+  const cachedFilter = await getItemIndexedDB(indexedDBKey, "filters");
   if (cachedFilter) {
     return cachedFilter;
   }
@@ -96,7 +96,7 @@ export const getFilterObjs = async (filter, page) => {
     const data = await response.json();
 
     if (response.ok) {
-      await setItemIndexedDB(indexedDBKey, data, "filter");
+      await setItemIndexedDB(indexedDBKey, data, "filters");
       console.log("set items in indexed DB");
       return data;
     } else {

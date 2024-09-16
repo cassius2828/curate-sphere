@@ -88,8 +88,9 @@ const ArtDetail = () => {
   ///////////////////////////
   const fetchArtworkDetails = async () => {
     try {
-      const cachedArtwork = await getItemIndexedDB(id, "artwork");
+      const cachedArtwork = await getItemIndexedDB(id, "artworks");
       if (cachedArtwork) {
+        console.log(cachedArtwork, ' <-- cached artwork here')
         dispatch({ type: "getArtworkDetail/artworks", payload: cachedArtwork });
         return;
       }
@@ -99,7 +100,7 @@ const ArtDetail = () => {
 
       const data = await getArtworkDetail(id);
       dispatch({ type: "getArtworkDetail/artworks", payload: data });
-      await setItemIndexedDB(id, data, "artwork");
+      await setItemIndexedDB(id, data, "artworks");
     } catch (err) {
       console.error(
         "Unable to communicate with DB to get artwork detail | ArtDetail.jsx"
