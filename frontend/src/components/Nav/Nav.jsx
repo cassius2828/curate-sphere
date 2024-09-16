@@ -1,19 +1,15 @@
 // React imports
 import { useState } from "react";
 import { Link } from "react-router-dom";
-// Component imports
-import { NavListItem } from "./NavListItem";
-import LoaderText from "../CommonComponents/Loaders/LoaderText";
 // Context hooks
-import useGlobalContext from "../../context/global/useGlobalContext";
 import useExbContext from "../../context/exb/useExbContext";
+import MobileNav from "./MobileNav";
+import DesktopNav from "./DesktopNav";
 
 const Nav = () => {
   // State
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // Context
-  const { user, handleSignout, isLoading } = useGlobalContext();
+  // context
   const { handleResetExbState } = useExbContext();
 
   ///////////////////////////
@@ -35,219 +31,14 @@ const Nav = () => {
         <h1 className="text-4xl md:text-6xl ml-4 md:ml-12">Curate Sphere</h1>
       </Link>
 
-      {/* Hamburger menu for mobile */}
-      <div className="relative md:hidden mr-4">
-        <button
-          data-cy="hamburger-btn"
-          onClick={toggleMenu}
-          className="text-5xl focus:outline-none"
-        >
-          ☰
-        </button>
-        {isMenuOpen && (
-          <ul
-            data-cy="mobile-nav-ul"
-            className="absolute right-32 mt-2 bg-[#020617] text-gray-100 font-marcellus flex flex-col items-start p-4 space-y-4 rounded-lg shadow-lg"
-          >
-            {isLoading ? (
-              <>
-                <LoaderText />
-                <Link
-                  data-cy="mobile-nav-login"
-                  onClick={() => setIsMenuOpen(false)}
-                  to={`/login`}
-                >
-                  <li className="p-3 text-2xl ">Login</li>
-                </Link>
-                <Link
-                  data-cy="mobile-nav-register"
-                  onClick={() => setIsMenuOpen(false)}
-                  to={`/register`}
-                >
-                  <li className="p-3 text-2xl ">Register</li>
-                </Link>
-              </>
-            ) : (
-              <>
-                {!user ? (
-                  <>
-                    <NavListItem
-                      setIsMenuOpen={setIsMenuOpen}
-                      listItemText={`Exhibitions`}
-                      dropDownItems={[
-                        {
-                          text: "explore exhibitions",
-                          path: "/exhibitions/explore",
-                        },
-                        {
-                          text: "create exhibition",
-                          path: "/exhibitions/create",
-                        },
-                        {
-                          text: "my exhibitions",
-                          path: "/exhibitions/dashboard",
-                        },
-                      ]}
-                    />
-                    <Link
-                      data-cy="mobile-nav-artwork-search"
-                      onClick={() => setIsMenuOpen(false)}
-                      className={isLoading ? `pointer-events-none` : ""}
-                      to={`/artworks/search`}
-                    >
-                      <li className="p-3 text-2xl ">Search Artworks</li>
-                    </Link>
-                    <Link
-                      data-cy="mobile-nav-login"
-                      onClick={() => setIsMenuOpen(false)}
-                      to={`/login`}
-                    >
-                      <li className="p-3 text-2xl ">Login</li>
-                    </Link>
-                    <Link
-                      data-cy="mobile-nav-register"
-                      onClick={() => setIsMenuOpen(false)}
-                      to={`/register`}
-                    >
-                      <li className="p-3 text-2xl ">Register</li>
-                    </Link>
-                  </>
-                ) : (
-                  <>
-                    <NavListItem
-                      setIsMenuOpen={setIsMenuOpen}
-                      listItemText={`Exhibitions`}
-                      dropDownItems={[
-                        {
-                          text: "explore exhibitions",
-                          path: "/exhibitions/explore",
-                        },
-                        {
-                          text: "create exhibition",
-                          path: "/exhibitions/create",
-                        },
-                        {
-                          text: "my exhibitions",
-                          path: "/exhibitions/dashboard",
-                        },
-                      ]}
-                    />
-                    <Link
-                      data-cy="mobile-nav-search-artworks"
-                      onClick={() => setIsMenuOpen(false)}
-                      className={isLoading ? `pointer-events-none` : ""}
-                      to={`/artworks/search`}
-                    >
-                      <li className="p-3 text-2xl ">Search Artworks</li>
-                    </Link>
-                    <Link
-                      data-cy="mobile-nav-profile-link"
-                      onClick={() => setIsMenuOpen(false)}
-                      className={isLoading ? `pointer-events-none` : ""}
-                      to={`/profiles/${user.user.id}`}
-                    >
-                      <li className="p-3 text-2xl ">Profile</li>
-                    </Link>
-                    <Link to={`/`}>
-                      <li
-                        onClick={() => {
-                          handleResetContextState();
-                          handleSignout();
-                          setIsMenuOpen(false);
-                        }}
-                        className="p-3 text-2xl "
-                      >
-                        Logout
-                      </li>
-                    </Link>
-                  </>
-                )}
-              </>
-            )}
-          </ul>
-        )}
-      </div>
-
-      {/* Desktop menu */}
-      <ul
-        data-cy="desktop-nav-ul"
-        className="hidden md:flex justify-end gap-12 capitalize w-full md:w-1/2 items-center"
-      >
-        {isLoading ? (
-          <>
-            <LoaderText />
-            <Link
-              data-cy="desktop-nav-login"
-              onClick={() => setIsMenuOpen(false)}
-              to={`/login`}
-            >
-              <li className="p-3 text-2xl ">Login</li>
-            </Link>
-            <Link
-              data-cy="desktop-nav-register"
-              onClick={() => setIsMenuOpen(false)}
-              to={`/register`}
-            >
-              <li className="p-3 text-2xl ">Register</li>
-            </Link>
-          </>
-        ) : (
-          <>
-            <NavListItem
-              setIsMenuOpen={setIsMenuOpen}
-              listItemText={`Exhibitions`}
-              dropDownItems={[
-                { text: "explore exhibitions", path: "/exhibitions/explore" },
-                { text: "create exhibition", path: "/exhibitions/create" },
-                { text: "my exhibitions", path: "/exhibitions/dashboard" },
-              ]}
-            />
-            <Link data-cy="desktop-nav-artwork-search" to={`/artworks/search`}>
-              <li className="p-3 text-2xl">Search Artworks</li>
-            </Link>
-            {!user ? (
-              <>
-                <Link
-                  data-cy="desktop-nav-login"
-                  onClick={() => setIsMenuOpen(false)}
-                  to={`/login`}
-                >
-                  <li className="p-3 text-2xl">Login</li>
-                </Link>
-                <Link
-                  data-cy="desktop-nav-register"
-                  onClick={() => setIsMenuOpen(false)}
-                  to={`/register`}
-                >
-                  <li className="p-3 text-2xl">Register</li>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  data-cy="desktop-nav-profile"
-                  onClick={() => setIsMenuOpen(false)}
-                  className={isLoading ? `pointer-events-none` : ""}
-                  to={`/profiles/${user?.user?.id}`}
-                >
-                  <li className="p-3 text-2xl ">Profile</li>
-                </Link>
-                <Link data-cy="desktop-nav-logout" to={`/`}>
-                  <li
-                    onClick={() => {
-                      handleResetContextState();
-                      handleSignout();
-                    }}
-                    className="p-3 text-2xl"
-                  >
-                    Logout
-                  </li>
-                </Link>
-              </>
-            )}
-          </>
-        )}
-      </ul>
+      <MobileNav
+        handleResetContextState={handleResetContextState} isMenuOpen={isMenuOpen}
+        handleToggleMenu={toggleMenu}
+      />
+      <DesktopNav
+        handleResetContextState={handleResetContextState}
+        setIsMenuOpen={setIsMenuOpen}
+      />
     </nav>
   );
 };

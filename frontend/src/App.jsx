@@ -22,6 +22,7 @@ import NotFoundPage from "./components/CommonComponents/Errors/NotFoundPage";
 import Profile from "./components/Profile/Profile";
 import Footer from "./components/Footer/Footer";
 import ConfirmEmailChange from "./components/Profile/ConfirmEmailChange";
+import Settings from "./components/Settings";
 
 function App() {
   const { user } = useGlobalContext();
@@ -43,6 +44,7 @@ function App() {
             <Route path="/exhibitions/explore" element={<ExbExplore />} />
             <Route path="/profiles/:id" element={<Profile />} />
             <Route path="/confirm-email" element={<ConfirmEmailChange />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>
@@ -60,6 +62,7 @@ function App() {
             <Route path="/login" element={<LoginForm />} />
             <Route path="/register" element={<RegisterForm />} />
             <Route path="/confirm-email" element={<ConfirmEmailChange />} />
+            <Route path="/settings" element={<Settings />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </>
