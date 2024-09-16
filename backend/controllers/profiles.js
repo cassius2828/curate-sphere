@@ -41,13 +41,23 @@ const putUpdateUserInfo = async (req, res) => {
         .status(404)
         .json({ message: `Cannot find user with id of ${userId}` });
     }
+
     if (user.email && !email) {
       return res.status(400).json({
         message:
           "If you previously set an email, then you must have a valid email in the email input to continue",
       });
     }
-
+    // if no changes were detected
+    if (
+      bio === user.bio &&
+      email === user.email &&
+      username === user.username &&
+      !headerImgFile &&
+      !profileImgFile
+    ) {
+      return res.status(200).json({ message: "No changes were made" });
+    }
     // Function to handle file upload to S3
     const uploadToS3 = async (file, folder) => {
       const filePath = `${folder}/${uuidv4()}-${file.originalname}`;
@@ -87,26 +97,17 @@ const putUpdateUserInfo = async (req, res) => {
     if (username && username !== user.username) {
       user.username = username;
     }
-
+    // if the req bio exist (it does) the req bio is different than the user bio, then update the bio
     if (bio && bio !== user.bio) {
+      console.log(`The bio should be changing`);
       user.bio = bio;
-    }
-
-    if (
-      bio === user.bio &&
-      email === user.email &&
-      username === user.username &&
-      !headerImgFile &&
-      !profileImgFile
-    ) {
-      return res.status(200).json({ message: "No changes were made" });
     }
     // Save user if any field was updated
     await user.save();
 
     // Generate a JWT token with the updated user data
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
-
+    
     // Respond with the generated token and success message
     res.status(201).json({
       token,
