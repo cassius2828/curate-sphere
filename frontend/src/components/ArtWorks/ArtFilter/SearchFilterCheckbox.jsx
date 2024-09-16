@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useArtworkContext from "../../../context/artwork/useArtworkContext";
 
 export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
@@ -7,7 +7,13 @@ export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
   // this will start as 0. static value from prop
   const [clickCount, setClickCount] = useState(category.clickCount);
   const { handleToggleCheckbox, handleFilterObj } = useArtworkContext();
-
+  // ensure work type is read as a single word with no spaces all lowercase
+  if (primaryCategoryKey === "Work Type") {
+    primaryCategoryKey = "worktype";
+  }
+  useEffect(() => {
+    console.log(primaryCategoryKey, "pck");
+  }, []);
   return (
     <li className="flex items-center gap-4 p-3 bg-gray-200 ">
       <div

@@ -102,6 +102,7 @@ const reducer = (state, action) => {
       return { ...state, isLoading: false };
     // Filter Section
     case "updateSizeFilter/artworks":
+     
       return {
         ...state,
         artFilter: {
@@ -122,6 +123,8 @@ const reducer = (state, action) => {
         updatedIsChecked,
         updatedClickCount,
       } = action.payload;
+      console.log(action.payload, "<-- action.payload");
+    
 
       return {
         ...state,
@@ -374,12 +377,13 @@ export const ArtworkProvider = ({ children }) => {
     updatedClickCount
   ) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
-
+    if (primaryCategoryKey === "work type") {
+      // primaryCategoryKey = "worktype";
+    }
     const formattedKeyName = subcategoryKey
       .toLowerCase()
       .replace(/[\s.,]/g, ""); // Maintain the access point as the id
-
-    console.log(medium);
+console.log(artFilter, ' <-- artFilter')
     dispatch({
       type: "toggleCheckbox/artworks",
       payload: {

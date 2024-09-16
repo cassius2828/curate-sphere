@@ -107,7 +107,7 @@ const putUpdateUserInfo = async (req, res) => {
 
     // Generate a JWT token with the updated user data
     const token = jwt.sign({ user }, process.env.JWT_SECRET);
-    
+
     // Respond with the generated token and success message
     res.status(201).json({
       token,
