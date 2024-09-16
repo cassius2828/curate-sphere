@@ -58,7 +58,7 @@ export const ProfileCard = () => {
         data-cy="profile-bio"
         className="py-8 mx-20 text-2xl border-y border-gray-500 mt-5"
       >
-        {bio || bio !== null
+        {bio && bio.trim() !== ""
           ? bio
           : "Feeling inspired?... create a bio to share a little about yourself!"}
       </p>
