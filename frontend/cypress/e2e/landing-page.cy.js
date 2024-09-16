@@ -2,7 +2,6 @@
 
 describe("landing page", () => {
   beforeEach(() => {
-    // cy.task('seedDB');
     cy.visit("/");
     cy.checkToken("");
   });
