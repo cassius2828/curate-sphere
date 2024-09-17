@@ -58,7 +58,6 @@ const Settings = () => {
   const handleDeleteIndexedDB = async (storeName) => {
     try {
       const data = await deleteEntireDatabase(storeName);
-      console.log(data, " handle delete indexed db");
       if (data.message) {
         setMessage(data.message);
       }

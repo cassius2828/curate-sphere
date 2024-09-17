@@ -123,7 +123,6 @@ const reducer = (state, action) => {
         updatedIsChecked,
         updatedClickCount,
       } = action.payload;
-      console.log(action.payload, "<-- action.payload");
     
 
       return {
@@ -354,7 +353,6 @@ export const ArtworkProvider = ({ children }) => {
 
       for (let obj in categoryObjs) {
         const formattedKeyName = obj.toLowerCase().replace(/[\s.,]/g, ""); // Maintain the access point as the id
-        console.log(formattedKeyName, " <--formattedKeyName");
 
         state[category[0]].records[formattedKeyName] = {
           ...state[category[0]].records[formattedKeyName],
@@ -377,13 +375,9 @@ export const ArtworkProvider = ({ children }) => {
     updatedClickCount
   ) => {
     primaryCategoryKey = primaryCategoryKey.toLowerCase();
-    if (primaryCategoryKey === "work type") {
-      // primaryCategoryKey = "worktype";
-    }
     const formattedKeyName = subcategoryKey
       .toLowerCase()
       .replace(/[\s.,]/g, ""); // Maintain the access point as the id
-console.log(artFilter, ' <-- artFilter')
     dispatch({
       type: "toggleCheckbox/artworks",
       payload: {
@@ -506,7 +500,7 @@ console.log(artFilter, ' <-- artFilter')
   ///////////////////////////
   const handleGetMediumObjs = async () => {
     try {
-      console.log("Starting to fetch medium objects...");
+
 
       // Fetch data from API or backend service
       const data1 = await getFilterObjs("medium", 1);
@@ -545,7 +539,7 @@ console.log(artFilter, ' <-- artFilter')
         payload: sortedData,
       });
 
-      console.log("Medium objects fetched and sorted successfully.");
+   
     } catch (err) {
       console.error(err);
       console.log(`Unable to fetch medium objs | context`);
@@ -885,7 +879,7 @@ console.log(artFilter, ' <-- artFilter')
         listTitle: "Descriptions",
       },
     ];
-    console.log(allArtInfoLists, " all art info lists");
+
     dispatch({
       type: "setShowArtworkInfoLists/artworks",
       payload: allArtInfoLists,

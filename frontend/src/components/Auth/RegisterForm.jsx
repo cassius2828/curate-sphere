@@ -35,7 +35,6 @@ const RegisterForm = () => {
       }
 
       const user = await register(formData);
-      console.log("User registered successfully");
       setUser(user);
       navigate("/"); // Navigate to the home page after registration
     } catch (err) {

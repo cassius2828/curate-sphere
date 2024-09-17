@@ -19,7 +19,6 @@ const ConfirmEmailChange = () => {
   const handleConfirmEmail = async () => {
     try {
       const data = await confirmEmailChange(userId, email);
-      console.log(data);
       // Update feedback state based on response
       if (data.message) {
         setFeedback({ message: data.message, error: "" });

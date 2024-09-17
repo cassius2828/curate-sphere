@@ -97,7 +97,6 @@ export const getFilterObjs = async (filter, page) => {
 
     if (response.ok) {
       await setItemIndexedDB(indexedDBKey, data, "filters");
-      console.log("set items in indexed DB");
       return data;
     } else {
       throw new Error();

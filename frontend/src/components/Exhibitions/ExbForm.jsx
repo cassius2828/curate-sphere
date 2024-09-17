@@ -82,9 +82,6 @@ const ExbForm = () => {
       }));
     }
   }, [showExb, id]);
-  useEffect(() => {
-    console.log(formData)
-  },[formData])
 
   // Redirect to sign-in if the user is not logged in
   if (!user) {
@@ -97,11 +94,14 @@ const ExbForm = () => {
 
   return (
     <section className="flex flex-col md:ml-10 font-marcellus min-h-screen">
-      <h1 data-cy="manage-exb-form-title" className="text-6xl mb-20 text-center ">
+      <h1
+        data-cy="manage-exb-form-title"
+        className="text-6xl mb-20 text-center "
+      >
         {id ? "Edit" : "Create New"} Exhibition
       </h1>
       <form
-      data-cy="exb-form"
+        data-cy="exb-form"
         className="border-t-black border-2 md:border-black w-full md:w-1/2 mx-auto p-5 md:p-11 font-cardo"
         onSubmit={handleSubmit}
       >

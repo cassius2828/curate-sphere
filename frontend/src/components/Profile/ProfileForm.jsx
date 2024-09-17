@@ -57,7 +57,6 @@ export const ProfileForm = () => {
     try {
       const data = await updateUserInfo(multiFormData, user.user.id);
       // Handle email confirmation message
-      console.log(data, " <-- data");
       if (data.confirmEmailMessage?.message) {
         setMessage(data.confirmEmailMessage.message);
         setError("");

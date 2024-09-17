@@ -89,7 +89,6 @@ const ArtDetail = () => {
     try {
       const cachedArtwork = await getItemIndexedDB(id, "artworks");
       if (cachedArtwork) {
-        console.log(cachedArtwork, ' <-- cached artwork here')
         dispatch({ type: "getArtworkDetail/artworks", payload: cachedArtwork });
         return;
       }

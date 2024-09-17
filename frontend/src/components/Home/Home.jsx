@@ -21,7 +21,7 @@ const Home = () => {
   // Fetches User
   ///////////////////////////
   const fetchUser = async () => {
-    if(!user.token) return
+    if (!user.token) return;
     try {
       const data = getUser();
       setUser(data);
@@ -39,19 +39,16 @@ const Home = () => {
     setIsLoading(true);
     try {
       // user
-        await fetchUser();
-        console.log("fetched user");
+      await fetchUser();
 
       // artworks
       if (records.length === 0) {
         await handleGetAllArtworks();
         await handleGetAllFilterObjs();
-        console.log("fetched filters and artworks");
       }
       // user exbs
       if (myExbs.length === 0) {
         await handleGetUserExbs();
-        console.log("fetched user exbs");
       }
     } catch (err) {
       console.error(err);
@@ -68,16 +65,22 @@ const Home = () => {
   ///////////////////////////
   useEffect(() => {
     fetchAllData();
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem("token");
   }, []);
   return (
     <LampContainer>
       <div className="relative z-50 min-h-screen w-screen flex flex-col gap-y-5 justify-center items-center">
-        <h1 data-cy="welcome-message" className=" text-6xl md:text-8xl text-white font-marcellus capitalize">
+        <h1
+          data-cy="welcome-message"
+          className=" text-6xl md:text-8xl text-white font-marcellus capitalize"
+        >
           Welcome, {user?.user?.username}
         </h1>
         <Link to="/exhibitions/dashboard">
-          <button data-cy="user-exbs-btn" className="relative text-3xl border-2 text-white p-6 m-6 font-marcellus">
+          <button
+            data-cy="user-exbs-btn"
+            className="relative text-3xl border-2 text-white p-6 m-6 font-marcellus"
+          >
             My Exhibitions
           </button>
         </Link>
