@@ -10,26 +10,25 @@ module.exports = {
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parserOptions: { ecmaVersion: "latest", sourceType: "module" },
   settings: { react: { version: "18.2" } },
-  plugins: ["react-refresh"],
+  plugins: ["react-refresh", "cypress"], // Combine plugins here
   rules: {
     "react/jsx-no-target-blank": "off",
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
     ],
-    // "react/prop-types": 0,
+    "react/prop-types": 0,
   },
 
   overrides: [
     {
       files: ["*.cy.js"],
       env: {
-        "cypress/globals": true,
+        "cypress/globals": true, // Define Cypress global variables for these files
       },
       rules: {
-        "no-undef": "off",
+        "no-undef": "off", // Disable the no-undef rule in Cypress files
       },
     },
   ],
-  plugins: ["cypress"],
 };

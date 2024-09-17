@@ -17,7 +17,6 @@ import useGlobalContext from "../../../context/global/useGlobalContext";
 import Modal from "../../CommonComponents/Modals/Modal";
 import Loader from "../../CommonComponents/Loaders/Loader";
 import LoaderRipple from "../../CommonComponents/Loaders/LoaderRipple";
-import MessageModal from "../../CommonComponents/Modals/MessageModal";
 import { ArtDetailActionBtn } from "./ArtDetailActionBtn";
 import { ArtInfoSection } from "./ArtInfoSection";
 // FontAwesome icons
@@ -28,7 +27,7 @@ import {
   faPlus,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
-import Alert from "../../CommonComponents/Modals/Alert";
+import FixedAlert from "../../CommonComponents/Modals/FixedAlert";
 
 const initialCopyState = {
   showCopiedUrlModal: false,
@@ -273,7 +272,7 @@ const ArtDetail = () => {
       )}
 
       {copyState.showCopiedUrlModal && (
-        <Alert
+        <FixedAlert
           onClose={() =>
             setCopyState((prevState) => ({
               ...prevState,
@@ -285,7 +284,7 @@ const ArtDetail = () => {
         />
       )}
       {(message || error) && (
-        <Alert
+        <FixedAlert
           onClose={() => {
             setMessage("");
             setError("");
