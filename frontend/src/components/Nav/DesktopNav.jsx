@@ -50,15 +50,17 @@ const DesktopNav = ({ setIsMenuOpen, handleResetContextState }) => {
           <Link data-cy="desktop-nav-artwork-search" to={`/artworks/search`}>
             <li className="p-3 text-2xl">Search Artworks</li>
           </Link>
-          <Link
-            data-cy="desktop-nav-settings"
-            onClick={() => setIsMenuOpen(false)}
-            to={`/settings`}
-          >
-            <li className="p-3 text-2xl ">Settings</li>
-          </Link>
+
           {!user ? (
             <>
+              {" "}
+              <Link
+                data-cy="desktop-nav-settings"
+                onClick={() => setIsMenuOpen(false)}
+                to={`/settings`}
+              >
+                <li className="p-3 text-2xl ">Settings</li>
+              </Link>
               <Link
                 data-cy="desktop-nav-login"
                 onClick={() => setIsMenuOpen(false)}
