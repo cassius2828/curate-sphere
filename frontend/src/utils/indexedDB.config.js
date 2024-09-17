@@ -16,10 +16,8 @@ export async function openMyIndexedDB() {
           db.createObjectStore(storeName);
         }
         // tracks open connections
-        console.log(openConnections, ' ,__ before')
-        console.log(openConnections.push(db))
-        console.log(openConnections, ' ,__ after push')
 
+        openConnections.push(db);
       });
     },
   });
@@ -102,20 +100,15 @@ async function deleteOldestItem(db, storeName) {
 }
 
 export async function deleteEntireDatabase() {
-  console.log("hello");
   try {
-    console.log(openConnections)
     closeAllConnections();
-    console.log(openConnections)
+
     const data = await deleteDB(DB_NAME);
-    console.log(data, ' <-- data var')
-    console.log("successfuly deleted database");
+
     return { message: "Database deleted successfully" };
   } catch (error) {
     console.error("Error deleting the database:", error);
     return { error: "Error deleting the database" };
-  } finally {
-    console.log("bye");
   }
 }
 

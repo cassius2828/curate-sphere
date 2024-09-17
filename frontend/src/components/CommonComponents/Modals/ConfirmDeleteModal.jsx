@@ -11,12 +11,7 @@ const ConfirmDeleteModal = ({
   const handleRemoveArtworkFromExb = async () => {
     try {
       const data = await removeArtworkFromExb(id, objectid);
-      //   if (data.message) {
-      //     setMessage(data.message);
-      //   }
-      //   if (data.error) {
-      //     setMessage(data.error);
-      //   }
+
       await handleReloadResource(id);
     } catch (err) {
       console.error(err);

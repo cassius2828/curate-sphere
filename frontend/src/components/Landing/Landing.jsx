@@ -20,7 +20,6 @@ const Landing = () => {
       if (records.length === 0) {
         await handleGetAllArtworks();
         await handleGetAllFilterObjs();
-        console.log("fetched filters and artworks");
       }
     } catch (err) {
       console.error(err);

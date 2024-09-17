@@ -7,15 +7,10 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 ///////////////////////////
 export const getAllExhibitions = async (userId) => {
   let url = `${BACKEND_URL}/exhibitions/explore/${userId}`;
-  // if(userId === undefined){
-  //   url = `${BACKEND_URL}/exhibitions/explore`
-  // } else {
-  //   url = `${BACKEND_URL}/exhibitions/explore/${userId}`
-  // }
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
+ 
     if (response.ok) {
       return data;
     } else {
@@ -116,7 +111,6 @@ export const deleteExb = async (exbId) => {
 // ? POST | create Exhibition
 ///////////////////////////
 export const createExb = async (formData) => {
-  console.log(formData, " <formdata");
   // Function to add one day to a given date string
   function addOneDay(dateString) {
     const date = new Date(dateString); // Parse the string into a Date object
@@ -233,7 +227,6 @@ export const removeArtworkFromExb = async (exbId, objectid) => {
 ///////////////////////////
 
 export const getCoverImg = async (exbId) => {
-  console.log(exbId);
   try {
     const response = await fetch(
       `${BACKEND_URL}/exhibitions/${exbId}/cover-img`

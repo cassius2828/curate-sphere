@@ -96,7 +96,6 @@ export const ExbProvider = ({ children }) => {
     try {
       if (user) {
         const data = await getUserExhibitions(user?.user.id);
-        console.log(data, " <-- data from where we set myExbs");
         if (!data.error) {
           dispatch({ type: "userExbs/exb", payload: data });
         }
@@ -116,9 +115,6 @@ export const ExbProvider = ({ children }) => {
     try {
       const data = await getExbArtworks(exbId);
       dispatch({ type: "addArtworks/exb", payload: data });
-      console.log("showExb:", showExb);
-
-      // console.log(cachedExbs, '<-- cached exbs')
       return data;
     } catch (err) {
       console.error(err);
@@ -134,7 +130,6 @@ export const ExbProvider = ({ children }) => {
     // checks for cached exb first , then go through fetching from our db, making thru table, fetching images from harvard api
     const cachedExb = await getItemIndexedDB(exbId, "exhibitions");
     if (cachedExb) {
-      console.log("Used the map from cache");
       return dispatch({ type: "getDetail/exb", payload: cachedExb });
     }
     try {

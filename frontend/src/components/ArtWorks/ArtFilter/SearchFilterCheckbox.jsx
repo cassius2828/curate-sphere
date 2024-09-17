@@ -11,9 +11,7 @@ export const SearchFilterCheckBox = ({ category, primaryCategoryKey }) => {
   if (primaryCategoryKey === "Work Type") {
     primaryCategoryKey = "worktype";
   }
-  useEffect(() => {
-    console.log(primaryCategoryKey, "pck");
-  }, []);
+
   return (
     <li className="flex items-center gap-4 p-3 bg-gray-200 ">
       <div

@@ -11,7 +11,7 @@ export const ExbCard = ({ title, date, location, id }) => {
   ///////////////////////////
   const fetchExbCoverImg = async () => {
     setIsLoadingImg(true);
-    console.log("started loading");
+
     try {
       const data = await getCoverImg(id);
       if (!data.error) {
@@ -22,15 +22,16 @@ export const ExbCard = ({ title, date, location, id }) => {
       console.log(`Unable to get info of exb on backend`);
     } finally {
       setIsLoadingImg(false);
-      console.log("finished loading");
     }
   };
   useEffect(() => {
     fetchExbCoverImg();
-    console.log();
   }, []);
   return (
-    <li data-cy="exb-card" className="flex flex-col items-center w-full mt-10 md:flex-row md:max-w-[40rem] lg:max-w-[40rem] overflow-hidden shadow-md font-cardo ">
+    <li
+      data-cy="exb-card"
+      className="flex flex-col items-center w-full mt-10 md:flex-row md:max-w-[40rem] lg:max-w-[40rem] overflow-hidden shadow-md font-cardo "
+    >
       {isLoadingImg ? (
         <div className="w-full md:w-1/2 md:h-full flex flex-col items-center gap-8">
           <LoaderRipple />
@@ -38,7 +39,7 @@ export const ExbCard = ({ title, date, location, id }) => {
         </div>
       ) : (
         <img
-     data-cy="exb-cover-img"
+          data-cy="exb-cover-img"
           className="w-full md:w-1/2 md:h-full object-cover"
           src={
             imgUrl
@@ -49,11 +50,20 @@ export const ExbCard = ({ title, date, location, id }) => {
         />
       )}
       <div className="flex flex-col justify-center gap-6 p-3 md:pl-6 md:w-1/2">
-        <span data-cy="exb-card-title" className="text-3xl mt-4">{title}</span>
-        <span data-cy="exb-card-date"  className="text-2xl">Date: {date}</span>
-        <span data-cy="exb-card-location"  className="text-2xl">Location: {location}</span>
+        <span data-cy="exb-card-title" className="text-3xl mt-4">
+          {title}
+        </span>
+        <span data-cy="exb-card-date" className="text-2xl">
+          Date: {date}
+        </span>
+        <span data-cy="exb-card-location" className="text-2xl">
+          Location: {location}
+        </span>
         <Link className="text-center" to={`/exhibition/${id}`}>
-          <button data-cy="exb-card-view-details-btn" className="text-[12px] border-black border  w-3/4 mb-4">
+          <button
+            data-cy="exb-card-view-details-btn"
+            className="text-[12px] border-black border  w-3/4 mb-4"
+          >
             View full details
           </button>
         </Link>

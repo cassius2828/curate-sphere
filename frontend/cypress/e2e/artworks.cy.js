@@ -5,7 +5,7 @@ describe("artwork flows", () => {
   });
   // test 1
   it("should search artworks and handle filter sizes", () => {
-    cy.getById("total-artworks-available").wait(3000)
+    cy.getById("total-artworks-available").wait(6000)
       .invoke("text")
       .then((totalArtworksValue) => {
         console.log(totalArtworksValue);

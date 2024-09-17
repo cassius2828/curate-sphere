@@ -8,7 +8,6 @@ export const updateUserInfo = async (formData, userId) => {
     method: "PUT",
     body: formData,
   };
-  console.log(formData, ' <-- form data ')
   try {
     const response = await fetch(
       PROFILES_BASE_URL + "/update-info/" + userId,
@@ -18,7 +17,6 @@ export const updateUserInfo = async (formData, userId) => {
     if (data.token) {
       localStorage.setItem("token", data.token);
     }
-    console.log(data, " <-- update user info data");
     return data;
   } catch (err) {
     console.error(err);
@@ -83,7 +81,6 @@ export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
     );
     const data = await response.json();
     // plan on returning message | succuess or fail
-    console.log(data, " <-- data fromimg updates");
     return data;
   } catch (err) {
     console.error(err);
@@ -94,9 +91,8 @@ export const updateUserImgsByArtworkUrl = async (imgUrl, imgType, userId) => {
 ///////////////////////////
 // * PUT | Confirm Email Change
 ///////////////////////////
-export const confirmEmailChange = async ( userId, email) => {
+export const confirmEmailChange = async (userId, email) => {
   const params = {
-  
     userId,
     email,
   };
@@ -114,7 +110,6 @@ export const confirmEmailChange = async ( userId, email) => {
     if (data.token) {
       localStorage.setItem("token", data.token);
     }
-    console.log(data)
     return data;
   } catch (err) {
     console.error(err);

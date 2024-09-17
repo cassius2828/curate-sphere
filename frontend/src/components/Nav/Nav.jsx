@@ -22,7 +22,6 @@ const Nav = () => {
   ///////////////////////////
   const handleResetContextState = () => {
     handleResetExbState();
-    console.log("Context state reset");
   };
 
   return (
