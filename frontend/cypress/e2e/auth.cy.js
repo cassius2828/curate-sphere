@@ -268,12 +268,12 @@ describe("register a new user", () => {
       .children()
       .contains("Update")
       .click();
+      
     // success message for changing email for first time
     cy.getById("success-message").contains(
       "You will not have an email adress in the system until you confirm this change."
     );
   });
-
   // test 5
   it("should properly handle all errors and response messages in change password inputs ", () => {
     cy.visit("/profiles/4");

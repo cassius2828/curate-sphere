@@ -21,7 +21,7 @@ async function seedTestDB() {
         profileImg: "https://nrs.harvard.edu/urn-3:HUAM:VRS48616_dynmc",
         headerImg: "https://nrs.harvard.edu/urn-3:HUAM:CARP03212_dynmc",
         email: "larrydoe@gmail.com",
-        bio: "I’m Larry, an art enthusiast who loves exploring different styles and periods. I enjoy discovering new artists and connecting with others who share my passion for creative expression.",
+        bio: "I am Larry, an art enthusiast who loves exploring different styles and periods. I enjoy discovering new artists and connecting with others who share my passion for creative expression.",
       },
       { transaction }
     );
@@ -33,7 +33,7 @@ async function seedTestDB() {
         profileImg: "",
         headerImg: "",
         email: "",
-        bio: "I’m Jane, a passionate curator fascinated by modern art and its evolution. I love visiting museums and galleries to get inspired and find new ideas for my own exhibitions.",
+        bio: "I am Jane, a passionate curator fascinated by modern art and its evolution. I love visiting museums and galleries to get inspired and find new ideas for my own exhibitions.",
       },
       { transaction }
     );
@@ -45,7 +45,7 @@ async function seedTestDB() {
         profileImg: "",
         headerImg: "",
         email: "georgeofthejungle@gmail.com",
-        bio: "I’m George, an art collector and historian with a deep interest in classical art and its cultural impact. I spend my time researching and attending auctions to expand my collection.",
+        bio: "I am George, an art collector and historian with a deep interest in classical art and its cultural impact. I spend my time researching and attending auctions to expand my collection.",
       },
       { transaction }
     );

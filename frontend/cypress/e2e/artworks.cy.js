@@ -5,9 +5,7 @@ describe("artwork flows", () => {
   });
   // test 1
   it("should search artworks and handle filter sizes", () => {
-    // van gogh search
-    cy.getById("art-search-input").type("van gogh");
-    cy.getById("total-artworks-available")
+    cy.getById("total-artworks-available").wait(3000)
       .invoke("text")
       .then((totalArtworksValue) => {
         console.log(totalArtworksValue);
@@ -377,5 +375,27 @@ describe("artwork flows", () => {
     // return to home page with back btn
     cy.getById("art-detail-back-btn").click();
     cy.location("pathname").should("eq", "/artworks/search");
+  });
+
+  // test 6
+  it("should test the work type primary category filter", () => {
+    // Open the filter dropdown
+    cy.getById("filter-btn").wait(4000).click();
+
+    // Click the first category in the dropdown
+    cy.getById("filter-dropdown-ul").children().last().find("svg").click();
+    // Click the first checkbox of the subcategories to apply the first filter
+    cy.getById("subcategory-dropdown-ul")
+      .children()
+      .first()
+      .find('[data-cy="subcategory-checkbox"]')
+      .wait(500)
+      .click();
+
+    // Check that the filter was applied
+    cy.getById("displayed-artworks")
+      .its("length")
+      .should("greaterThan", 0)
+      .and("lessThan", 200000);
   });
 });

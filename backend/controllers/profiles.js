@@ -49,6 +49,8 @@ const putUpdateUserInfo = async (req, res) => {
       });
     }
     // if no changes were detected
+    console.log(email, '<-- req.body.email')
+    console.log(user.email, '<-- user email')
     if (
       bio === user.bio &&
       email === user.email &&
@@ -91,7 +93,6 @@ const putUpdateUserInfo = async (req, res) => {
     if (email && email !== user.email) {
       // function to send email to user to confirm their email change
       confirmEmailMessage = await confirmEmail(email, user);
-      // user.email = email;
     }
 
     if (username && username !== user.username) {
@@ -99,7 +100,6 @@ const putUpdateUserInfo = async (req, res) => {
     }
     // if the req bio exist (it does) the req bio is different than the user bio, then update the bio
     if (bio && bio !== user.bio) {
-      console.log(`The bio should be changing`);
       user.bio = bio;
     }
     // Save user if any field was updated
